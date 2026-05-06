@@ -1,0 +1,107 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Inicial</title>
+    <link rel="stylesheet" href="../assets/style/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <header class="cabecalho">
+        <h2>🚄 Bem vindo, Administrador</h2>
+        <button type="button" class="btn btn-outline-secondary">🔚 Sair</button>
+    </header>
+
+    <div class="layout">
+
+        <aside class="menu-lateral">
+            <div class="item ativo">📊 Dashboard</div>
+            <div class="item">📡 Sensores</div>
+            <div class="item">🚆 Trens</div>
+            <div class="item">📄 Relatórios</div>
+        </aside>
+
+        <main class="conteudo">
+
+            <div class="informacoes_dashboard">
+
+                <div class="informacoes">
+                    <h4>⚙️ Sensores Ativos</h4>
+                    <h3>148</h3>
+                </div>
+
+                <div class="informacoes">
+                    <h4>🚆 Trens em Operação</h4>
+                    <h3>24</h3>
+                </div>
+
+                <div class="informacoes">
+                    <h4>⚠️ Alertas</h4>
+                    <h3>1</h3>
+                </div>
+
+                <div class="informacoes">
+                    <h4>✅ Sensores Ativos</h4>
+                    <h3>99.7%</h3>
+                </div>
+
+            </div>
+
+            <div class="planilha_dashboard">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">LOCALIZAÇÃO</th>
+                            <th scope="col">TIPO DE DADO</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">#001</th>
+                            <td>Estação Central - Eixo A</td>
+                            <td>Velocidade</td>
+                            <td class="status-ativo">Ativo</td>
+                            <td><button class="botao_dashboard">👀</button><button class="botao_dashboard">🗑️</button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">#002</th>
+                            <td>Trecho Norte - Km 45</td>
+                            <td>Temperatura</td>
+                            <td class="status-ativo" >Ativo</td>
+                            <td><button class="botao_dashboard">👀</button><button class="botao_dashboard">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">#003</th>
+                            <td>Patio Sul</td>
+                            <td>Falha</td>
+                            <td class="status-alerta">Alerta</td>
+                            <td><button class="botao_dashboard">👀</button><button class="botao_dashboard">🗑️</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

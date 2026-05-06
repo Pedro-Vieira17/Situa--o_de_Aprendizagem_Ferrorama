@@ -1,0 +1,105 @@
+.cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(199, 199, 199);
+    padding: 10px;
+    height: 70px;
+}
+
+body {
+    margin: 0;
+
+}
+
+.btn-outline-secondary {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: large;
+}
+
+.layout {
+    display: flex;
+}
+
+.menu-lateral {
+    width: 220px;
+    height: calc(100vh - 60px);
+    background-color: #e0e0e0;
+
+}
+
+.item {
+    padding: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item:hover {
+    background-color: #d0d0d0;
+}
+
+.conteudo {
+    flex: 1;
+    padding: 30px;
+}
+
+.item.ativo {
+    background-color: #c0c0c0;
+    font-weight: bold;
+}
+
+.informacoes_dashboard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.informacoes {
+    background-color: rgb(233, 233, 233);
+    padding: 20px;
+    border-radius: 20px;
+    width: 220px;
+    justify-items: flex-start;
+    flex: 1;
+    min-width: 200px;
+}
+
+.informacoes h3 {
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+.informacoes h4 {
+    white-space: nowrap;
+}
+
+.titulos_planilha {
+    display: flex;
+}
+
+.planilha_dashboard {
+    margin-top: 50px;
+    background-color: #eeeeee; 
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.botao_dashboard {
+    border-style: none;
+    background-color: rgb(255, 255, 255);
+
+}
+
+.status-ativo {
+    color: rgb(0, 128, 0) !important;
+    font-weight: bold;
+}
+
+.status-alerta {
+    color: rgb(255, 0, 0) !important;
+    font-weight: bold;
+}
