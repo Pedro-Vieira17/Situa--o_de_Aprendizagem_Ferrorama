@@ -9,6 +9,8 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
+
+
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -39,22 +41,20 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">VELOCIDADE ATUAL:</th>
-                            <th scope="col">LOCALIZAÇÃO</th>
-                            <th scope="col">STATUS</th>
-                            <th scope="col">TEMPERATURA</th>
+                            <th scope="row" id="id-trem"></th>
+                            <td id="velocidade"></td>
+                            <td id="localizacao"></td>
+                            <td id="status"></td>
+                            <td id="temperatura"></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">#002</th>
-                            <td>44kM/H</td>
-                            <td>Ponte de ferro do Rio Paraty</td>
-                            <td class="status-ativo">Ativo</td>
-                            <td>40ºC</td>
-                            </td>
-
+                            <th scope="row" id="id-trem"></th>
+                            <td id="velocidade"></td>
+                            <td id="localizacao"></td>
+                            <td id="status"></td>
+                            <td id="temperatura"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -69,6 +69,145 @@
         </main>
 
     </div>
+
+    <script>
+
+        const parametros = new URLSearchParams(window.location.search);
+        const id = parametros.get("id");
+
+        const dados = {
+
+            "001": {
+                localizacao: "Estação Central - Eixo A",
+                velocidade: "70 KM/H",
+                temperatura: "36ºC",
+                status: "Ativo",
+    
+            },
+
+            "002": {
+                localizacao: "Ponte de ferro do Rio Paraty",
+                velocidade: "44 KM/H",
+                temperatura: "40ºC",
+                status: "Ativo"
+            },
+
+            "003": {
+                localizacao: "Patio Sul",
+                velocidade: "0 KM/H",
+                temperatura: "85ºC",
+                status: "Alerta"
+            },
+
+            "004": {
+                localizacao: "Linha Oeste - Km 12",
+                velocidade: "63 KM/H",
+                temperatura: "34ºC",
+                status: "Ativo"
+            },
+
+            "005": {
+                localizacao: "Estação Leste - Plataforma 2",
+                velocidade: "51 KM/H",
+                temperatura: "39ºC",
+                status: "Ativo"
+            },
+
+            "006": {
+                localizacao: "Trecho Sul - Km 78",
+                velocidade: "48 KM/H",
+                temperatura: "33ºC",
+                status: "Ativo"
+            },
+
+            "007": {
+                localizacao: "Patio Norte",
+                velocidade: "22 KM/H",
+                temperatura: "31ºC",
+                status: "Ativo"
+            },
+
+            "008": {
+                localizacao: "Estação Jardim Azul",
+                velocidade: "75 KM/H",
+                temperatura: "37ºC",
+                status: "Ativo"
+            },
+
+            "009": {
+                localizacao: "Trecho Central - Km 101",
+                velocidade: "66 KM/H",
+                temperatura: "35ºC",
+                status: "Ativo"
+            },
+
+            "010": {
+                localizacao: "Estação Rio Verde",
+                velocidade: "57 KM/H",
+                temperatura: "38ºC",
+                status: "Ativo"
+            },
+
+            "011": {
+                localizacao: "Trecho Industrial - Km 56",
+                velocidade: "61 KM/H",
+                temperatura: "36ºC",
+                status: "Ativo"
+            },
+
+            "012": {
+                localizacao: "Patio Ferroviário Oeste",
+                velocidade: "43 KM/H",
+                temperatura: "32ºC",
+                status: "Ativo"
+            },
+
+            "013": {
+                localizacao: "Estação Bela Vista",
+                velocidade: "71 KM/H",
+                temperatura: "34ºC",
+                status: "Ativo"
+            },
+
+            "014": {
+                localizacao: "Trecho Norte - Km 89",
+                velocidade: "0 KM/H",
+                temperatura: "79ºC",
+                status: "Alerta"
+            },
+
+            "015": {
+                localizacao: "Estação Vale do Sol",
+                velocidade: "12 KM/H",
+                temperatura: "91ºC",
+                status: "Alerta"
+            },
+
+            "016": {
+                localizacao: "Patio Técnico Leste",
+                velocidade: "0 KM/H",
+                temperatura: "88ºC",
+                status: "Alerta"
+            },
+
+            "017": {
+                localizacao: "Trecho Sul - Km 132",
+                velocidade: "28 KM/H",
+                temperatura: "82ºC",
+                status: "Alerta"
+            }
+
+        };
+
+        const trem = dados[id];
+
+        document.getElementById("id-trem").innerText = "#" + id;
+        document.getElementById("velocidade").innerText = trem.velocidade;
+        document.getElementById("localizacao").innerText = trem.localizacao;
+        document.getElementById("status").innerText = trem.status;
+        document.getElementById("temperatura").innerText = trem.temperatura;
+
+    </script>
 
 </body>
 
