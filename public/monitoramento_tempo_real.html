@@ -34,35 +34,37 @@
         <main class="conteudo">
 
             <div>
-                <h3>Monitoramento em tempo real - Trem #002 👀</h3>
+                <h3 id="titulo-monitoramento"></h3>
             </div>
 
             <DIV class="planilha_dashboard">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="row" id="id-trem"></th>
-                            <td id="velocidade"></td>
-                            <td id="localizacao"></td>
-                            <td id="status"></td>
-                            <td id="temperatura"></td>
+                            <th>ID</th>
+                            <th>VELOCIDADE</th>
+                            <th>LOCALIZAÇÃO</th>
+                            <th>STATUS</th>
+                            <th>TEMPERATURA</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
-                            <th scope="row" id="id-trem"></th>
+                            <td id="id-trem"></td>
                             <td id="velocidade"></td>
                             <td id="localizacao"></td>
                             <td id="status"></td>
                             <td id="temperatura"></td>
                         </tr>
                     </tbody>
+                    
                 </table>
             </DIV>
 
             <div>
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.1823871923098!2d-48.7519833!3d-26.385294599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94deb572de44e87f%3A0x7f0576d46e6a6ef1!2sPonte%20de%20ferro%20do%20Rio%20Paraty!5e0!3m2!1spt-BR!2sbr!4v1778158492561!5m2!1spt-BR!2sbr"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d228988.54673061252!2d-48.9628813!3d-26.263414550000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dea3f39db1ab37%3A0xbc4b989df161e9fa!2sJoinville%20-%20SC!5e0!3m2!1spt-BR!2sbr!4v1778162894361!5m2!1spt-BR!2sbr"
                     width="600" height="450" style="border:0; width: 100%;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -70,145 +72,9 @@
 
     </div>
 
-    <script>
-
-        const parametros = new URLSearchParams(window.location.search);
-        const id = parametros.get("id");
-
-        const dados = {
-
-            "001": {
-                localizacao: "Estação Central - Eixo A",
-                velocidade: "70 KM/H",
-                temperatura: "36ºC",
-                status: "Ativo",
-    
-            },
-
-            "002": {
-                localizacao: "Ponte de ferro do Rio Paraty",
-                velocidade: "44 KM/H",
-                temperatura: "40ºC",
-                status: "Ativo"
-            },
-
-            "003": {
-                localizacao: "Patio Sul",
-                velocidade: "0 KM/H",
-                temperatura: "85ºC",
-                status: "Alerta"
-            },
-
-            "004": {
-                localizacao: "Linha Oeste - Km 12",
-                velocidade: "63 KM/H",
-                temperatura: "34ºC",
-                status: "Ativo"
-            },
-
-            "005": {
-                localizacao: "Estação Leste - Plataforma 2",
-                velocidade: "51 KM/H",
-                temperatura: "39ºC",
-                status: "Ativo"
-            },
-
-            "006": {
-                localizacao: "Trecho Sul - Km 78",
-                velocidade: "48 KM/H",
-                temperatura: "33ºC",
-                status: "Ativo"
-            },
-
-            "007": {
-                localizacao: "Patio Norte",
-                velocidade: "22 KM/H",
-                temperatura: "31ºC",
-                status: "Ativo"
-            },
-
-            "008": {
-                localizacao: "Estação Jardim Azul",
-                velocidade: "75 KM/H",
-                temperatura: "37ºC",
-                status: "Ativo"
-            },
-
-            "009": {
-                localizacao: "Trecho Central - Km 101",
-                velocidade: "66 KM/H",
-                temperatura: "35ºC",
-                status: "Ativo"
-            },
-
-            "010": {
-                localizacao: "Estação Rio Verde",
-                velocidade: "57 KM/H",
-                temperatura: "38ºC",
-                status: "Ativo"
-            },
-
-            "011": {
-                localizacao: "Trecho Industrial - Km 56",
-                velocidade: "61 KM/H",
-                temperatura: "36ºC",
-                status: "Ativo"
-            },
-
-            "012": {
-                localizacao: "Patio Ferroviário Oeste",
-                velocidade: "43 KM/H",
-                temperatura: "32ºC",
-                status: "Ativo"
-            },
-
-            "013": {
-                localizacao: "Estação Bela Vista",
-                velocidade: "71 KM/H",
-                temperatura: "34ºC",
-                status: "Ativo"
-            },
-
-            "014": {
-                localizacao: "Trecho Norte - Km 89",
-                velocidade: "0 KM/H",
-                temperatura: "79ºC",
-                status: "Alerta"
-            },
-
-            "015": {
-                localizacao: "Estação Vale do Sol",
-                velocidade: "12 KM/H",
-                temperatura: "91ºC",
-                status: "Alerta"
-            },
-
-            "016": {
-                localizacao: "Patio Técnico Leste",
-                velocidade: "0 KM/H",
-                temperatura: "88ºC",
-                status: "Alerta"
-            },
-
-            "017": {
-                localizacao: "Trecho Sul - Km 132",
-                velocidade: "28 KM/H",
-                temperatura: "82ºC",
-                status: "Alerta"
-            }
-
-        };
-
-        const trem = dados[id];
-
-        document.getElementById("id-trem").innerText = "#" + id;
-        document.getElementById("velocidade").innerText = trem.velocidade;
-        document.getElementById("localizacao").innerText = trem.localizacao;
-        document.getElementById("status").innerText = trem.status;
-        document.getElementById("temperatura").innerText = trem.temperatura;
-
-    </script>
 
 </body>
+
+<script src="../scripts/script.js"></script>
 
 </html>
