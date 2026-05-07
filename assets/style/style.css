@@ -20,13 +20,14 @@ body {
 
 .layout {
     display: flex;
+    align-items: stretch;
+    min-height: 100vh;
 }
 
 .menu-lateral {
     width: 220px;
-    height: calc(100vh - 60px);
-    background-color: #e0e0e0;
 
+    background-color: #e0e0e0;
 }
 
 .item {
