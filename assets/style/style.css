@@ -2,14 +2,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(199, 199, 199);
+    background-color: #0d4cad;
     padding: 10px;
     height: 70px;
 }
 
 body {
     margin: 0;
-
+    background-color: #0a3d91;
+    color: white;
 }
 
 .btn-outline-secondary {
@@ -26,8 +27,8 @@ body {
 
 .menu-lateral {
     width: 220px;
-
-    background-color: #e0e0e0;
+    color: rgb(255, 255, 255);
+    background-color: #0d4cad;
 }
 
 .item {
@@ -40,7 +41,7 @@ body {
 }
 
 .item:hover {
-    background-color: #d0d0d0;
+    background-color: #cdcdcd;
 }
 
 .conteudo {
@@ -49,8 +50,9 @@ body {
 }
 
 .item.ativo {
-    background-color: #c0c0c0;
+    background-color: #ffffff;
     font-weight: bold;
+    color: black;
 }
 
 .informacoes_dashboard {
@@ -60,13 +62,14 @@ body {
 }
 
 .informacoes {
-    background-color: rgb(233, 233, 233);
+    background-color: #0d4cad;
     padding: 20px;
     border-radius: 20px;
     width: 220px;
     justify-items: flex-start;
     flex: 1;
     min-width: 200px;
+    color: rgb(255, 255, 255);
 }
 
 .informacoes h3 {
@@ -84,7 +87,7 @@ body {
 
 .planilha_dashboard {
     margin-top: 50px;
-    background-color: #eeeeee; 
+    background-color: #0d4cad;
     border-radius: 20px;
     padding: 20px;
 }
@@ -119,12 +122,44 @@ body {
     width: 240px;
 }
 
-.botao_cancelar{
+.botao_cancelar {
     border-radius: 10px;
 }
 
-.botao_excluir{
+.botao_excluir {
     border-radius: 10px;
     background-color: red;
     color: white;
+}
+
+
+
+body {
+    background-color: #0a3d91 !important;
+}
+
+.conteudo {
+    background-color: #093479 !important;
+}
+
+.layout {
+    background-color: #0a3d91 !important;
+}
+
+.planilha_dashboard {
+    background-color: #0d4cad !important;
+}
+
+.table {
+    background-color: transparent !important;
+}
+
+.table td,
+.table th,
+.table tr,
+.table tbody,
+.table thead {
+    background-color: #0d4cad !important;
+    color: white !important;
+    border-color: transparent !important;
 }
