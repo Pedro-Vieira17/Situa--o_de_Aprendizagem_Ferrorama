@@ -5,6 +5,7 @@
     background-color: #0d4cad;
     padding: 10px;
     height: 70px;
+    color: white;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     font-size: large;
+
 }
 
 .layout {
@@ -50,7 +52,7 @@ body {
 }
 
 .item.ativo {
-    background-color: #ffffff;
+    background-color: #dedede;
     font-weight: bold;
     color: black;
 }
@@ -85,16 +87,19 @@ body {
     display: flex;
 }
 
+#titulo-monitoramento{
+    color: white;
+}
+
 .planilha_dashboard {
     margin-top: 50px;
-    background-color: #0d4cad;
     border-radius: 20px;
     padding: 20px;
 }
 
 .botao_dashboard {
     border-style: none;
-    background-color: rgb(255, 255, 255);
+    background-color: #0d4cad;
 
 }
 
@@ -161,5 +166,4 @@ body {
 .table thead {
     background-color: #0d4cad !important;
     color: white !important;
-    border-color: transparent !important;
 }
