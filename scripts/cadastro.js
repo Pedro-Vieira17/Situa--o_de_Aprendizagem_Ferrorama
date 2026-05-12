@@ -12,26 +12,42 @@ function cadastrarUsuario() {
         email: email
     };
 
-    localStorage.setItem("usuario", JSON.stringify(usuario));
+    
+    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+
+
+    if (usuarios == null) {
+        usuarios = [];
+    }
+
+    usuarios.push(usuario);
+
+ 
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
     window.location.href = "usuarios_cadastrados.html";
 }
 
+
+
 window.onload = function () {
 
-    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
 
-    let tabela = document.getElementById("tabelaUsuarios");
+    if (usuarios != null) {
 
-    if (usuario && tabela) {
+        let tabela = document.getElementById("tabelaUsuarios");
 
-        tabela.innerHTML = `
-            <tr>
-                <td>${usuario.nome}</td>
-                <td>${usuario.cpf}</td>
-                <td>${usuario.telefone}</td>
-                <td>${usuario.email}</td>
-            </tr>
-        `;
+        for (let i = 0; i < usuarios.length; i++) {
+
+            tabela.innerHTML += `
+                <tr>
+                    <td>${usuarios[i].nome}</td>
+                    <td>${usuarios[i].cpf}</td>
+                    <td>${usuarios[i].telefone}</td>
+                    <td>${usuarios[i].email}</td>
+                </tr>
+            `;
+        }
     }
 }
