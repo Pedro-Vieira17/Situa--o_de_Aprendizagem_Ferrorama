@@ -1,110 +1,115 @@
-## O que é SCRUM
-O SCRUM é uma metodologia ágil utilizada para gerenciamento e desenvolvimento de projetos, principalmente na área de software. Seu foco é organizar o trabalho em ciclos curtos e interativos, chamados de Sprints, permitindo uma rápida adaptação às mudanças.
+## SCRUM
+O SCRUM é uma metodologia ágil usada no gerenciamento e desenvolvimento de projetos, principalmente de software. Seu objetivo é organizar o trabalho em ciclos curtos chamados **Sprints**, permitindo entregas rápidas e adaptação às mudanças.
 
-## Objetivo da Metodologia 
+## Objetivos da Metodologia
+O SCRUM busca aumentar a eficiência e a qualidade do projeto, oferecendo:
+Entregas rápidas, melhor organização da equipe, flexibilidade para mudanças, transparência no processo, foco nas necessidades do cliente e redução de riscos e desperdícios.
 
-O principal objetivo do SCRUM é aumentar a eficiência e a qualidade no desenvolvimento de projetos, promovendo:
-Entregas rápidas;
-Melhor organização da equipe;
-Flexibilidade nas mudanças;
-Maior transparência no processo;
-Foco nas necessidades do cliente;
-Redução de riscos e desperdícios.
-A metodologia busca garantir que o produto evolua normalmente, com melhorias constantes ao longo do projeto.
+A metodologia permite que o produto evolua continuamente por meio de melhorias constantes.
 
 ## Principais Papéis
-Product Owner:O Product Owner é o responsável por representar os interesses do cliente e definir as prioridades do projeto.
-Principais responsabilidades:
+
+### Product Owner (PO)
+É o responsável por representar os interesses do cliente e definir as prioridades do projeto.
+
+Responsabilidades:
 Gerenciar o Product Backlog (lista de tarefas e funcionalidades);
 Definir prioridades;
-Garantir que a equipe desenvolva o mais importante e valorizado;
-Comunicar-se com clientes e stakeholders(grupos que afetam ou são afetados pelo projeto ).
-O Product Owner atua como ponte entre o cliente e a equipe de desenvolvimento.
+Garantir que a equipe desenvolva o que tem mais valor;
+Comunicar-se com clientes e stakeholders.
 
-## Scrum Master
+O Product Owner funciona como ponte entre o cliente e a equipe de desenvolvimento.
 
-O Scrum Master é o facilitador da equipe SCRUM.
+### Scrum Master
 
-Principais responsabilidades:
-Garantir que a metodologia SCRUM seja aplicada corretamente;
+É o facilitador da equipe SCRUM.
+
+Responsabilidades:
+Garantir a aplicação correta da metodologia;
 Remover impedimentos da equipe;
 Promover melhoria contínua;
-Auxiliar na organização das cerimônias do SCRUM;
+Organizar as cerimônias do SCRUM;
 Incentivar boas práticas ágeis.
-O Scrum Master não é um chefe da equipe, mas sim um líder servidor. 
 
-## Development Team
-O Development Team é a equipe responsável por desenvolver o produto. È feita de programadores,designers,analistas e outros profissionais.A equipe trabalha de forma colaborativa e é responsável pelas entregas da Sprint.
+O Scrum Master não é um chefe, mas um líder servidor.
 
+### Development Team
+É a equipe responsável pelo desenvolvimento do produto, formada por programadores, designers, analistas e outros profissionais. Trabalha de forma colaborativa e é responsável pelas entregas da Sprint.
 
-## Eventos do SCRUM
+# Eventos do SCRUM
+### Sprint
 
-A Sprint é um período curto de desenvolvimento, normalmente entre 1 e 4 semanas, no qual a equipe trabalha para entregar uma parte funcional do produto.
+Período curto de desenvolvimento, geralmente entre 1 e 4 semanas, no qual a equipe desenvolve uma parte funcional do produto.
 
 Objetivos:
 Desenvolver funcionalidades;
 Entregar valor rapidamente;
-Permitir ajustes frequentes. 
+Permitir ajustes frequentes.
 
-## Sprint Planning
-A Sprint Planning é a reunião de planejamento da Sprint.Nela são definidos o que será desenvolvido, as prioridades da Sprint e como o trabalho será realizado.
-Participam:
+### Sprint Planning
+Reunião de planejamento da Sprint.
+Participantes:
 Product Owner;
 Scrum Master;
 Development Team.
 
-## Daily Scrum
+*Nela são definidos:*
+O que será desenvolvido;
+As prioridades da Sprint;
+Como o trabalho será realizado.
 
-O Daily Scrum é uma reunião rápida diária, geralmente de 15 minutos.
+### Daily Scrum
+Reunião diária rápida, normalmente de 15 minutos.
 
-Objetivos:
+*Objetivos:*
 
 Alinhar o trabalho da equipe;
 Compartilhar progresso;
 Identificar impedimentos.
 
-Normalmente cada integrante responde:
-
+Cada integrante costuma responder:
 O que fez ontem?
 O que fará hoje?
-Existe algum impedimento? 
+Existe algum impedimento?
 
-## Sprint Review
-A Sprint Review é realizada ao final da Sprint para apresentar as entregas concluídas.
-Objetivos:
+### Sprint Review
+
+Realizada ao final da Sprint para apresentar as entregas concluídas.
+
+*Objetivos:*
 Demonstrar funcionalidades desenvolvidas;
-Receber feedback dos stakeholders(pessoas que afetam ou são afetadas pelo projeto);
+Receber feedback dos stakeholders;
 Validar o produto entregue.
 
-Sprint Retrospective
-A Sprint Retrospective é a reunião retrospectiva da Sprint.
-Objetivos:
-Avaliar o desempenho da equipe;
-Identificar pontos de melhoria;
-Discutir problemas e soluções;
-Melhorar os processos futuros.
+### Sprint Retrospective
 
-## Benefícios do uso do SCRUM em Projetos de Software
+Reunião de retrospectiva da Sprint.
 
-O uso do SCRUM traz diversos benefícios para projetos de software:
+*Objetivos:*
+* Avaliar o desempenho da equipe;
+* Identificar melhorias;
+* Discutir problemas e soluções;
+* Melhorar os processos futuros.
 
-1. Maior Flexibilidade
-Permite adaptação rápida às mudanças de requisitos.
+# Benefícios do SCRUM em Projetos de Software
+1. *Maior Flexibilidade*
+   Permite adaptação rápida às mudanças.
 
-2. Entregas Frequentes
-O cliente recebe versões funcionais do sistema em períodos curtos.
+2. *Entregas Frequentes*
+   O cliente recebe versões funcionais do sistema em pouco tempo.
 
-3. Melhor Comunicação
-As reuniões frequentes melhoram o alinhamento da equipe.
+3. *Melhor Comunicação*
+   As reuniões frequentes melhoram o alinhamento da equipe.
 
-4. Maior Qualidade
-A revisão constante ajuda a identificar erros rapidamente.
+4. *Maior Qualidade*
+   A revisão constante ajuda a identificar erros rapidamente.
 
-5. Aumento da Produtividade
-A organização em Sprints mantém o foco da equipe.
+5. *Aumento da Produtividade*
+   A organização em Sprints mantém o foco da equipe.
 
-6. Transparência no Projeto
-Todos acompanham o andamento das atividades.
+6. *Transparência no Projeto*
+   Todos acompanham o andamento das atividades.
 
-7. Satisfação do Cliente
-O cliente participa do processo e acompanha a evolução do produto. 
+7. *Satisfação do Cliente
+   O cliente participa do processo e acompanha a evolução do produto.
+
