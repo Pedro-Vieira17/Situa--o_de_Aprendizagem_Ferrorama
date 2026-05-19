@@ -40,24 +40,71 @@
             </a>
         </aside>
 
-        <main class="conteudo">
+           <main class="conteudo">
 
-            <div class="modal">
+    <div class="container-sensor">
 
-    <h1 class="title">Cadastrar Novo Sensor</h1>
+        <h1 class="titulo-sensor">Cadastrar Novo Sensor</h1>
 
-    <form>
+        <form class="form-sensor">
 
-      <div class="form-grid">
+            <div class="linha-formulario">
 
-        <div class="form-group">
-          <label>Nome do Sensor</label>
-          <input type="text" placeholder="Ex: Sensor Velocidade A1">
-        </div>
+                <div class="grupo-input">
+                    <label for="nomeSensor">Nome do Sensor</label>
+                    <input type="text" id="nomeSensor"
+                        placeholder="Ex: Sensor Velocidade A1">
+                </div>
 
+                <div class="grupo-input">
+                    <label for="localizacao">Localização</label>
+                    <input type="text" id="localizacao"
+                        placeholder="Ex: Estação central - Eixo B">
+                </div>
 
+            </div>
 
-        </main>
+            <div class="linha-formulario">
+
+                <div class="grupo-input">
+                    <label for="tipoDado">Tipo de Dado</label>
+
+                    <select id="tipoDado">
+                        <option>Velocidade</option>
+                        <option>Temperatura</option>
+                        <option>Pressão</option>
+                    </select>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="tremVinculado">Trem Vinculado</label>
+
+                    <select id="tremVinculado">
+                        <option>Trem 07 - Linha Azul</option>
+                        <option>Trem 12 - Linha Verde</option>
+                        <option>Trem 03 - Linha Vermelha</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="botoes-formulario">
+
+                <button type="button" class="btn-cancelar">
+                    cancelar
+                </button>
+
+                <button type="submit" class="btn-salvar">
+                    salvar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
 
     </div>
 
