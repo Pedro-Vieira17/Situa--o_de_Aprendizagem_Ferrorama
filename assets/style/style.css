@@ -171,3 +171,22 @@ body {
     background-color: aqua;
 }
 
+.campo-com-icone {
+  
+    background-image: url(../icons/lupa.svg); 
+    background-repeat: no-repeat;
+    background-position: 10px center; 
+    padding-left: 40px; 
+    height: 40px;
+    width: 250px;
+}
+
+.titulo_sensores{
+display: flex;
+align-items: center;
+gap: 506px;
+}
+
+.titulo_do_sensores{
+    color: white;
+}
