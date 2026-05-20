@@ -190,3 +190,89 @@ gap: 506px;
 .titulo_do_sensores{
     color: white;
 }
+
+
+.container-sensor{
+    width: 100%;
+    max-width: 900px;
+    background-color: #f3f3f3;
+    border-radius: 28px;
+    padding: 35px 40px;
+    margin: 30px auto;
+}
+
+.titulo-sensor{
+    font-size: 38px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 40px;
+}
+
+.form-sensor{
+    width: 100%;
+}
+
+.linha-formulario{
+    display: flex;
+    gap: 60px;
+    margin-bottom: 35px;
+}
+
+.grupo-input{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo-input label{
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.grupo-input input,
+.grupo-input select{
+    width: 100%;
+    height: 45px;
+    border: 3px solid #111;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 16px;
+    background-color: white;
+    outline: none;
+}
+
+.grupo-input select{
+    cursor: pointer;
+}
+
+.botoes-formulario{
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 60px;
+}
+
+.btn-cancelar{
+    width: 150px;
+    height: 45px;
+    border: 3px solid #111;
+    border-radius: 12px;
+    background-color: white;
+    color: #111;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-salvar{
+    width: 150px;
+    height: 45px;
+    border: none;
+    border-radius: 12px;
+    background-color: #b5b5b5;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
