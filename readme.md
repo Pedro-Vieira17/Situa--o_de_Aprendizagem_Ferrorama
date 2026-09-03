@@ -75,6 +75,7 @@ Entre as principais funcionalidades e características do projeto estão:
 | **JavaScript** | Interações e comportamentos do sistema       |
 | **Git**        | Controle de versões                          |
 | **GitHub**     | Armazenamento e compartilhamento do código   |
+| **PHP**        | Desenvolvimento das funcionalidades e processamento das informações |
 
 ### HTML
 
