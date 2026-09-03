@@ -6,105 +6,134 @@
 ![HTML](https://img.shields.io/badge/HTML-5-orange)
 ![CSS](https://img.shields.io/badge/CSS-3-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+![PHP](https://img.shields.io/badge/PHP-8-blueviolet)
 ![Git](https://img.shields.io/badge/Git-controle%20de%20versão-red)
 
 ---
 
-## 📋 Sobre o Projeto
+## 📋 Descrição do Projeto
 
-O **Ferrorama** é um projeto de desenvolvimento de sistema criado como uma **Situação de Aprendizagem**, com o objetivo de aplicar na prática conhecimentos de desenvolvimento web, organização de arquivos, criação de interfaces e estruturação de projetos.
+O **Ferrorama** é um projeto desenvolvido como uma **Situação de Aprendizagem** do curso Técnico em Desenvolvimento de Sistemas.
 
-O sistema apresenta uma solução relacionada ao **universo ferroviário**, utilizando uma interface web para organizar e apresentar informações de maneira acessível ao usuário.
+O sistema tem como objetivo apresentar uma solução para o **monitoramento e gerenciamento de trens e sensores**, utilizando uma aplicação web.
 
-O projeto utiliza **HTML, CSS e JavaScript**, além de ferramentas de controle de versão como **Git e GitHub**.
+Durante o desenvolvimento são utilizados conhecimentos de **HTML, CSS, JavaScript, PHP, banco de dados, Git e GitHub**.
 
 ---
 
 ## 🎯 Objetivo
 
-O principal objetivo é desenvolver uma aplicação web funcional, colocando em prática os conhecimentos adquiridos durante o curso **Técnico em Desenvolvimento de Sistemas**.
+O objetivo do projeto é desenvolver um sistema funcional para auxiliar no **controle de trens e sensores**, permitindo visualizar informações, cadastrar dados, gerar relatórios e acompanhar possíveis alertas.
 
-### Competências desenvolvidas
+Além disso, o projeto busca colocar em prática conhecimentos de:
 
-| Área                       | Competência                             |
-| -------------------------- | --------------------------------------- |
-| 🌐 Desenvolvimento Web     | Criação e estruturação de páginas       |
-| 🎨 Interface               | Organização e estilização dos elementos |
-| 💻 Programação             | Utilização de JavaScript                |
-| 📁 Organização             | Estruturação de arquivos e diretórios   |
-| 🔄 Versionamento           | Utilização do Git e GitHub              |
-| 📚 Documentação            | Organização dos documentos do projeto   |
-| 👥 Trabalho em equipe      | Desenvolvimento colaborativo            |
-| 🛠️ Resolução de problemas | Identificação e correção de erros       |
-
----
-
-## 💡 Proposta do Sistema
-
-A proposta do **Ferrorama** é apresentar uma solução digital relacionada ao **setor ferroviário**, utilizando uma interface web para organizar e apresentar informações de forma clara e acessível.
-
-O projeto foi estruturado em diferentes diretórios, permitindo separar os recursos visuais, documentos, arquivos públicos e scripts.
-
-Essa organização facilita a **manutenção, compreensão e evolução do sistema**.
+* Desenvolvimento web;
+* Programação;
+* Banco de dados;
+* Organização de código;
+* Criação de interfaces;
+* Git e GitHub;
+* Trabalho em equipe;
+* Testes e correção de erros;
+* Documentação de sistemas.
 
 ---
 
-## ⚙️ Funcionalidades
+# ⚙️ Funcionalidades
 
-Entre as principais funcionalidades e características do projeto estão:
+O sistema deverá possuir funcionalidades relacionadas ao gerenciamento de usuários, trens, sensores e relatórios.
 
-* 🏠 Apresentação da página principal;
-* 📑 Organização das informações do sistema;
-* 🎨 Utilização de elementos visuais;
-* 🧱 Estruturação de conteúdo com HTML;
-* 🎨 Aplicação de estilos com CSS;
-* ⚡ Utilização de JavaScript;
-* 📁 Organização dos arquivos em diretórios;
-* 📚 Armazenamento da documentação do projeto.
-
-> **Observação:** novas funcionalidades podem ser adicionadas conforme o desenvolvimento do projeto.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-| Tecnologia     | Utilização                                   |
-| -------------- | -------------------------------------------- |
-| **HTML5**      | Estruturação das páginas e conteúdos         |
-| **CSS3**       | Estilização, layout e aparência da aplicação |
-| **JavaScript** | Interações e comportamentos do sistema       |
-| **Git**        | Controle de versões                          |
-| **GitHub**     | Armazenamento e compartilhamento do código   |
-| **PHP**        | Desenvolvimento das funcionalidades e processamento das informações |
-
-### HTML
-
-Responsável pela estrutura das páginas e organização dos conteúdos apresentados ao usuário.
-
-### CSS
-
-Utilizado para definir a aparência da aplicação, incluindo:
-
-* Layout;
-* Espaçamentos;
-* Tamanhos;
-* Cores;
-* Posicionamento;
-* Formatação visual.
-
-### JavaScript
-
-Utilizado para implementar comportamentos e funcionalidades interativas na aplicação.
-
-### Git e GitHub
-
-O **Git** é utilizado para controle de versões, enquanto o **GitHub** é utilizado para armazenar e compartilhar o código-fonte.
-
-O repositório possui atualmente **55 commits**, demonstrando diferentes etapas de desenvolvimento e alterações no projeto.
+| Área               | Funcionalidades                                |
+| ------------------ | ---------------------------------------------- |
+| 👤 Usuários        | Login, cadastro, visualização e exclusão       |
+| 🚂 Trens           | Cadastro, alteração e exclusão                 |
+| 📡 Sensores        | Cadastro, edição, exclusão e identificação     |
+| 📊 Dashboard       | Visualização de informações gerais             |
+| 📄 Relatórios      | Geração, busca e filtragem                     |
+| 🔐 Acesso          | Login e logout                                 |
+| 🗄️ Banco de dados | Armazenamento e relacionamento das informações |
 
 ---
 
-## 📁 Estrutura do Projeto
+# 📌 Requisitos do Sistema
+
+Os requisitos foram definidos para orientar o desenvolvimento do Ferrorama.
+
+## 📋 Requisitos Funcionais
+
+| Código   | Requisito                                                                                                         |
+| -------- | ----------------------------------------------------------------------------------------------------------------- |
+| **RF01** | O sistema deve permitir o login de usuários por meio de e-mail e senha.                                           |
+| **RF02** | O sistema deve permitir o cadastro de novos usuários.                                                             |
+| **RF03** | O sistema deve exibir um dashboard com informações gerais, como sensores ativos, trens em operação e alertas.     |
+| **RF04** | O sistema deve permitir o gerenciamento de sensores, incluindo cadastrar, editar e excluir.                       |
+| **RF05** | O sistema deve permitir visualizar os sensores com informações de localização, tipo de dado e status.             |
+| **RF06** | O sistema deve permitir o monitoramento em tempo real dos trens, mostrando velocidade, temperatura e localização. |
+| **RF07** | O sistema deve permitir gerar relatórios por período, tipo de falha e trem.                                       |
+| **RF08** | O sistema deve permitir a busca e filtragem de relatórios gerados.                                                |
+| **RF09** | O sistema deve solicitar confirmação antes de excluir um sensor.                                                  |
+| **RF10** | O sistema deve permitir o logout do usuário.                                                                      |
+| **RF11** | O sistema deve ser desenvolvido utilizando PHP.                                                                   |
+| **RF12** | O sistema deve atender todos os requisitos definidos para o projeto.                                              |
+| **RF13** | O sistema deve utilizar padrões para criação e organização das funções.                                           |
+| **RF14** | O sistema deve identificar os sensores cadastrados.                                                               |
+| **RF15** | O sistema deve possuir um banco de dados funcional com as tabelas relacionadas.                                   |
+| **RF16** | O sistema deve permitir alterar dados cadastrados.                                                                |
+| **RF17** | O sistema deve permitir excluir usuários.                                                                         |
+| **RF18** | O sistema deve permitir excluir trens cadastrados.                                                                |
+| **RF19** | O sistema deve mostrar os usuários cadastrados.                                                                   |
+| **RF20** | O sistema deve permitir o cadastro de novos trens.                                                                |
+| **RF21** | O sistema deve permitir associar um ou mais sensores a um trem no cadastro ou edição.                             |
+
+---
+
+## 📐 Regras de Negócio
+
+| Código   | Regra                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------------------------- |
+| **RN01** | Apenas usuários autenticados podem acessar o sistema.                                                      |
+| **RN02** | Um sensor deve estar obrigatoriamente vinculado a um trem no cadastro.                                     |
+| **RN03** | A exclusão de sensores deve exigir confirmação.                                                            |
+| **RN04** | Sensores devem possuir os status **Ativo** ou **Alerta**.                                                  |
+| **RN05** | Relatórios devem utilizar filtros de período, tipo de falha e trem.                                        |
+| **RN06** | O sistema deve exibir informações atualizadas dos sensores e trens.                                        |
+| **RN07** | Um sensor só pode ser vinculado a um trem que já esteja cadastrado.                                        |
+| **RN08** | A exclusão de um trem deve exigir confirmação.                                                             |
+| **RN09** | Um trem só poderá ser excluído se não possuir sensores vinculados, ou conforme regra definida pela equipe. |
+
+---
+
+## ⚡ Requisitos Não Funcionais
+
+| Código    | Requisito                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------- |
+| **RNF01** | O sistema deve apresentar atualização dos dados em tempo real.                                     |
+| **RNF02** | O sistema deve possuir desempenho adequado na exibição das informações.                            |
+| **RNF03** | O sistema deve possuir autenticação segura por e-mail e senha.                                     |
+| **RNF04** | A interface deve ser intuitiva e fácil de utilizar.                                                |
+| **RNF05** | O sistema deve buscar alta disponibilidade.                                                        |
+| **RNF06** | As telas devem possuir uma interface consistente, seguindo padrões de cores, layout e usabilidade. |
+| **RNF07** | O sistema deve ser testado antes da entrega.                                                       |
+| **RNF08** | O sistema deve seguir um padrão de nomenclatura para arquivos e funções.                           |
+| **RNF09** | A equipe deve definir, documentar e registrar a metodologia de desenvolvimento utilizada.          |
+
+---
+
+# 🛠️ Tecnologias Utilizadas
+
+| Tecnologia     | Utilização                                                  |
+| -------------- | ----------------------------------------------------------- |
+| **HTML5**      | Estrutura das páginas                                       |
+| **CSS3**       | Estilização e organização visual                            |
+| **JavaScript** | Interações e funcionalidades                                |
+| **PHP**        | Desenvolvimento do back-end e processamento das informações |
+| **MySQL**      | Armazenamento dos dados do sistema                          |
+| **Git**        | Controle de versões                                         |
+| **GitHub**     | Armazenamento e compartilhamento do projeto                 |
+
+---
+
+# 📁 Estrutura do Projeto
 
 ```text
 Situa--o_de_Aprendizagem_Ferrorama/
@@ -119,278 +148,157 @@ Situa--o_de_Aprendizagem_Ferrorama/
 └── 📄 readme.md
 ```
 
-### Organização dos diretórios
-
-| Arquivo / Pasta | Descrição                                                           |
-| --------------- | ------------------------------------------------------------------- |
-| `assets/`       | Recursos visuais, imagens e outros arquivos utilizados pelo projeto |
-| `doc/`          | Documentos e materiais relacionados ao projeto                      |
-| `public/`       | Arquivos públicos utilizados pela aplicação                         |
-| `scripts/`      | Scripts responsáveis por comportamentos e funcionalidades           |
-| `index.html`    | Arquivo principal e ponto de entrada da aplicação                   |
-| `license`       | Arquivo referente à licença do projeto                              |
-| `readme.md`     | Documentação principal do projeto                                   |
+| Pasta/Arquivo | Função                            |
+| ------------- | --------------------------------- |
+| `assets/`     | Imagens e outros recursos visuais |
+| `doc/`        | Documentação do projeto           |
+| `public/`     | Arquivos públicos da aplicação    |
+| `scripts/`    | Scripts utilizados no sistema     |
+| `index.html`  | Página principal                  |
+| `license`     | Licença do projeto                |
+| `readme.md`   | Documentação principal            |
 
 ---
 
-## 💻 Requisitos
+# 🔄 Metodologia de Desenvolvimento
 
-Para visualizar e trabalhar com o projeto, são necessários:
+Para organizar o desenvolvimento do projeto, a equipe utilizará a metodologia **Kanban**.
 
-| Requisito               | Finalidade                   |
-| ----------------------- | ---------------------------- |
-| 💻 Computador           | Executar e editar o projeto  |
-| 🌐 Navegador atualizado | Visualizar a aplicação       |
-| 📝 Visual Studio Code   | Editar os arquivos           |
-| 🔄 Git                  | Clonar e versionar o projeto |
+A escolha foi feita porque o projeto possui várias tarefas que precisam ser distribuídas entre os integrantes e acompanhadas durante o desenvolvimento.
 
-> Por utilizar tecnologias web, o projeto pode ser executado localmente através de um navegador.
-
----
-
-## 🚀 Como Executar
-
-### 1. Clonar o repositório
-
-No terminal, execute:
-
-```bash
-git clone https://github.com/Pedro-Vieira17/Situa--o_de_Aprendizagem_Ferrorama.git
-```
-
-### 2. Acessar a pasta
-
-```bash
-cd Situa--o_de_Aprendizagem_Ferrorama
-```
-
-### 3. Abrir no Visual Studio Code
-
-Abra a pasta do projeto no **Visual Studio Code**.
-
-### 4. Executar
-
-Localize o arquivo:
+### Fluxo do Kanban
 
 ```text
-index.html
+📋 A Fazer
+     ↓
+🔨 Em Desenvolvimento
+     ↓
+🧪 Em Teste
+     ↓
+✅ Concluído
 ```
 
-e abra-o em um navegador.
+Cada tarefa deverá possuir:
 
-Durante o desenvolvimento, também pode ser utilizado o **Live Server** para facilitar a execução da aplicação.
+* Descrição da atividade;
+* Requisito relacionado;
+* Responsável;
+* Status;
+* Prioridade, quando necessário.
 
----
-
-## 🔄 Funcionamento
-
-O funcionamento básico do projeto ocorre a partir do arquivo `index.html`.
-
-```text
-┌──────────────┐
-│    Usuário   │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  index.html  │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│     CSS      │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  JavaScript  │
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│   Interface  │
-└──────────────┘
-```
-
-Os arquivos são utilizados em conjunto para apresentar a interface e permitir a interação do usuário com o sistema.
+O Kanban será utilizado no **GitHub Projects** para acompanhar o andamento das atividades.
 
 ---
 
-## 🎨 Interface
+# 🧑‍💻 Padrão de Código
 
-A interface foi desenvolvida buscando manter as informações organizadas e facilitar a utilização pelo usuário.
+Para evitar diferenças entre os códigos dos integrantes, serão utilizados alguns padrões.
 
-A separação dos recursos visuais e dos arquivos de programação permite realizar alterações no projeto de maneira mais organizada.
+| Item        | Padrão                                          |
+| ----------- | ----------------------------------------------- |
+| Arquivos    | Nomes em minúsculo                              |
+| Variáveis   | Nomes claros e descritivos                      |
+| Funções     | Nomes relacionados à função realizada           |
+| Indentação  | Código organizado e identado                    |
+| Comentários | Utilizados quando ajudarem na compreensão       |
+| Pastas      | Cada pasta deve possuir uma finalidade          |
+| HTML        | Estrutura organizada e sem código desnecessário |
+| CSS         | Classes com nomes claros                        |
+| PHP         | Código separado de acordo com suas funções      |
 
-Essa estrutura também facilita futuras melhorias no **layout, responsividade e experiência do usuário**.
-
----
-
-## 📚 Documentação
-
-O projeto possui o diretório:
-
-```text
-doc/
-```
-
-destinado aos documentos e materiais relacionados ao desenvolvimento da **Situação de Aprendizagem**.
-
-A separação entre código e documentação facilita a organização e consulta dos materiais produzidos durante o projeto.
+O objetivo é fazer com que todos os integrantes consigam entender e continuar o código desenvolvido pelos outros membros da equipe.
 
 ---
 
-## 🧪 Testes
+# 🧪 Testes
 
-Durante o desenvolvimento, foram considerados testes para verificar o funcionamento da aplicação.
+Os testes serão realizados durante o desenvolvimento para verificar se os requisitos estão funcionando corretamente.
 
-| Teste         | Procedimento                          | Resultado esperado                     |
-| ------------- | ------------------------------------- | -------------------------------------- |
-| **Abertura**  | Abrir `index.html`                    | Página inicial carregada corretamente  |
-| **Interface** | Alterar o tamanho da janela           | Elementos permanecem organizados       |
-| **Scripts**   | Utilizar funcionalidades JavaScript   | Comportamentos executados corretamente |
-| **Recursos**  | Verificar imagens, estilos e arquivos | Recursos carregados corretamente       |
-| **Navegação** | Utilizar os elementos de navegação    | Acesso correto às partes disponíveis   |
-
-### ✅ Critérios de verificação
-
-Os testes buscam verificar principalmente:
-
-* Carregamento correto da página;
-* Funcionamento dos scripts;
-* Carregamento dos recursos;
-* Organização da interface;
-* Funcionamento da navegação.
+| Teste          | O que será verificado                  |
+| -------------- | -------------------------------------- |
+| Login          | Entrada com usuário e senha            |
+| Cadastro       | Criação de usuários, trens e sensores  |
+| Alteração      | Alteração dos dados cadastrados        |
+| Exclusão       | Exclusão com confirmação               |
+| Sensores       | Cadastro, identificação e status       |
+| Trens          | Cadastro e associação com sensores     |
+| Relatórios     | Geração, busca e filtros               |
+| Dashboard      | Exibição das informações               |
+| Logout         | Saída segura do sistema                |
+| Banco de dados | Gravação e recuperação das informações |
 
 ---
 
-## 🔐 Segurança
+# 🔐 Segurança
 
-Durante o desenvolvimento de aplicações web, devem ser consideradas boas práticas de segurança.
+Durante o desenvolvimento serão utilizadas boas práticas de segurança, como:
 
-### Principais práticas
-
-* Validar informações recebidas pelo sistema;
-* Evitar inserção de código sem validação;
-* Não armazenar informações sensíveis diretamente no código;
-* Evitar exposição de informações desnecessárias;
-* Manter arquivos e diretórios organizados;
-* Manter ferramentas e dependências atualizadas.
-
-> Essas práticas servem como base para futuras melhorias de segurança do projeto.
+* Autenticação de usuários;
+* Validação dos dados;
+* Proteção das informações do usuário;
+* Não deixar senhas expostas no código;
+* Controle de acesso às páginas;
+* Confirmação antes de exclusões;
+* Organização dos arquivos;
+* Validação das informações antes de salvar no banco.
 
 ---
 
-## 📈 Possíveis Melhorias
+# 📚 Aprendizados
 
-O projeto poderá receber novas funcionalidades e melhorias em versões futuras.
+Com o desenvolvimento do Ferrorama, a equipe poderá praticar conhecimentos de:
 
-| Melhoria                 | Descrição                                    |
-| ------------------------ | -------------------------------------------- |
-| 🗄️ Banco de dados       | Armazenamento estruturado de informações     |
-| 🔐 Login                 | Sistema de autenticação de usuários          |
-| 👤 Usuários              | Cadastro e gerenciamento de usuários         |
-| 🔎 Pesquisa              | Busca de informações no sistema              |
-| 🔽 Filtros               | Filtragem dos conteúdos apresentados         |
-| 📱 Responsividade        | Melhor adaptação para dispositivos móveis    |
-| ⚡ JavaScript             | Ampliação das funcionalidades interativas    |
-| 🔌 API                   | Comunicação entre diferentes sistemas        |
-| ⚙️ Backend               | Implementação de funcionalidades no servidor |
-| 📊 Painel administrativo | Gerenciamento das informações do sistema     |
-| ♿ Acessibilidade         | Melhorias para diferentes usuários           |
-| 🧪 Testes automatizados  | Automação da verificação do sistema          |
-
----
-
-## 📌 Aprendizados
-
-O desenvolvimento do Ferrorama possibilitou colocar em prática diversos conceitos do curso **Técnico em Desenvolvimento de Sistemas**.
-
-Entre os principais aprendizados estão:
-
-* Estruturação de páginas HTML;
-* Estilização com CSS;
-* Programação com JavaScript;
-* Organização de arquivos;
-* Desenvolvimento de interfaces;
-* Controle de versões;
-* Utilização do Git;
-* Utilização do GitHub;
-* Trabalho colaborativo;
-* Documentação de sistemas;
-* Identificação e correção de problemas.
+* HTML;
+* CSS;
+* JavaScript;
+* PHP;
+* Banco de dados;
+* Git e GitHub;
+* Kanban;
+* Requisitos de sistema;
+* Regras de negócio;
+* Testes;
+* Segurança;
+* Organização de projetos;
+* Trabalho em equipe.
 
 ---
 
-## 📊 Informações do Projeto
+# 👥 Equipe
 
-| Informação      | Detalhes                               |
-| --------------- | -------------------------------------- |
-| **Projeto**     | Ferrorama                              |
-| **Tipo**        | Situação de Aprendizagem               |
-| **Curso**       | Técnico em Desenvolvimento de Sistemas |
-| **Instituição** | SENAI                                  |
-| **Turma**       | DS24/M4                                |
-| **Status**      | 🟡 Em desenvolvimento                 
-| **Commits**     | 55                                     |
-
----
-
-## 👥 Equipe
-
-### Integrantes
-
-| Nome                  |
+| Integrante            |
 | --------------------- |
 | **Pedro Vieira**      |
 | **Davi Zilz**         |
 | **Enzo Vegini**       |
 | **Francisco Goulart** |
 
----
-
-## 🌐 Repositório
-
-O código-fonte e os arquivos do projeto estão disponíveis no GitHub:
-
-[Acessar repositório do Ferrorama no GitHub](https://github.com/Pedro-Vieira17/Situa--o_de_Aprendizagem_Ferrorama.git?utm_source=chatgpt.com)
+**Curso:** Técnico em Desenvolvimento de Sistemas
+**Instituição:** SENAI
+**Turma:** DS24/M4
 
 ---
 
-## 📄 Licença
+# 🌐 Repositório
 
-O projeto possui um arquivo de licença localizado na raiz do repositório:
+O projeto está disponível no GitHub:
 
-```text
-license
-```
-
-Para consultar os termos específicos de utilização, consulte o conteúdo desse arquivo.
+[Repositório Ferrorama no GitHub](https://github.com/Pedro-Vieira17/Situa--o_de_Aprendizagem_Ferrorama.git?utm_source=chatgpt.com)
 
 ---
 
-## 📌 Status
+# 📌 Status do Projeto
 
-### 🟡 Em Desenvolvimento
+🟡 **Em desenvolvimento**
 
-O projeto encontra-se **em desenvolvimento** e poderá receber:
-
-* Novas funcionalidades;
-* Correções;
-* Melhorias na interface;
-* Melhorias de segurança;
-* Melhorias de desempenho;
-* Atualizações na documentação.
+Nesta primeira etapa, a equipe está realizando a revisão do projeto, organização dos requisitos, definição da metodologia, padronização do código e planejamento das próximas tarefas.
 
 ---
 
 ## 🚂 Considerações Finais
 
-O **Ferrorama** representa a aplicação prática dos conhecimentos adquiridos durante o curso **Técnico em Desenvolvimento de Sistemas**.
+O **Ferrorama** é um projeto desenvolvido para colocar em prática os conhecimentos do curso Técnico em Desenvolvimento de Sistemas.
 
-O projeto reúne conceitos de **desenvolvimento web, programação, organização de arquivos, documentação, controle de versões e trabalho em equipe**.
+Nesta etapa, o foco principal é **revisar, organizar e planejar** o projeto, deixando definidos os requisitos, regras de negócio, padrões de código e tarefas que serão realizadas pela equipe.
 
-A organização do projeto em diferentes diretórios facilita sua manutenção e permite que novas funcionalidades sejam adicionadas durante as próximas etapas da Situação de Aprendizagem.
-
----
-
-<p align="center">
-  🚂 <strong>Ferrorama</strong><br>
-  <i>Situação de Aprendizagem — Técnico em Desenvolvimento de Sistemas</i>
-</p>
+Com isso, o desenvolvimento das próximas etapas poderá ser feito de forma mais organizada, dividindo as atividades entre os integrantes e acompanhando tudo pelo Kanban do GitHub Projects.
