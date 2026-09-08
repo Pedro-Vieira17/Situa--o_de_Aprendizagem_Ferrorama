@@ -302,3 +302,39 @@ O **Ferrorama** é um projeto desenvolvido para colocar em prática os conhecime
 Nesta etapa, o foco principal é **revisar, organizar e planejar** o projeto, deixando definidos os requisitos, regras de negócio, padrões de código e tarefas que serão realizadas pela equipe.
 
 Com isso, o desenvolvimento das próximas etapas poderá ser feito de forma mais organizada, dividindo as atividades entre os integrantes e acompanhando tudo pelo Kanban do GitHub Projects.
+
+
+
+## 📋 Metodologia
+
+Para o desenvolvimento do projeto **Ferrorama**, a equipe utiliza a metodologia **Kanban**, através do **GitHub Projects**, para organizar e acompanhar as tarefas.
+
+O Kanban permite visualizar o andamento do projeto de forma simples, dividindo as tarefas em diferentes etapas:
+
+**A Fazer → Em Desenvolvimento → Em Teste → Concluído**
+
+### 🔹 A Fazer
+
+Tarefas que ainda precisam ser realizadas pela equipe.
+
+### 🔹 Em Desenvolvimento
+
+Tarefas que estão sendo desenvolvidas por algum integrante da equipe.
+
+### 🔹 Em Teste
+
+Tarefas que já foram desenvolvidas e estão sendo testadas para verificar se estão funcionando corretamente.
+
+Caso seja encontrado algum erro, a tarefa retorna para **Em Desenvolvimento** para ser corrigida.
+
+### 🔹 Concluído
+
+Tarefas que foram desenvolvidas, testadas e estão funcionando corretamente.
+
+### 👥 Organização da equipe
+
+Cada tarefa possui um responsável e pode ter uma prioridade definida. O quadro do GitHub Projects é atualizado conforme o andamento das atividades, permitindo que todos os integrantes acompanhem o progresso do projeto.
+
+### 🎯 Objetivo
+
+O uso do Kanban tem como objetivo facilitar a **organização das tarefas, divisão do trabalho, acompanhamento do projeto e identificação de erros**, contribuindo para um desenvolvimento mais organizado e colaborativo.
