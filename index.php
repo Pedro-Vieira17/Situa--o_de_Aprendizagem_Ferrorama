@@ -8,35 +8,47 @@ $erro = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = $_POST["email"];
-    $senha = $_POST["senha"];
+    $email = $_POST["email"] ?? "";
+    $senha = $_POST["senha"] ?? "";
 
-    $sql = "SELECT * FROM USUARIO WHERE email = ?";
+    if ($email == "" || $senha == "") {
 
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-
-    $resultado = $stmt->get_result();
-
-    if ($resultado->num_rows == 1) {
-
-        $usuario = $resultado->fetch_assoc();
-
-        if (password_verify($senha, $usuario["senha"])) {
-
-            $_SESSION["usuario_id"] = $usuario["id"];
-            $_SESSION["usuario_nome"] = $usuario["nome"];
-
-            header("Location: public/tela_inicial.php");
-            exit;
-
-        } else {
-            $erro = "E-mail ou senha incorretos.";
-        }
+        $erro = "Preencha o e-mail e a senha.";
 
     } else {
-        $erro = "E-mail ou senha incorretos.";
+
+        $sql = "SELECT * FROM USUARIO WHERE email = ?";
+
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+
+        if ($resultado->num_rows == 1) {
+
+            $usuario = $resultado->fetch_assoc();
+
+            if (password_verify($senha, $usuario["senha"])) {
+
+                $_SESSION["usuario_id"] = $usuario["id"];
+                $_SESSION["usuario_nome"] = $usuario["nome"];
+
+                header("Location: public/tela_inicial.php");
+                exit;
+
+            } else {
+
+                $erro = "E-mail ou senha incorretos.";
+
+            }
+
+        } else {
+
+            $erro = "E-mail ou senha incorretos.";
+
+        }
+
     }
 }
 
@@ -130,6 +142,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </button>
 
                     </div>
+
+                </div>
+
+                <div class="text-center mt-3">
+
+                    <span>Não tem login?</span>
+
+                    <a href="tela_de_cadastro.php" class="text-decoration-none">
+                        Crie uma conta
+                    </a>
 
                 </div>
 
