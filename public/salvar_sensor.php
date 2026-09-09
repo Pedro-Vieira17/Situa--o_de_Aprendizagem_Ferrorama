@@ -23,7 +23,7 @@ if (!ctype_digit((string)$tremId)) {
     exit;
 }
 
-// Confere se o trem realmente existe (regra: só pode vincular a um trem já cadastrado)
+// Confere se o trem existe (regra: só pode vincular a um trem já cadastrado)
 $stmt = $pdo->prepare('SELECT id FROM TRENS WHERE id = :id');
 $stmt->execute(['id' => $tremId]);
 
