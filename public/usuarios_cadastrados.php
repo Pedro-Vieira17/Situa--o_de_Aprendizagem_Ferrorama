@@ -1,3 +1,13 @@
+<?php
+
+require_once "../infra/conexao.php";
+
+$usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
+
+?>
+
+
+
 <html lang="en">
 
 <head>
@@ -54,29 +64,32 @@
     </aside>
         <main class="conteudo">
 
-            <DIV class="planilha_dashboard">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th>NOME COMPLETO</th>
-                            <th>CPF</th>
-                            <th>TELEFONE</th>
-                            <th>E-MAIL</th>
-                        </tr>
-                    </thead>
+            <div class="planilha_dashboard">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>NOME COMPLETO</th>
+                <th>CPF</th>
+                <th>TELEFONE</th>
+                <th>E-MAIL</th>
+            </tr>
+        </thead>
 
-                    <tbody id="tabelaUsuarios">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
+        <tbody>
+            <?php while ($usuario = mysqli_fetch_assoc($usuarios)) { ?>
 
-                </table>
-            </DIV>
+                <tr>
+                    <td><?= $usuario["nome"] ?></td>
+                    <td><?= $usuario["CPF"] ?></td>
+                    <td><?= $usuario["telefone"] ?></td>
+                    <td><?= $usuario["email"] ?></td>
+                </tr>
+
+            <?php } ?>
+        </tbody>
+
+    </table>
+</div>
 
         </main>
 
