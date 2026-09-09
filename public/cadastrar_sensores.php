@@ -1,3 +1,15 @@
+<?php
+require_once 'conexao.php';
+
+// Busca os trens já cadastrados, para preencher o select
+// "Trem Vinculado" só pode apontar para um trem que já existe
+$stmtTrens = $pdo->query('SELECT id, nome FROM TRENS ORDER BY nome');
+$trens = $stmtTrens->fetchAll();
+
+// Mensagens vindas de salvar_sensor.php via query string
+$erro = $_GET['erro'] ?? null;
+$sucesso = $_GET['sucesso'] ?? null;
+?>
 <html lang="en">
 
 <head>
@@ -50,19 +62,27 @@
 
         <h1 class="titulo-sensor">Cadastrar Novo Sensor</h1>
 
-        <form class="form-sensor">
+        <?php if ($erro): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>
+        <?php endif; ?>
+
+        <?php if ($sucesso): ?>
+            <div class="alert alert-success">Sensor cadastrado com sucesso!</div>
+        <?php endif; ?>
+
+        <form class="form-sensor" method="POST" action="salvar_sensor.php">
 
             <div class="linha-formulario">
 
                 <div class="grupo-input">
                     <label for="nomeSensor">Nome do Sensor</label>
-                    <input type="text" id="nomeSensor"
+                    <input type="text" id="nomeSensor" name="nomeSensor" required
                         placeholder="Ex: Sensor Velocidade A1">
                 </div>
 
                 <div class="grupo-input">
                     <label for="localizacao">Localização</label>
-                    <input type="text" id="localizacao"
+                    <input type="text" id="localizacao" name="localizacao" required
                         placeholder="Ex: Estação central - Eixo B">
                 </div>
 
@@ -73,20 +93,23 @@
                 <div class="grupo-input">
                     <label for="tipoDado">Tipo de Dado</label>
 
-                    <select id="tipoDado">
-                        <option>Velocidade</option>
-                        <option>Temperatura</option>
-                        <option>Pressão</option>
+                    <select id="tipoDado" name="tipoDado" required>
+                        <option value="Velocidade">Velocidade</option>
+                        <option value="Temperatura">Temperatura</option>
+                        <option value="Pressão">Pressão</option>
                     </select>
                 </div>
 
                 <div class="grupo-input">
                     <label for="tremVinculado">Trem Vinculado</label>
 
-                    <select id="tremVinculado">
-                        <option>Trem 07 - Linha Azul</option>
-                        <option>Trem 12 - Linha Verde</option>
-                        <option>Trem 03 - Linha Vermelha</option>
+                    <select id="tremVinculado" name="tremVinculado" required>
+                        <option value="" disabled selected>Selecione um trem</option>
+                        <?php foreach ($trens as $trem): ?>
+                            <option value="<?= (int)$trem['id'] ?>">
+                                <?= htmlspecialchars($trem['nome']) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -94,7 +117,8 @@
 
             <div class="botoes-formulario">
 
-                <button class="botao_cancelar" onclick="window.location.href='gerenciar_sensores.html'">Cancelar</button>
+                <button type="button" class="botao_cancelar"
+                    onclick="window.location.href='gerenciar_sensores.html'">Cancelar</button>
 
                 <button type="submit" class="btn-salvar">
                     salvar
