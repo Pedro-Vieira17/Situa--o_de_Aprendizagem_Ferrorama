@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     required
                 >
 
-                <label>E-mail</label>
+                <label>Email</label>
 
                 <input
                     type="email"
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button
                     type="submit"
                     class="btn btn-primary">
-                    Salvar alterações
+                    Salvar as alterações
                 </button>
 
                 <a
