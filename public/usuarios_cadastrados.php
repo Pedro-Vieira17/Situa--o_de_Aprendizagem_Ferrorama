@@ -67,26 +67,40 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
             <div class="planilha_dashboard">
     <table class="table table-borderless">
         <thead>
-            <tr>
-                <th>NOME COMPLETO</th>
-                <th>CPF</th>
-                <th>TELEFONE</th>
-                <th>E-MAIL</th>
-            </tr>
-        </thead>
+    <tr>
+        <th>NOME COMPLETO</th>
+        <th>CPF</th>
+        <th>TELEFONE</th>
+        <th>E-MAIL</th>
+        <th>AÇÕES</th>
+    </tr>
+</thead>
 
         <tbody>
-            <?php while ($usuario = mysqli_fetch_assoc($usuarios)) { ?>
 
-                <tr>
-                    <td><?= $usuario["nome"] ?></td>
-                    <td><?= $usuario["CPF"] ?></td>
-                    <td><?= $usuario["telefone"] ?></td>
-                    <td><?= $usuario["email"] ?></td>
-                </tr>
+    <?php while ($usuario = mysqli_fetch_assoc($usuarios)) { ?>
 
-            <?php } ?>
-        </tbody>
+        <tr>
+            <td><?= $usuario["nome"] ?></td>
+            <td><?= $usuario["CPF"] ?></td>
+            <td><?= $usuario["telefone"] ?></td>
+            <td><?= $usuario["email"] ?></td>
+
+            <td>
+                <a href="editar_usuario.php?id=<?= $usuario["id"] ?>">
+                    <img src="../assets/icons/cadastrar_branco.svg" >
+                </a>
+
+                <a href="excluir_usuario.php?id=<?= $usuario["id"] ?>"
+                   onclick="return confirm('Tem certeza que deseja excluir este usuário?')">
+                    <img src="../assets/icons/DELETE.svg" >
+                </a>
+            </td>
+        </tr>
+
+    <?php } ?>
+
+</tbody>
 
     </table>
 </div>
