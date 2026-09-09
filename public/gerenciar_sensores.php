@@ -27,22 +27,33 @@
     <div class="layout">
 
         <aside class="menu-lateral">
-            <a href="tela_inicial.html" class="item">
-                <img src="../assets/icons/dashboard_branco.svg" alt=""> Dashboard
-            </a>
-            <a href="gerenciar_sensores.html" class="item ativo">
-                <img src="../assets/icons/sensor_preto.svg" alt=""> Sensores
-            </a>
-            <a href="relatorios.html" class="item">
-                <img src="../assets/icons/relatorio_branco.svg" alt=""> Relatórios
-            </a>
-            <a href="tela_de_cadastro.html" class="item">
-                <img src="../assets/icons/cadastrar_branco.svg" alt=""> Cadastrar Usuários
-            </a>
-            <a href="usuarios_cadastrados.html" class="item">
-                <img src="../assets/icons/usuarios_branco.svg" alt=""> Usuários Cadastrados
-            </a>
-        </aside>
+
+        <a href="tela_inicial.php" class="item ativo">
+            <img src="../assets/icons/dashboard_preto.svg" alt="">
+            Dashboard
+        </a>
+
+        <a href="gerenciar_sensores.php" class="item">
+            <img src="../assets/icons/sensor_branco.svg" alt="">
+            Sensores
+        </a>
+
+        <a href="relatorios.php" class="item">
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
+            Relatórios
+        </a>
+
+        <a href="tela_de_cadastro.php" class="item">
+            <img src="../assets/icons/cadastrar_branco.svg" alt="">
+            Cadastrar Usuários
+        </a>
+
+        <a href="usuarios_cadastrados.php" class="item">
+            <img src="../assets/icons/usuarios_branco.svg" alt="">
+            Usuários Cadastrados
+        </a>
+
+    </aside>
 
         <main class="conteudo">
             <div class="titulo_sensores">
@@ -53,7 +64,7 @@
                     <input type="search" class="campo-com-icone">
                 </form>
 
-                <button class="botao_cancelar" onclick="window.location.href='cadastrar_sensores.html'">Cadastrar</button>
+                <button class="botao_cancelar" onclick="window.location.href='cadastrar_sensores.php'">Cadastrar</button>
 
             </div>
 

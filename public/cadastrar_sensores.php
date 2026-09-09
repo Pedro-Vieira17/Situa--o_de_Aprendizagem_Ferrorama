@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once "../infra/conexao.php";
 
 // Busca os trens já cadastrados, para preencher o select
 // "Trem Vinculado" só pode apontar para um trem que já existe
