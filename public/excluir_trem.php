@@ -13,7 +13,8 @@ if (!$id || !ctype_digit((string)$id)) {
     exit;
 }
 
-
+// A FK trens_id em SENSORES tem ON DELETE CASCADE, então apagar o trem
+// já apaga automaticamente os sensores vinculados a ele.
 $stmt = $pdo->prepare('DELETE FROM TRENS WHERE id = :id');
 
 try {
