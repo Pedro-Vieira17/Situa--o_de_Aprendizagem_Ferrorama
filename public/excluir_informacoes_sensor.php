@@ -1,9 +1,34 @@
+<?php
+require_once '../infra/conexao.php';
+
+$id = $_GET['id'] ?? null;
+
+if (!$id || !ctype_digit((string)$id)) {
+    header('Location: gerenciar_sensores.html?erro=' . urlencode('Sensor inválido.'));
+    exit;
+}
+
+// Busca o sensor (com o nome do trem vinculado, para mostrar na confirmação)
+$stmt = $pdo->prepare(
+    'SELECT s.id, s.nome, t.nome AS nome_trem
+     FROM SENSORES s
+     JOIN TRENS t ON t.id = s.trens_id
+     WHERE s.id = :id'
+);
+$stmt->execute(['id' => $id]);
+$sensor = $stmt->fetch();
+
+if (!$sensor) {
+    header('Location: gerenciar_sensores.html?erro=' . urlencode('Sensor não encontrado.'));
+    exit;
+}
+?>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excluir informações do trem</title>
+    <title>Excluir informações do sensor</title>
     <link rel="stylesheet" href="../assets/style/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -48,9 +73,16 @@
             <div class="excluir">
                 <img src="../assets/img/cuidado-vermelho-do-triângulo-que-adverte-ilustração-alerta-do-vetor-do-sinal-isolada-no-fundo-branco-seja-cuidadoso-não-82145994-removebg-preview.png"
                     alt="">
-                <h3>Deseja realmente excluir esse sensor?</h3>
-                <P>Esta ação não pode ser desfeita.</P>
-                <button class="botao_cancelar" onclick="window.location.href='gerenciar_sensores.html'">Cancelar</button> <button class="botao_excluir">Excluir</button>
+                <h3>Deseja realmente excluir o sensor "<?= htmlspecialchars($sensor['nome']) ?>"?</h3>
+                <p>Trem vinculado: <?= htmlspecialchars($sensor['nome_trem']) ?></p>
+                <p>Esta ação não pode ser desfeita.</p>
+
+                <form method="POST" action="excluir_sensor.php" style="display:inline;">
+                    <input type="hidden" name="id" value="<?= (int)$sensor['id'] ?>">
+                    <button type="button" class="botao_cancelar"
+                        onclick="window.location.href='gerenciar_sensores.html'">Cancelar</button>
+                    <button type="submit" class="botao_excluir">Excluir</button>
+                </form>
             </div>
 
         </main>

@@ -145,15 +145,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </div>
 
-                <div class="text-center mt-3">
-
-                    <span>Não tem login?</span>
-
-                    <a href="tela_de_cadastro.php" class="text-decoration-none">
-                        Crie uma conta
-                    </a>
-
-                </div>
+                <p>
+                    <a href="public/tela_de_cadastro.php">Criar conta</a>
+                </p>
 
             </form>
 
