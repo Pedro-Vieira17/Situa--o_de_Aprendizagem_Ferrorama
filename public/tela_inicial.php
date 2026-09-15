@@ -141,6 +141,21 @@ if ($trens > 0) {
 
         <div class="planilha_dashboard">
 
+            <div class="cabecalho_planilha">
+
+                <h3>Trens Cadastrados</h3>
+
+                <button
+                    class="btn-salvar"
+                    onclick="window.location.href='cadastrar_trens.php'">
+
+                    <img src="../assets/icons/cadastrar_branco.svg" alt="">
+                    Cadastrar Trem
+
+                </button>
+
+            </div>
+
             <table class="table table-borderless">
 
                 <thead>

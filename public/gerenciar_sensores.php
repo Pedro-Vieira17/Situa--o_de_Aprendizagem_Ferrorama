@@ -28,12 +28,12 @@
 
         <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item ativo">
+        <a href="tela_inicial.php" class="item">
             <img src="../assets/icons/dashboard_preto.svg" alt="">
             Dashboard
         </a>
 
-        <a href="gerenciar_sensores.php" class="item">
+        <a href="gerenciar_sensores.php" class="item ativo">
             <img src="../assets/icons/sensor_branco.svg" alt="">
             Sensores
         </a>
