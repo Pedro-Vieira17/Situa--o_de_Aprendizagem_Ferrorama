@@ -65,7 +65,7 @@ if ($trens > 0) {
         </a>
 
         <a href="rotas.php" class="item">
-            <img src="../assets/icons/rotas_branco.svg" alt="">
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
             Rotas
         </a>
 
@@ -220,8 +220,15 @@ if ($trens > 0) {
 
                                     <button
                                         class="botao_dashboard"
-                                        onclick="excluirTrem(<?= $trem["id"] ?>)">
+                                        onclick="window.location.href='editar_trens.php?id=<?= $trem["id"] ?>'">
 
+                                        <img src="../assets/icons/relatorio_branco.svg" alt="Editar">
+
+                                    </button>
+
+                                    <button
+                                        class="botao_dashboard"
+                                       onclick="window.location.href='excluir_trem.php?id=<?= $trem["id"] ?>'">
                                         <img src="../assets/icons/DELETE.svg" alt="Excluir">
 
                                     </button>
