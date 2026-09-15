@@ -64,9 +64,9 @@ if ($trens > 0) {
             Sensores
         </a>
 
-        <a href="relatorios.php" class="item">
-            <img src="../assets/icons/relatorio_branco.svg" alt="">
-            Relatórios
+        <a href="rotas.php" class="item">
+            <img src="../assets/icons/rotas_branco.svg" alt="">
+            Rotas
         </a>
 
         <a href="tela_de_cadastro.php" class="item">
