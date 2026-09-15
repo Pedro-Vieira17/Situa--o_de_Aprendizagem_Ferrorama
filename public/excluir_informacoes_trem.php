@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 require_once '../infra/conexao.php';
 
@@ -23,6 +24,8 @@ $stmtSensores = $pdo->prepare('SELECT COUNT(*) AS total FROM SENSORES WHERE tren
 $stmtSensores->execute(['id' => $id]);
 $totalSensores = $stmtSensores->fetch()['total'];
 ?>
+=======
+>>>>>>> 26b8851e693fa540c5f3011acd13f0d766de4c57
 <html lang="en">
 
 <head>
@@ -33,7 +36,12 @@ $totalSensores = $stmtSensores->fetch()['total'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+<<<<<<< HEAD
           <link rel="icon" href="../assets/icons/TREM_AZUL.svg" type="image/x-icon">
+=======
+        <link rel="icon" href="../assets/icons/TREM_AZUL.svg" type="image/x-icon">
+
+>>>>>>> 26b8851e693fa540c5f3011acd13f0d766de4c57
 </head>
 
 <body>
@@ -51,11 +59,19 @@ $totalSensores = $stmtSensores->fetch()['total'];
     <div class="layout">
 
         <aside class="menu-lateral">
+<<<<<<< HEAD
             <a href="tela_inicial.html" class="item">
                 <img src="../assets/icons/dashboard_branco.svg" alt=""> Dashboard
             </a>
             <a href="gerenciar_sensores.html" class="item ativo">
                 <img src="../assets/icons/sensor_preto.svg" alt=""> Sensores
+=======
+            <a href="tela_inicial.html" class="item ativo">
+                <img src="../assets/icons/dashboard_preto.svg" alt=""> Dashboard
+            </a>
+            <a href="gerenciar_sensores.html" class="item">
+                <img src="../assets/icons/sensor_branco.svg" alt=""> Sensores
+>>>>>>> 26b8851e693fa540c5f3011acd13f0d766de4c57
             </a>
             <a href="relatorios.html" class="item">
                 <img src="../assets/icons/relatorio_branco.svg" alt=""> Relatórios

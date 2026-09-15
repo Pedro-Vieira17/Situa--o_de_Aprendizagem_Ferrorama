@@ -1,14 +1,15 @@
 <?php
 
-$host = "localhost";
-$usuario = "root";
-$senha = "root";
-$banco = "Sistema_pratos_LP";
-
-$conexao = new mysqli($host, $usuario, $senha, $banco);
+$conexao = new mysqli(
+    "localhost",
+    "root",
+    "",
+    "sa_ferrorama",
+    3307
+);
 
 if ($conexao->connect_error) {
-    die("Erro na conexão com o banco: " . $conexao->connect_error);
-};
+    die("Erro na conexão: " . $conexao->connect_error);
+}
 
 $conexao->set_charset("utf8mb4");
