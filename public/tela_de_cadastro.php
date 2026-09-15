@@ -2,6 +2,9 @@
 
 require_once "../infra/conexao.php";
 
+$mensagem = null;
+$sucesso = false;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $nome = $_POST["nome"];
@@ -16,10 +19,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
 
-    if ($stmt->execute()) {
-        echo "Cadastro realizado com sucesso!";
-    } else {
-        echo "Erro ao cadastrar.";
+    try {
+        $stmt->execute();
+        $sucesso = true;
+        $mensagem = "Cadastro realizado com sucesso!";
+    } catch (mysqli_sql_exception $e) {
+        // Código 1062 = violação de UNIQUE (CPF ou e-mail já cadastrado)
+        if ($conexao->errno === 1062) {
+            if (str_contains($e->getMessage(), 'CPF')) {
+                $mensagem = "Já existe um usuário cadastrado com esse CPF.";
+            } elseif (str_contains($e->getMessage(), 'email')) {
+                $mensagem = "Já existe um usuário cadastrado com esse e-mail.";
+            } else {
+                $mensagem = "Esse usuário já está cadastrado.";
+            }
+        } else {
+            $mensagem = "Erro ao cadastrar. Tente novamente.";
+        }
     }
 }
 
@@ -56,6 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h1>Cadastro de Usuários</h1>
 
             </div>
+
+            <?php if ($mensagem): ?>
+                <div class="alert <?= $sucesso ? 'alert-success' : 'alert-danger' ?>">
+                    <?= htmlspecialchars($mensagem) ?>
+                </div>
+            <?php endif; ?>
 
             <form method="POST">
 
