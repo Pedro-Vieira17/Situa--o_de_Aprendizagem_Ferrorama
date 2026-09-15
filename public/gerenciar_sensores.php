@@ -1,337 +1,361 @@
-<html lang="en">
+<?php
+
+require_once "../infra/conexao.php";
+
+// Pesquisa
+$pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : "";
+
+// Consulta dos sensores
+if ($pesquisa != "") {
+
+    $sql = "SELECT
+                SENSORES.id,
+                SENSORES.localizacao,
+                SENSORES.tipo_de_dado,
+                SENSORES.trens_id,
+                TRENS.status
+            FROM SENSORES
+            INNER JOIN TRENS
+                ON SENSORES.trens_id = TRENS.id
+            WHERE SENSORES.tipo_de_dado LIKE ?
+               OR SENSORES.localizacao LIKE ?
+            ORDER BY SENSORES.id DESC";
+
+    $stmt = $conexao->prepare($sql);
+
+    $busca = "%" . $pesquisa . "%";
+
+    $stmt->bind_param("ss", $busca, $busca);
+
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+} else {
+
+    $sql = "SELECT
+                SENSORES.id,
+                SENSORES.localizacao,
+                SENSORES.tipo_de_dado,
+                SENSORES.trens_id,
+                TRENS.status
+            FROM SENSORES
+            INNER JOIN TRENS
+                ON SENSORES.trens_id = TRENS.id
+            ORDER BY SENSORES.id DESC";
+
+    $resultado = $conexao->query($sql);
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gerenciar sensores</title>
-    <link rel="stylesheet" href="../assets/style/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-      <link rel="icon" href="../assets/icons/TREM_AZUL.svg" type="image/x-icon">
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar Sensores</title>
+
+    <link rel="stylesheet" href="../assets/style/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="icon"
+        href="../assets/icons/TREM_AZUL.svg"
+        type="image/x-icon">
+
 </head>
 
+
 <body>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
+
+    <!-- CABEÇALHO -->
 
     <header class="cabecalho">
-        <h2><img src="../assets/icons/TREM_AZUL.svg" alt=""> Bem vindo, Administrador</h2>
-   <a href="login.html">
-            <img src="../assets/icons/exit.svg" class="item" alt=""> 
+
+        <h2>
+            <img src="../assets/icons/TREM_AZUL.svg" alt="">
+            Bem vindo, Administrador
+        </h2>
+
+        <a href="login.html">
+
+            <img src="../assets/icons/exit.svg"
+                class="item"
+                alt="">
+
         </a>
+
     </header>
+
 
     <div class="layout">
 
+
+        <!-- MENU LATERAL -->
+
         <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item">
-            <img src="../assets/icons/dashboard_branco.svg" alt="">
-            Dashboard
-        </a>
+            <a href="tela_inicial.php" class="item">
 
-        <a href="gerenciar_sensores.php" class="item ativo">
-            <img src="../assets/icons/sensor_preto.svg" alt="">
-            Sensores
-        </a>
+                <img src="../assets/icons/dashboard_branco.svg" alt="">
 
-        <a href="rotas.php" class="item">
-            <img src="../assets/icons/rotas_branco.svg" alt="">
-            Rotas
-        </a>
+                Dashboard
 
-        <a href="tela_de_cadastro.php" class="item">
-            <img src="../assets/icons/cadastrar_branco.svg" alt="">
-            Cadastrar Usuários
-        </a>
+            </a>
 
-        <a href="usuarios_cadastrados.php" class="item">
-            <img src="../assets/icons/usuarios_branco.svg" alt="">
-            Usuários Cadastrados
-        </a>
 
-    </aside>
+            <a href="gerenciar_sensores.php" class="item ativo">
+
+                <img src="../assets/icons/sensor_preto.svg" alt="">
+
+                Sensores
+
+            </a>
+
+
+            <a href="rotas.php" class="item">
+
+                <img src="../assets/icons/rotas_branco.svg" alt="">
+
+                Rotas
+
+            </a>
+
+
+            <a href="tela_de_cadastro.php" class="item">
+
+                <img src="../assets/icons/cadastrar_branco.svg" alt="">
+
+                Cadastrar Usuários
+
+            </a>
+
+
+            <a href="usuarios_cadastrados.php" class="item">
+
+                <img src="../assets/icons/usuarios_branco.svg" alt="">
+
+                Usuários Cadastrados
+
+            </a>
+
+        </aside>
+
+
+        <!-- CONTEÚDO -->
 
         <main class="conteudo">
+
+
             <div class="titulo_sensores">
 
-                <h2 class="titulo_do_sensores">Gerenciar Sensores</h2>
 
-                <form action="/buscar" method="GET" class="pesquisa_sensor">
-                    <input type="search" class="campo-com-icone">
+                <h2 class="titulo_do_sensores">
+                    Gerenciar Sensores
+                </h2>
+
+
+                <!-- PESQUISA -->
+
+                <form action="gerenciar_sensores.php"
+                    method="GET"
+                    class="pesquisa_sensor">
+
+                    <input
+                        type="search"
+                        name="pesquisa"
+                        class="campo-com-icone"
+                        placeholder="Pesquisar sensor..."
+                        value="<?= htmlspecialchars($pesquisa) ?>">
+
                 </form>
 
-                <button class="botao_cancelar" onclick="window.location.href='cadastrar_sensores.php'">Cadastrar</button>
+
+                <!-- CADASTRAR -->
+
+                <button
+                    class="botao_cancelar"
+                    onclick="window.location.href='cadastrar_sensores.php'">
+
+                    Cadastrar
+
+                </button>
+
 
             </div>
+
+
+            <!-- TABELA -->
 
             <div class="planilha_dashboard">
 
                 <table class="table table-borderless">
+
+
                     <thead>
+
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">NOME</th>
-                            <th scope="col">LOCALIZAÇÃO</th>
-                            <th scope="col">TREM</th>
-                            <th scope="col">STATUS</th>
-                            <th scope="col">AÇÕES</th>
+
+                            <th scope="col">
+                                ID
+                            </th>
+
+                            <th scope="col">
+                                NOME
+                            </th>
+
+                            <th scope="col">
+                                LOCALIZAÇÃO
+                            </th>
+
+                            <th scope="col">
+                                TREM
+                            </th>
+
+                            <th scope="col">
+                                STATUS
+                            </th>
+
+                            <th scope="col">
+                                AÇÕES
+                            </th>
+
                         </tr>
+
                     </thead>
 
+
                     <tbody>
-                        <tr>
-                            <th scope="row">#001</th>
-                            <td>Vel-Central</td>
-                            <td>Estação Central</td>
-                            <td>Trem 01</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=001'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
 
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">#002</th>
-                            <td>Vel-Norte</td>
-                            <td>Trecho Norte</td>
-                            <td>Trem 02</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=002'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                        <?php if ($resultado->num_rows > 0) { ?>
 
-                        <tr>
-                            <th scope="row">#003</th>
-                            <td>Vel-Sul</td>
-                            <td>Pátio Sul</td>
-                            <td>Trem 03</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=003'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">#004</th>
-                            <td>Vel-Leste</td>
-                            <td>Pátio Leste</td>
-                            <td>Trem 04</td>
-                            <td><strong>Alerta</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=004'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                            <?php while ($sensor = $resultado->fetch_assoc()) { ?>
 
-                        <tr>
-                            <th scope="row">#005</th>
-                            <td>Temp-Central</td>
-                            <td>Estação Central</td>
-                            <td>Trem 05</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=005'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">#006</th>
-                            <td>Temp-Norte</td>
-                            <td>Trecho Norte</td>
-                            <td>Trem 06</td>
-                            <td><strong>Manutenção</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=006'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                <tr>
 
-                        <tr>
-                            <th scope="row">#007</th>
-                            <td>Temp-Sul</td>
-                            <td>Pátio Sul</td>
-                            <td>Trem 07</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=007'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">#008</th>
-                            <td>Press-Leste</td>
-                            <td>Pátio Leste</td>
-                            <td>Trem 08</td>
-                            <td><strong>Alerta</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=008'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    <!-- ID -->
 
-                        <tr>
-                            <th scope="row">#009</th>
-                            <td>Press-Oeste</td>
-                            <td>Trecho Oeste</td>
-                            <td>Trem 09</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=009'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    <th scope="row">
 
-                        <tr>
-                            <th scope="row">#010</th>
-                            <td>Fumaça-Central</td>
-                            <td>Estação Central</td>
-                            <td>Trem 10</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=010'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                        #<?= str_pad($sensor["id"], 3, "0", STR_PAD_LEFT) ?>
 
-                        <tr>
-                            <th scope="row">#011</th>
-                            <td>Fumaça-Norte</td>
-                            <td>Trecho Norte</td>
-                            <td>Trem 11</td>
-                            <td><strong>Alerta</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=011'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    </th>
 
-                        <tr>
-                            <th scope="row">#012</th>
-                            <td>Fumaça-Sul</td>
-                            <td>Pátio Sul</td>
-                            <td>Trem 12</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=012'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <th scope="row">#013</th>
-                            <td>Porta-Leste</td>
-                            <td>Pátio Leste</td>
-                            <td>Trem 13</td>
-                            <td><strong>Manutenção</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=013'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    <!-- NOME -->
 
-                        <tr>
-                            <th scope="row">#014</th>
-                            <td>Porta-Oeste</td>
-                            <td>Trecho Oeste</td>
-                            <td>Trem 14</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=014'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    <td>
 
-                        <tr>
-                            <th scope="row">#015</th>
-                            <td>Energia-Central</td>
-                            <td>Estação Central</td>
-                            <td>Trem 15</td>
-                            <td><strong>Alerta</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=015'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                        <?= htmlspecialchars($sensor["tipo_de_dado"]) ?>
 
-                        <tr>
-                            <th scope="row">#016</th>
-                            <td>Energia-Norte</td>
-                            <td>Trecho Norte</td>
-                            <td>Trem 16</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=016'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+                                    </td>
 
-                        <tr>
-                            <th scope="row">#017</th>
-                            <td>Energia-Sul</td>
-                            <td>Pátio Sul</td>
-                            <td>Trem 17</td>
-                            <td><strong>Ativo</strong></td>
-                            <td>
-                                <button class="botao_dashboard"
-                                    onclick="window.location.href='excluir_informacoes_sensor.html?id=017'">
-                                    <img src="../assets/icons/DELETE.svg" alt="">
-                                </button>
-                            </td>
-                        </tr>
+
+                                    <!-- LOCALIZAÇÃO -->
+
+                                    <td>
+
+                                        <?= htmlspecialchars($sensor["localizacao"]) ?>
+
+                                    </td>
+
+
+                                    <!-- TREM -->
+
+                                    <td>
+
+                                        Trem <?= str_pad($sensor["trens_id"], 2, "0", STR_PAD_LEFT) ?>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        <strong>
+
+                                            <?= htmlspecialchars($sensor["status"]) ?>
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- AÇÕES -->
+
+                                    <td>
+
+                                        <button
+                                            class="botao_dashboard"
+                                            onclick="window.location.href='excluir_sensor.php?id=<?= $sensor["id"] ?>'">
+
+                                            <img
+                                                src="../assets/icons/DELETE.svg"
+                                                alt="Excluir">
+
+                                        </button>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            <?php } ?>
+
+
+                        <?php } else { ?>
+
+
+                            <tr>
+
+                                <td colspan="6">
+
+                                    Nenhum sensor cadastrado.
+
+                                </td>
+
+                            </tr>
+
+
+                        <?php } ?>
 
 
                     </tbody>
 
+
                 </table>
+
             </div>
 
 
         </main>
 
+
     </div>
+
 
 </body>
 
