@@ -8,7 +8,7 @@ $trens = $conexao->query("SELECT COUNT(*) AS total FROM TRENS")->fetch_assoc()["
 
 $alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Alerta'")->fetch_assoc()["total"];
 
-$sensores_ativos = $conexao->query("SELECT COUNT(*) AS total FROM SENSORES WHERE status = 'Ativo'")->fetch_assoc()["total"];
+$sensores_ativos = $sensores;
 
 if ($trens > 0) {
     $trens_cadastrados = $conexao->query("SELECT * FROM TRENS ORDER BY id DESC");
@@ -20,11 +20,8 @@ if ($trens > 0) {
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="../assets/style/style.css">
@@ -36,7 +33,6 @@ if ($trens > 0) {
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
-
 </head>
 
 <body>
@@ -53,7 +49,6 @@ if ($trens > 0) {
     </a>
 
 </header>
-
 
 <div class="layout">
 
@@ -86,11 +81,9 @@ if ($trens > 0) {
 
     </aside>
 
-
     <main class="conteudo">
 
         <div class="informacoes_dashboard">
-
 
             <div class="informacoes">
 
@@ -105,7 +98,6 @@ if ($trens > 0) {
 
             </div>
 
-
             <div class="informacoes">
 
                 <h4>
@@ -118,7 +110,6 @@ if ($trens > 0) {
                 </h3>
 
             </div>
-
 
             <div class="informacoes">
 
@@ -133,7 +124,6 @@ if ($trens > 0) {
 
             </div>
 
-
             <div class="informacoes">
 
                 <h4>
@@ -147,9 +137,7 @@ if ($trens > 0) {
 
             </div>
 
-
         </div>
-
 
         <div class="planilha_dashboard">
 
@@ -158,21 +146,14 @@ if ($trens > 0) {
                 <thead>
 
                     <tr>
-
                         <th>ID</th>
-
                         <th>LOCALIZAÇÃO</th>
-
                         <th>TIPO DE DADO</th>
-
                         <th>STATUS</th>
-
                         <th>AÇÕES</th>
-
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -222,7 +203,6 @@ if ($trens > 0) {
 
                                     </button>
 
-
                                     <button
                                         class="botao_dashboard"
                                         onclick="excluirTrem(<?= $trem["id"] ?>)">
@@ -242,9 +222,7 @@ if ($trens > 0) {
                         <tr>
 
                             <td colspan="5" class="text-center">
-
                                 Nenhum trem cadastrado.
-
                             </td>
 
                         </tr>
@@ -260,7 +238,6 @@ if ($trens > 0) {
     </main>
 
 </div>
-
 
 <script>
 
