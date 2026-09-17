@@ -231,15 +231,6 @@ $listaStatus = $conexao->query(
                 </button>
 
 
-  <button
-                    class="botao_cancelar"
-                    onclick="window.location.href='editar_sensores.php'">
-
-                    Editar
-
-                </button>
-
-
             </div>
 
 
