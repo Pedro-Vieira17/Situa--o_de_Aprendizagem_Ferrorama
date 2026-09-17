@@ -36,7 +36,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
 
        <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item ativo">
+        <a href="tela_inicial.php" class="item">
             <img src="../assets/icons/dashboard_preto.svg" alt="">
             Dashboard
         </a>
@@ -56,7 +56,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
             Cadastrar Usuários
         </a>
 
-        <a href="usuarios_cadastrados.php" class="item">
+        <a href="usuarios_cadastrados.php" class="item ativo">
             <img src="../assets/icons/usuarios_branco.svg" alt="">
             Usuários Cadastrados
         </a>
