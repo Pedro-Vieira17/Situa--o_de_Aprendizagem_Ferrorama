@@ -1,54 +1,45 @@
 <?php
-require_once '../infra/conexao.php';
 
-// Só aceita requisições enviadas pelo formulário (POST)
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: cadastrar_sensores.php');
+require_once "../infra/conexao.php";
+
+$localizacao = $_POST["localizacao"] ?? "";
+$tipoDado = $_POST["tipoDado"] ?? "";
+$tremVinculado = $_POST["tremVinculado"] ?? "";
+
+
+if ($localizacao == "" || $tipoDado == "" || $tremVinculado == "") {
+
+    header("Location: cadastrar_sensores.php?erro=Preencha todos os campos.");
+
     exit;
 }
 
-$nome = trim($_POST['nomeSensor'] ?? '');
-$localizacao = trim($_POST['localizacao'] ?? '');
-$tipoDado = trim($_POST['tipoDado'] ?? '');
-$tremId = $_POST['tremVinculado'] ?? '';
 
-// Validação básica dos campos obrigatórios
-if ($nome === '' || $localizacao === '' || $tipoDado === '' || $tremId === '') {
-    header('Location: cadastrar_sensores.php?erro=' . urlencode('Preencha todos os campos.'));
-    exit;
-}
+$sql = "INSERT INTO SENSORES 
+        (localizacao, tipo_de_dado, trens_id)
+        VALUES (?, ?, ?)";
 
-if (!ctype_digit((string)$tremId)) {
-    header('Location: cadastrar_sensores.php?erro=' . urlencode('Trem vinculado inválido.'));
-    exit;
-}
 
-// Confere se o trem existe (regra: só pode vincular a um trem já cadastrado)
-$stmt = $pdo->prepare('SELECT id FROM TRENS WHERE id = :id');
-$stmt->execute(['id' => $tremId]);
+$stmt = $conexao->prepare($sql);
 
-if (!$stmt->fetch()) {
-    header('Location: cadastrar_sensores.php?erro=' . urlencode('O trem selecionado não existe.'));
-    exit;
-}
-
-// Insere o sensor vinculado ao trem
-$insere = $pdo->prepare(
-    'INSERT INTO SENSORES (nome, localizacao, tipo_de_dado, trens_id)
-     VALUES (:nome, :localizacao, :tipo_de_dado, :trens_id)'
+$stmt->bind_param(
+    "ssi",
+    $localizacao,
+    $tipoDado,
+    $tremVinculado
 );
 
-try {
-    $insere->execute([
-        'nome' => $nome,
-        'localizacao' => $localizacao,
-        'tipo_de_dado' => $tipoDado,
-        'trens_id' => $tremId,
-    ]);
-} catch (PDOException $e) {
-    header('Location: cadastrar_sensores.php?erro=' . urlencode('Erro ao salvar: ' . $e->getMessage()));
-    exit;
+
+if ($stmt->execute()) {
+
+    header("Location: cadastrar_sensores.php?sucesso=1");
+
+} else {
+
+    header("Location: cadastrar_sensores.php?erro=Erro ao cadastrar o sensor.");
+
 }
 
-header('Location: gerenciar_sensores.html?sucesso=1');
 exit;
+
+?>
