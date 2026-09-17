@@ -2,50 +2,77 @@
 
 require_once "../infra/conexao.php";
 
-// Pesquisa
-$pesquisa = isset($_GET["pesquisa"]) ? $_GET["pesquisa"] : "";
+// Filtros vindos da URL
+$pesquisa = isset($_GET["pesquisa"]) ? trim($_GET["pesquisa"]) : "";
+$filtroTipo = isset($_GET["tipo"]) ? trim($_GET["tipo"]) : "";
+$filtroTrem = isset($_GET["trem"]) ? trim($_GET["trem"]) : "";
+$filtroStatus = isset($_GET["status"]) ? trim($_GET["status"]) : "";
 
-// Consulta dos sensores
+// Monta a consulta conforme os filtros preenchidos
+$sql = "SELECT
+            SENSORES.id,
+            SENSORES.localizacao,
+            SENSORES.tipo_de_dado,
+            SENSORES.trens_id,
+            TRENS.status
+        FROM SENSORES
+        INNER JOIN TRENS
+            ON SENSORES.trens_id = TRENS.id
+        WHERE 1 = 1";
+
+$tipos = "";
+$valores = [];
+
 if ($pesquisa != "") {
-
-    $sql = "SELECT
-                SENSORES.id,
-                SENSORES.localizacao,
-                SENSORES.tipo_de_dado,
-                SENSORES.trens_id,
-                TRENS.status
-            FROM SENSORES
-            INNER JOIN TRENS
-                ON SENSORES.trens_id = TRENS.id
-            WHERE SENSORES.tipo_de_dado LIKE ?
-               OR SENSORES.localizacao LIKE ?
-            ORDER BY SENSORES.id DESC";
-
-    $stmt = $conexao->prepare($sql);
-
+    $sql .= " AND (SENSORES.tipo_de_dado LIKE ? OR SENSORES.localizacao LIKE ?)";
     $busca = "%" . $pesquisa . "%";
-
-    $stmt->bind_param("ss", $busca, $busca);
-
-    $stmt->execute();
-
-    $resultado = $stmt->get_result();
-
-} else {
-
-    $sql = "SELECT
-                SENSORES.id,
-                SENSORES.localizacao,
-                SENSORES.tipo_de_dado,
-                SENSORES.trens_id,
-                TRENS.status
-            FROM SENSORES
-            INNER JOIN TRENS
-                ON SENSORES.trens_id = TRENS.id
-            ORDER BY SENSORES.id DESC";
-
-    $resultado = $conexao->query($sql);
+    $tipos .= "ss";
+    $valores[] = $busca;
+    $valores[] = $busca;
 }
+
+if ($filtroTipo != "") {
+    $sql .= " AND SENSORES.tipo_de_dado = ?";
+    $tipos .= "s";
+    $valores[] = $filtroTipo;
+}
+
+if ($filtroTrem != "") {
+    $sql .= " AND SENSORES.trens_id = ?";
+    $tipos .= "i";
+    $valores[] = $filtroTrem;
+}
+
+if ($filtroStatus != "") {
+    $sql .= " AND TRENS.status = ?";
+    $tipos .= "s";
+    $valores[] = $filtroStatus;
+}
+
+$sql .= " ORDER BY SENSORES.id DESC";
+
+$stmt = $conexao->prepare($sql);
+
+// Só faz bind se algum filtro foi usado
+if ($tipos != "") {
+    $stmt->bind_param($tipos, ...$valores);
+}
+
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+// Opções dos selects de filtro (vindas do próprio banco)
+$listaTipos = $conexao->query(
+    "SELECT DISTINCT tipo_de_dado FROM SENSORES ORDER BY tipo_de_dado"
+);
+
+$listaTrens = $conexao->query(
+    "SELECT id FROM TRENS ORDER BY id"
+);
+
+$listaStatus = $conexao->query(
+    "SELECT DISTINCT status FROM TRENS ORDER BY status"
+);
 
 ?>
 
@@ -185,6 +212,11 @@ if ($pesquisa != "") {
                         placeholder="Pesquisar sensor..."
                         value="<?= htmlspecialchars($pesquisa) ?>">
 
+                    <!-- mantém os outros filtros ao pesquisar por texto -->
+                    <input type="hidden" name="tipo" value="<?= htmlspecialchars($filtroTipo) ?>">
+                    <input type="hidden" name="trem" value="<?= htmlspecialchars($filtroTrem) ?>">
+                    <input type="hidden" name="status" value="<?= htmlspecialchars($filtroStatus) ?>">
+
                 </form>
 
 
@@ -200,6 +232,102 @@ if ($pesquisa != "") {
 
 
             </div>
+
+
+            <!-- FILTROS DE CONSULTA -->
+
+            <form action="gerenciar_sensores.php"
+                method="GET"
+                class="filtros_sensor d-flex flex-wrap gap-2 align-items-end mb-3">
+
+                <!-- mantém a pesquisa de texto ao aplicar os filtros -->
+                <input type="hidden" name="pesquisa" value="<?= htmlspecialchars($pesquisa) ?>">
+
+
+                <div>
+
+                    <label for="tipo" class="form-label">Tipo de Dado</label>
+
+                    <select name="tipo" id="tipo" class="form-select">
+
+                        <option value="">Todos</option>
+
+                        <?php while ($t = $listaTipos->fetch_assoc()) { ?>
+
+                            <option
+                                value="<?= htmlspecialchars($t["tipo_de_dado"]) ?>"
+                                <?= $filtroTipo === $t["tipo_de_dado"] ? "selected" : "" ?>>
+
+                                <?= htmlspecialchars($t["tipo_de_dado"]) ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label for="trem" class="form-label">Trem</label>
+
+                    <select name="trem" id="trem" class="form-select">
+
+                        <option value="">Todos</option>
+
+                        <?php while ($tr = $listaTrens->fetch_assoc()) { ?>
+
+                            <option
+                                value="<?= (int)$tr["id"] ?>"
+                                <?= $filtroTrem === (string)$tr["id"] ? "selected" : "" ?>>
+
+                                Trem <?= str_pad($tr["id"], 2, "0", STR_PAD_LEFT) ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label for="status" class="form-label">Status</label>
+
+                    <select name="status" id="status" class="form-select">
+
+                        <option value="">Todos</option>
+
+                        <?php while ($s = $listaStatus->fetch_assoc()) { ?>
+
+                            <option
+                                value="<?= htmlspecialchars($s["status"]) ?>"
+                                <?= $filtroStatus === $s["status"] ? "selected" : "" ?>>
+
+                                <?= htmlspecialchars($s["status"]) ?>
+
+                            </option>
+
+                        <?php } ?>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit" class="botao_cancelar">
+                    Filtrar
+                </button>
+
+                <a href="gerenciar_sensores.php" class="btn btn-secondary">
+                    Limpar
+                </a>
+
+            </form>
 
 
             <!-- TABELA -->
@@ -333,7 +461,7 @@ if ($pesquisa != "") {
 
                                 <td colspan="6">
 
-                                    Nenhum sensor cadastrado.
+                                    Nenhum sensor encontrado.
 
                                 </td>
 
@@ -349,6 +477,13 @@ if ($pesquisa != "") {
                 </table>
 
             </div>
+
+
+            <p class="text-muted mt-2">
+
+                <?= $resultado->num_rows ?> sensor(es) encontrado(s).
+
+            </p>
 
 
         </main>
