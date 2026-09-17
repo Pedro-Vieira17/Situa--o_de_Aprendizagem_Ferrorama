@@ -6,7 +6,7 @@ $sensores = $conexao->query("SELECT COUNT(*) AS total FROM SENSORES")->fetch_ass
 
 $trens = $conexao->query("SELECT COUNT(*) AS total FROM TRENS")->fetch_assoc()["total"];
 
-$alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Alerta'")->fetch_assoc()["total"];
+$alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Manutenção'")->fetch_assoc()["total"];
 
 $sensores_ativos = $sensores;
 
@@ -192,10 +192,16 @@ if ($trens > 0) {
 
                                 <td>
 
-                                    <?php if ($trem["status"] == "Alerta"): ?>
+                                    <?php if ($trem["status"] == "Manutenção"): ?>
 
                                         <span class="status-alerta">
-                                            Alerta
+                                            <?= htmlspecialchars($trem["status"]) ?>
+                                        </span>
+
+                                    <?php elseif ($trem["status"] == "Inativo"): ?>
+
+                                        <span class="status-inativo">
+                                            <?= htmlspecialchars($trem["status"]) ?>
                                         </span>
 
                                     <?php else: ?>

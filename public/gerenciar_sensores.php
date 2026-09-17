@@ -74,6 +74,24 @@ $listaStatus = $conexao->query(
     "SELECT DISTINCT status FROM TRENS ORDER BY status"
 );
 
+// Contagem de sensores por status do trem (para o gráfico)
+$statusCount = $conexao->query("
+    SELECT TRENS.status AS status, COUNT(*) AS total
+    FROM SENSORES
+    INNER JOIN TRENS ON SENSORES.trens_id = TRENS.id
+    GROUP BY TRENS.status
+");
+
+$statusData = [];
+
+while ($linha = $statusCount->fetch_assoc()) {
+    $statusData[$linha["status"]] = (int) $linha["total"];
+}
+
+$sensoresAtivos = $statusData["Ativo"] ?? 0;
+$sensoresManutencao = $statusData["Manutenção"] ?? 0;
+$sensoresInativos = $statusData["Inativo"] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -100,6 +118,9 @@ $listaStatus = $conexao->query(
     <link rel="icon"
         href="../assets/icons/TREM_AZUL.svg"
         type="image/x-icon">
+
+    <!-- Chart.js: biblioteca do gráfico -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
 </head>
 
@@ -239,6 +260,24 @@ $listaStatus = $conexao->query(
 
                 </button>
 
+
+            </div>
+
+
+            <!-- GRÁFICO DE FUNCIONAMENTO DOS SENSORES -->
+
+            <div class="planilha_dashboard grafico_sensores"
+                style="max-width: 340px; margin: 0 0 24px 0; padding: 20px; text-align: center;">
+
+                <h3 style="margin-bottom: 12px; color: #d9d9d9 !important;">
+                    Funcionamento dos Sensores
+                </h3>
+
+                <canvas id="graficoSensores" width="280" height="280"></canvas>
+
+                <p class="mt-2" style="margin-top: 12px; color: #b3b3b3 !important;">
+                    <?= $sensoresAtivos ?> ativo(s) · <?= $sensoresManutencao ?> em manutenção · <?= $sensoresInativos ?> inativo(s)
+                </p>
 
             </div>
 
@@ -499,6 +538,41 @@ $listaStatus = $conexao->query(
 
 
     </div>
+
+
+    <script>
+
+        // Dados vindos do PHP
+        const sensoresAtivos = <?= $sensoresAtivos ?>;
+        const sensoresManutencao = <?= $sensoresManutencao ?>;
+        const sensoresInativos = <?= $sensoresInativos ?>;
+
+        const ctx = document.getElementById("graficoSensores");
+
+        new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Ativo", "Manutenção", "Inativo"],
+                datasets: [{
+                    data: [sensoresAtivos, sensoresManutencao, sensoresInativos],
+                    backgroundColor: ["#2ecc71", "#e74c3c", "#95a5a6"],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: "#ffffff"
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
 
 
 </body>
