@@ -37,7 +37,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
        <aside class="menu-lateral">
 
         <a href="tela_inicial.php" class="item">
-            <img src="../assets/icons/dashboard_preto.svg" alt="">
+            <img src="../assets/icons/dashboard_branco.svg" alt="">
             Dashboard
         </a>
 
@@ -47,7 +47,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
         </a>
 
         <a href="rotas.php" class="item">
-            <img src="../assets/icons/rotas_branco.svg" alt="">
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
             Rotas
         </a>
 
@@ -57,7 +57,7 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
         </a>
 
         <a href="usuarios_cadastrados.php" class="item ativo">
-            <img src="../assets/icons/usuarios_branco.svg" alt="">
+            <img src="../assets/icons/usuarios_preto.svg" alt="">
             Usuários Cadastrados
         </a>
 
