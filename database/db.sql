@@ -7,7 +7,8 @@ CREATE TABLE USUARIO (
     telefone VARCHAR(15) NOT NULL,
     nome VARCHAR(200) NOT NULL,
     email VARCHAR(200) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    tipo ENUM('usuario', 'administrador') NOT NULL DEFAULT 'usuario'
 );
 
 CREATE TABLE TRENS (
@@ -15,7 +16,7 @@ CREATE TABLE TRENS (
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
     status VARCHAR(200) NOT NULL
-); 
+);
 
 CREATE TABLE SENSORES (
     id INT AUTO_INCREMENT PRIMARY KEY,
