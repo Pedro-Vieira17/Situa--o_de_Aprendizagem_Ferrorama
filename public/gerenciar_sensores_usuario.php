@@ -281,7 +281,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="tipo" class="form-label">
+                    <label for="tipo" class="form-label" style="color: white;">
                         Tipo de Dado
                     </label>
 
@@ -313,7 +313,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="trem" class="form-label">
+                    <label for="trem" class="form-label" style="color: white;">
                         Trem
                     </label>
 
@@ -345,7 +345,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="status" class="form-label">
+                    <label for="status" class="form-label" style="color: white;">
                         Status
                     </label>
 

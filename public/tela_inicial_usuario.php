@@ -189,7 +189,7 @@ if ($trens > 0) {
 
             <div class="cabecalho_planilha">
 
-                <h3>Trens Cadastrados</h3>
+                <h3 style="color: white;">Trens Cadastrados</h3>
 
             </div>
 
