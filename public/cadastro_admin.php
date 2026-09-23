@@ -199,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="planilha_dashboard"
             style="max-width: 800px; margin: 0 auto; padding: 30px;">
 
-            <h2 style="margin-bottom: 25px;">
+            <h2 style="margin-bottom: 25px; color: white;">
 
                 Cadastrar ADMs e Usuários
 
@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             Nome completo
 
@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             CPF
 
@@ -274,7 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             Telefone
 
@@ -293,7 +293,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             E-mail
 
@@ -312,7 +312,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             Senha
 
@@ -330,7 +330,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-6 mb-3">
 
-                        <label class="form-label">
+                        <label class="form-label" style="color: white;">
 
                             Tipo de acesso
 
