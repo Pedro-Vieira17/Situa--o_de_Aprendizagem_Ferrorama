@@ -161,9 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <a href="rotas.php" class="item">
 
-            <img
-                src="../assets/icons/rotas_branco.svg"
-                alt="">
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
 
             Rotas
 
