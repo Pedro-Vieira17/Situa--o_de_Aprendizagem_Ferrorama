@@ -37,31 +37,62 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
        <aside class="menu-lateral">
 
         <a href="tela_inicial.php" class="item">
-            <img src="../assets/icons/dashboard_branco.svg" alt="">
+
+            <img
+                src="../assets/icons/dashboard_branco.svg"
+                alt="">
+
             Dashboard
+
         </a>
+
 
         <a href="gerenciar_sensores.php" class="item">
-            <img src="../assets/icons/sensor_branco.svg" alt="">
+
+            <img
+                src="../assets/icons/sensor_branco.svg"
+                alt="">
+
             Sensores
+
         </a>
+
 
         <a href="rotas.php" class="item">
-            <img src="../assets/icons/relatorio_branco.svg" alt="">
+
+            <img
+                src="../assets/icons/rotas_branco.svg"
+                alt="">
+
             Rotas
+
         </a>
 
-        <a href="tela_de_cadastro.php" class="item">
-            <img src="../assets/icons/cadastrar_branco.svg" alt="">
-            Cadastrar Usuários
+
+        <a href="cadastro_admin.php" class="item">
+
+            <img
+                src="../assets/icons/cadastrar_branco.svg"
+                alt="">
+
+            Cadastrar ADMs e Usuários
+
         </a>
+
 
         <a href="usuarios_cadastrados.php" class="item ativo">
-            <img src="../assets/icons/usuarios_preto.svg" alt="">
+
+            <img
+                src="../assets/icons/usuarios_preto.svg"
+                alt="">
+
             Usuários Cadastrados
+
         </a>
 
     </aside>
+
+
         <main class="conteudo">
 
             <div class="planilha_dashboard">

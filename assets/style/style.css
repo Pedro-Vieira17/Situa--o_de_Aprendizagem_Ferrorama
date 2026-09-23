@@ -28,10 +28,12 @@ body {
 }
 
 .menu-lateral {
-    width: 220px;
-    color: rgb(255, 255, 255);
-    background-color:#0f172a;
+    width: 207px;
+    min-width: 207px;
+    flex-shrink: 0;
 }
+
+
 
 .item {
     padding: 15px;
