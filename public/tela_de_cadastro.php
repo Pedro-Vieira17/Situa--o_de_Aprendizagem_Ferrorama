@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="titulo">
 
-                <h1>Cadastro de Usuários</h1>
+                <h1>Cadastrar-se como Usuário</h1>
 
             </div>
 
