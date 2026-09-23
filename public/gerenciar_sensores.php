@@ -304,7 +304,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="tipo" class="form-label">Tipo de Dado</label>
+                    <label for="tipo" class="form-label" style="color: white;">Tipo de Dado</label>
 
                     <select name="tipo" id="tipo" class="form-select">
 
@@ -329,7 +329,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="trem" class="form-label">Trem</label>
+                    <label for="trem" class="form-label" style="color: white;">Trem</label>
 
                     <select name="trem" id="trem" class="form-select">
 
@@ -354,7 +354,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                 <div>
 
-                    <label for="status" class="form-label">Status</label>
+                    <label for="status" class="form-label" style="color: white;">Status</label>
 
                     <select name="status" id="status" class="form-select">
 
@@ -517,7 +517,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                             <tr>
 
-                                <td colspan="6">
+                                <td colspan="6" style="text-align: center; color: #b3b3b3;">
 
                                     Nenhum sensor encontrado.
 
@@ -537,7 +537,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
             </div>
 
 
-            <p class="text-muted mt-2">
+            <p class="text-muted mt-2" style="margin-top: 12px; color: #b3b3b3 !important;">
 
                 <?= $resultado->num_rows ?> sensor(es) encontrado(s).
 

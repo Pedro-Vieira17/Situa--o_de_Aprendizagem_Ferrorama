@@ -172,7 +172,7 @@ if ($trens > 0) {
 
             <div class="cabecalho_planilha">
 
-                <h3>Trens Cadastrados</h3>
+              <h3 style="color: white;">Trens Cadastrados</h3>
 
                 <button
                     class="btn-salvar"
@@ -245,13 +245,7 @@ if ($trens > 0) {
 
                                 <td>
 
-                                    <button
-                                        class="botao_dashboard"
-                                        onclick="window.location.href='monitoramento_tempo_real.html?id=<?= $trem["id"] ?>'">
-
-                                        <img src="../assets/icons/OLHO.svg" alt="Visualizar">
-
-                                    </button>
+                                
 
                                     <button
                                         class="botao_dashboard"
