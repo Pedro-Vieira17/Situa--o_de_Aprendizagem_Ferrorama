@@ -27,9 +27,10 @@ body {
 }
 
 .menu-lateral {
-    width: 207px;
+    width: 227px;
     min-width: 207px;
     flex-shrink: 0;
+   background-color: #0f172a;
 }
 
 .item {
@@ -139,4 +140,46 @@ body {
 .status-alerta {
     color: rgb(255, 0, 0) !important;
     font-weight: bold;
+}
+
+.informacoes_dashboard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.informacoes {
+    background-color: #0f172a;
+    padding: 20px;
+    border-radius: 20px;
+    flex: 1;
+    min-width: 200px;
+    color: white;
+}
+
+.informacoes h3 {
+    margin-top: 10px;
+    font-size: 28px;
+    color: white;
+}
+
+.informacoes h4 {
+    white-space: nowrap;
+    color: white;
+}
+
+.conteudo {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+    background-color: #2e3747 !important;
+}
+
+.planilha_dashboard {
+    margin-top: 50px;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    background-color: #0f172a !important;
 }
