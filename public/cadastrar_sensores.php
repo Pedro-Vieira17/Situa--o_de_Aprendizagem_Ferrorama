@@ -105,8 +105,7 @@ $sucesso = $_GET['sucesso'] ?? null;
         <a href="rotas.php" class="item">
 
             <img
-                src="../assets/icons/rotas_branco.svg"
-                alt="">
+                <img src="../assets/icons/relatorio_branco.svg" alt="">
 
             Rotas
 
@@ -145,7 +144,7 @@ $sucesso = $_GET['sucesso'] ?? null;
             <div class="container-sensor">
 
 
-                <h1 class="titulo-sensor">
+                <h1 class="titulo-sensor" style="color: white;">
 
                     Cadastrar Novo Sensor
 
@@ -193,7 +192,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                         <div class="grupo-input">
 
-                            <label for="localizacao">
+                            <label for="localizacao" style="color: white;">
 
                                 Localização
 
@@ -212,7 +211,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                         <div class="grupo-input">
 
-                            <label for="tipoDado">
+                            <label for="tipoDado" style="color: white;">
 
                                 Tipo de Dado
 
@@ -225,7 +224,7 @@ $sucesso = $_GET['sucesso'] ?? null;
                                 required>
 
 
-                                <option value="" disabled selected>
+                                <option value="" disabled selected >
 
                                     Selecione o tipo de dado
 
@@ -269,7 +268,7 @@ $sucesso = $_GET['sucesso'] ?? null;
                         <div class="grupo-input">
 
 
-                            <label for="tremVinculado">
+                            <label for="tremVinculado" style="color: white;">
 
                                 Trem Vinculado
 
