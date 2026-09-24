@@ -10,10 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = $_POST["email"] ?? "";
     $senha = $_POST["senha"] ?? "";
+    $tipo = $_POST["tipo"] ?? "";
 
-    if ($email == "" || $senha == "") {
+    if ($email == "" || $senha == "" || $tipo == "") {
 
-        $erro = "Preencha o e-mail e a senha.";
+        $erro = "Preencha todos os campos.";
 
     } else {
 
@@ -31,11 +32,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (password_verify($senha, $usuario["senha"])) {
 
-                $_SESSION["usuario_id"] = $usuario["id"];
-                $_SESSION["usuario_nome"] = $usuario["nome"];
+                if ($usuario["tipo"] != $tipo) {
 
-                header("Location: public/tela_inicial.php");
-                exit;
+                    $erro = "O tipo de acesso selecionado não corresponde ao usuário.";
+
+                } else {
+
+                    $_SESSION["usuario_id"] = $usuario["id"];
+                    $_SESSION["usuario_nome"] = $usuario["nome"];
+                    $_SESSION["usuario_tipo"] = $usuario["tipo"];
+
+                    if ($usuario["tipo"] == "administrador") {
+
+                        header("Location: public/tela_inicial.php");
+                        exit;
+
+                    } else {
+
+                        header("Location: public/tela_inicial_usuario.php");
+                        exit;
+
+                    }
+
+                }
 
             } else {
 
@@ -58,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="pt-br">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -69,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/style/style.css">
 
     <link rel="icon" href="assets/icons/TREM_AZUL.svg" type="image/x-icon">
+
 </head>
 
 <body>
@@ -96,6 +117,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="POST">
 
                 <div class="formulario">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Tipo de acesso
+                        </label>
+
+                        <select name="tipo" class="form-select" required>
+
+                            <option value="">
+                                Selecione o tipo de acesso
+                            </option>
+
+                            <option value="usuario">
+                                Usuário
+                            </option>
+
+                            <option value="administrador">
+                                Administrador
+                            </option>
+
+                        </select>
+
+                    </div>
 
                     <div class="mb-3">
 

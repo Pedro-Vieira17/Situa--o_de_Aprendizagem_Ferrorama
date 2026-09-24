@@ -53,31 +53,67 @@ $sucesso = $_GET['sucesso'] ?? null;
     <div class="layout">
 
         <aside class="menu-lateral">
-            <a href="tela_inicial.php" class="item">
-                <img src="../assets/icons/dashboard_branco.svg" alt=""> Dashboard
-            </a>
-            <a href="gerenciar_trens.php" class="item ativo">
-                <img src="../assets/icons/trem_branco.svg" alt=""> Trens
-            </a>
-            <a href="gerenciar_sensores.php" class="item">
-                <img src="../assets/icons/sensor_branco.svg" alt=""> Sensores
-            </a>
-            <a href="rotas.php" class="item">
-                <img src="../assets/icons/relatorio_branco.svg" alt=""> Rotas
-            </a>
-            <a href="tela_de_cadastro.php" class="item">
-                <img src="../assets/icons/cadastrar_branco.svg" alt=""> Cadastrar Usuários
-            </a>
-            <a href="usuarios_cadastrados.php" class="item">
-                <img src="../assets/icons/usuarios_branco.svg" alt=""> Usuários Cadastrados
-            </a>
-        </aside>
+
+        <a href="tela_inicial.php" class="item ativo">
+
+            <img
+                src="../assets/icons/dashboard_preto.svg"
+                alt="">
+
+            Dashboard
+
+        </a>
+
+
+        <a href="gerenciar_sensores.php" class="item">
+
+            <img
+                src="../assets/icons/sensor_branco.svg"
+                alt="">
+
+            Sensores
+
+        </a>
+
+
+        <a href="rotas.php" class="item">
+
+             <img src="../assets/icons/relatorio_branco.svg" alt="">
+
+
+            Rotas
+
+        </a>
+
+
+        <a href="cadastro_admin.php" class="item">
+
+            <img
+                src="../assets/icons/cadastrar_branco.svg"
+                alt="">
+
+            Cadastrar ADMs e Usuários
+
+        </a>
+
+
+        <a href="usuarios_cadastrados.php" class="item">
+
+            <img
+                src="../assets/icons/usuarios_branco.svg"
+                alt="">
+
+            Usuários Cadastrados
+
+        </a>
+
+    </aside>
 
            <main class="conteudo">
 
     <div class="container-sensor">
 
-        <h1 class="titulo-sensor">Editar Trem</h1>
+        <h1 class="titulo-sensor"  style="color: white;">Editar Trem</h1>
 
         <?php if ($erro): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($erro) ?></div>
@@ -94,14 +130,14 @@ $sucesso = $_GET['sucesso'] ?? null;
             <div class="linha-formulario">
 
                 <div class="grupo-input">
-                    <label for="localizacao">Localização</label>
+                    <label for="localizacao"  style="color: white;">Localização</label>
                     <input type="text" id="localizacao" name="localizacao" required
                         value="<?= htmlspecialchars($trem['localizacao']) ?>"
                         placeholder="Ex: Estação central - Eixo B">
                 </div>
 
                 <div class="grupo-input">
-                    <label for="tipoDado">Tipo de Dado</label>
+                    <label for="tipoDado" style="color: white;">Tipo de Dado</label>
 
                     <select id="tipoDado" name="tipoDado" required>
                         <option value="" disabled>Selecione o tipo de dado</option>
@@ -118,7 +154,7 @@ $sucesso = $_GET['sucesso'] ?? null;
             <div class="linha-formulario">
 
                 <div class="grupo-input">
-                    <label for="status">Status</label>
+                    <label for="status"  style="color: white;">Status</label>
 
                     <select id="status" name="status" required>
                         <option value="" disabled>Selecione um status</option>

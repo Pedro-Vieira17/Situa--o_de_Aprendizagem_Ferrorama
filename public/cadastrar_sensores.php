@@ -80,62 +80,60 @@ $sucesso = $_GET['sucesso'] ?? null;
 
         <aside class="menu-lateral">
 
+        <a href="tela_inicial.php" class="item">
 
-            <a href="tela_inicial.php" class="item">
+            <img
+                src="../assets/icons/dashboard_branco.svg"
+                alt="">
 
-                <img src="../assets/icons/dashboard_branco.svg" alt="">
+            Dashboard
 
-                Dashboard
-
-            </a>
-
-
-            <a href="gerenciar_trens.php" class="item">
-
-                <img src="../assets/icons/trem_branco.svg" alt="">
-
-                Trens
-
-            </a>
+        </a>
 
 
-            <a href="gerenciar_sensores.php" class="item ativo">
+        <a href="gerenciar_sensores.php" class="item ativo">
 
-                <img src="../assets/icons/sensor_preto.svg" alt="">
+            <img
+                src="../assets/icons/sensor_preto.svg"
+                alt="">
 
-                Sensores
+            Sensores
 
-            </a>
+        </a>
 
 
-            <a href="rotas.php" class="item">
+        <a href="rotas.php" class="item">
 
+            <img
                 <img src="../assets/icons/relatorio_branco.svg" alt="">
 
-                Rotas
+            Rotas
 
-            </a>
-
-
-            <a href="tela_de_cadastro.php" class="item">
-
-                <img src="../assets/icons/cadastrar_branco.svg" alt="">
-
-                Cadastrar Usuários
-
-            </a>
+        </a>
 
 
-            <a href="usuarios_cadastrados.php" class="item">
+        <a href="cadastro_admin.php" class="item">
 
-                <img src="../assets/icons/usuarios_branco.svg" alt="">
+            <img
+                src="../assets/icons/cadastrar_branco.svg"
+                alt="">
 
-                Usuários Cadastrados
+            Cadastrar ADMs e Usuários
 
-            </a>
+        </a>
 
 
-        </aside>
+        <a href="usuarios_cadastrados.php" class="item">
+
+            <img
+                src="../assets/icons/usuarios_branco.svg"
+                alt="">
+
+            Usuários Cadastrados
+
+        </a>
+
+    </aside>
 
 
         <!-- CONTEÚDO -->
@@ -146,7 +144,7 @@ $sucesso = $_GET['sucesso'] ?? null;
             <div class="container-sensor">
 
 
-                <h1 class="titulo-sensor">
+                <h1 class="titulo-sensor" style="color: white;">
 
                     Cadastrar Novo Sensor
 
@@ -194,7 +192,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                         <div class="grupo-input">
 
-                            <label for="localizacao">
+                            <label for="localizacao" style="color: white;">
 
                                 Localização
 
@@ -213,7 +211,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                         <div class="grupo-input">
 
-                            <label for="tipoDado">
+                            <label for="tipoDado" style="color: white;">
 
                                 Tipo de Dado
 
@@ -226,7 +224,7 @@ $sucesso = $_GET['sucesso'] ?? null;
                                 required>
 
 
-                                <option value="" disabled selected>
+                                <option value="" disabled selected >
 
                                     Selecione o tipo de dado
 
@@ -270,7 +268,7 @@ $sucesso = $_GET['sucesso'] ?? null;
                         <div class="grupo-input">
 
 
-                            <label for="tremVinculado">
+                            <label for="tremVinculado" style="color: white;">
 
                                 Trem Vinculado
 
