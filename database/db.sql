@@ -93,3 +93,5 @@ INSERT INTO SENSORES (
     'Temperatura',
     3
 );
+
+ALTER TABLE TRENS ADD COLUMN horario TIME NOT NULL;
