@@ -243,8 +243,6 @@ if ($trens > 0) {
 
                                 <td>
 
-                                
-
                                     <button
                                         class="botao_dashboard"
                                         onclick="window.location.href='editar_trens.php?id=<?= $trem["id"] ?>'">
@@ -255,7 +253,8 @@ if ($trens > 0) {
 
                                     <button
                                         class="botao_dashboard"
-                                       onclick="window.location.href='excluir_trem.php?id=<?= $trem["id"] ?>'">
+                                        onclick="excluirTrem(<?= $trem["id"] ?>)">
+
                                         <img src="../assets/icons/DELETE.svg" alt="Excluir">
 
                                     </button>

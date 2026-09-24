@@ -1,33 +1,22 @@
 <?php
-require_once '../infra/conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: gerenciar_sensores.html');
+require_once "../infra/conexao.php";
+
+if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+    header("Location: tela_inicial.php");
     exit;
 }
 
-$id = $_POST['id'] ?? null;
-
-if (!$id || !ctype_digit((string)$id)) {
-    header('Location: gerenciar_sensores.html?erro=' . urlencode('Trem inválido.'));
-    exit;
-}
-
-// A FK trens_id em SENSORES tem ON DELETE CASCADE, então apagar o trem
-// já apaga automaticamente os sensores vinculados a ele.
-$stmt = $pdo->prepare('DELETE FROM TRENS WHERE id = :id');
+$id = (int) $_GET["id"];
 
 try {
-    $stmt->execute(['id' => $id]);
-} catch (PDOException $e) {
-    header('Location: gerenciar_sensores.html?erro=' . urlencode('Erro ao excluir: ' . $e->getMessage()));
-    exit;
-}
+    $stmt = $conexao->prepare("DELETE FROM TRENS WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
 
-if ($stmt->rowCount() === 0) {
-    header('Location: gerenciar_sensores.html?erro=' . urlencode('Trem não encontrado.'));
+    header("Location: tela_inicial.php");
     exit;
+} catch (Exception $e) {
+    echo "Erro ao excluir: " . htmlspecialchars($e->getMessage());
 }
-
-header('Location: gerenciar_sensores.html?excluido=1');
-exit;
