@@ -493,7 +493,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                                         <button
                                             class="botao_dashboard"
-                                            onclick="window.location.href='excluir_sensor.php?id=<?= $sensor["id"] ?>'">
+                                            onclick="window.location.href='excluir_informacoes_sensor.php?id=<?= $sensor["id"] ?>'">
 
                                             <img
                                                 src="../assets/icons/DELETE.svg"
