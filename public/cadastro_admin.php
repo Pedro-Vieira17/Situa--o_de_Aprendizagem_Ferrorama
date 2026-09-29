@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <img src="../assets/icons/TREM_AZUL.svg" alt="">
 
-        Bem vindo, <?= htmlspecialchars($_SESSION["usuario_nome"]) ?>
+        Bem vindo, Administrador
 
     </h2>
 
