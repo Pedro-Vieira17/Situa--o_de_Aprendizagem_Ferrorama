@@ -8,7 +8,8 @@ $trens = $conexao->query("SELECT COUNT(*) AS total FROM TRENS")->fetch_assoc()["
 
 $alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Manutenção'")->fetch_assoc()["total"];
 
-$sensores_ativos = $sensores;
+// Sensores funcionando = todos os sensores menos os que estão em manutenção
+$sensores_ativos = $sensores - $alertas;
 
 if ($trens > 0) {
     $trens_cadastrados = $conexao->query("SELECT * FROM TRENS ORDER BY id DESC");
