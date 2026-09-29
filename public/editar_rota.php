@@ -67,16 +67,14 @@ if (!$rota) {
 
 <header class="cabecalho">
 
-    <h2>
+      <h2>
+            <img src="../assets/icons/TREM_AZUL.svg" alt="">
+            Bem vindo, Administrador
+        </h2>
 
-        <img
-            src="../assets/icons/TREM_AZUL.svg"
-            alt="">
-
-        Editar Rota
-
-    </h2>
-
+         <a href="logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+</a>
 </header>
 
 

@@ -102,13 +102,8 @@ $erro = $_GET['erro'] ?? null;
         </h2>
 
 
-        <a href="login.html">
-
-            <img
-                src="../assets/icons/exit.svg"
-                class="item"
-                alt="">
-
+        <a href="logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
         </a>
 
     </header>

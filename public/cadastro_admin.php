@@ -127,22 +127,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <header class="cabecalho">
 
-    <h2>
+      <h2>
+            <img src="../assets/icons/TREM_AZUL.svg" alt="">
+            Bem vindo, Administrador
+        </h2>
 
-        <img src="../assets/icons/TREM_AZUL.svg" alt="">
-
-        Bem vindo, Administrador
-
-    </h2>
-
-    <a href="../index.php">
-
-        <img
-            src="../assets/icons/exit.svg"
-            class="item"
-            alt="Sair">
-
-    </a>
+         <a href="logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+</a>
 
 </header>
 

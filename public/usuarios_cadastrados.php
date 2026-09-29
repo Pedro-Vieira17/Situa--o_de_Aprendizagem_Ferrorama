@@ -37,10 +37,14 @@ $usuarios = $stmt->get_result();
         crossorigin="anonymous"></script>
 
     <header class="cabecalho">
-        <h2><img src="../assets/icons/TREM_AZUL.svg" alt=""> Bem vindo, Administrador</h2>
-         <a href="login.html">
-            <img src="../assets/icons/exit.svg" class="item" alt=""> 
-        </a>
+          <h2>
+            <img src="../assets/icons/TREM_AZUL.svg" alt="">
+            Bem vindo, Administrador
+        </h2>
+
+         <a href="logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+</a>
     </header>
 
     <div class="layout">
