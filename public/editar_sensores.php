@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "../infra/conexao.php";
@@ -132,19 +131,6 @@ $erro = $_GET['erro'] ?? null;
 
 
             <a
-                href="gerenciar_trens.php"
-                class="item">
-
-                <img
-                    src="../assets/icons/trem_branco.svg"
-                    alt="">
-
-                Trens
-
-            </a>
-
-
-            <a
                 href="gerenciar_sensores.php"
                 class="item ativo">
 
@@ -171,14 +157,14 @@ $erro = $_GET['erro'] ?? null;
 
 
             <a
-                href="tela_de_cadastro.php"
+                href="cadastro_admin.php"
                 class="item">
 
                 <img
                     src="../assets/icons/cadastrar_branco.svg"
                     alt="">
 
-                Cadastrar Usuários
+                Cadastrar ADMs e Usuários
 
             </a>
 
@@ -231,7 +217,7 @@ $erro = $_GET['erro'] ?? null;
                 <form
                     class="form-sensor"
                     method="POST"
-                    action="salvar_edicao_sensor.php">
+                    action="salvar_edicao_sensores.php">
 
 
                     <!-- ID DO SENSOR -->
@@ -239,7 +225,7 @@ $erro = $_GET['erro'] ?? null;
                     <input
                         type="hidden"
                         name="id"
-                        value="<?= $sensor['id'] ?>">
+                        value="<?= (int)$sensor['id'] ?>">
 
 
                     <!-- PRIMEIRA LINHA -->
@@ -318,6 +304,15 @@ $erro = $_GET['erro'] ?? null;
                                     <?= $sensor['tipo_de_dado'] == 'Pressão' ? 'selected' : '' ?>>
 
                                     Pressão
+
+                                </option>
+
+
+                                <option
+                                    value="GPS"
+                                    <?= $sensor['tipo_de_dado'] == 'GPS' ? 'selected' : '' ?>>
+
+                                    GPS
 
                                 </option>
 
@@ -420,8 +415,6 @@ $erro = $_GET['erro'] ?? null;
                         </button>
 
 
-
-
                     </div>
 
 
@@ -440,4 +433,3 @@ $erro = $_GET['erro'] ?? null;
 </body>
 
 </html>
-```

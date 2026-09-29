@@ -1,58 +1,81 @@
 <?php
 
-session_start();
-
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-if (!isset($_SESSION["usuario_id"]) || $_SESSION["usuario_tipo"] != "administrador") {
-    header("Location: ../index.php");
-    exit;
-}
+exigirAdministrador();
 
 $mensagem = "";
 $erro = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    validarTokenCsrf();
 
     $nome = trim($_POST["nome"] ?? "");
-    $cpf = trim($_POST["cpf"] ?? "");
-    $telefone = trim($_POST["telefone"] ?? "");
+    $cpf = preg_replace('/\D/', '', $_POST["cpf"] ?? "");
+    $telefone = preg_replace('/\D/', '', $_POST["telefone"] ?? "");
     $email = trim($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
     $tipo = $_POST["tipo"] ?? "";
 
-    if ($nome == "" || $cpf == "" || $telefone == "" || $email == "" || $senha == "" || $tipo == "") {
+    if (
+        $nome === "" ||
+        $cpf === "" ||
+        $telefone === "" ||
+        $email === "" ||
+        $senha === "" ||
+        $tipo === ""
+    ) {
 
         $erro = "Preencha todos os campos.";
 
-    } elseif ($tipo != "usuario" && $tipo != "administrador") {
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $erro = "E-mail inválido.";
+
+    } elseif (strlen($cpf) !== 11) {
+
+        $erro = "CPF inválido.";
+
+    } elseif (!in_array($tipo, ["usuario", "administrador"], true)) {
 
         $erro = "Tipo de acesso inválido.";
 
+    } elseif (strlen($senha) < 8) {
+
+        $erro = "A senha deve possuir pelo menos 8 caracteres.";
+
     } else {
 
-        $verificar = $conexao->prepare(
-            "SELECT id FROM USUARIO WHERE email = ?"
+        $stmt = $conexao->prepare(
+            "SELECT id
+             FROM USUARIO
+             WHERE email = ? OR CPF = ?
+             LIMIT 1"
         );
 
-        $verificar->bind_param("s", $email);
-        $verificar->execute();
+        $stmt->bind_param("ss", $email, $cpf);
+        $stmt->execute();
 
-        $resultado = $verificar->get_result();
+        $resultado = $stmt->get_result();
 
         if ($resultado->num_rows > 0) {
 
-            $erro = "Já existe um usuário cadastrado com esse e-mail.";
+            $erro = "E-mail ou CPF já cadastrado.";
 
         } else {
 
-            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            $senhaHash = password_hash(
+                $senha,
+                PASSWORD_DEFAULT
+            );
 
-            $sql = "INSERT INTO USUARIO 
-                    (nome, CPF, telefone, email, senha, tipo)
-                    VALUES (?, ?, ?, ?, ?, ?)";
-
-            $stmt = $conexao->prepare($sql);
+            $stmt = $conexao->prepare(
+                "INSERT INTO USUARIO
+                (nome, CPF, telefone, email, senha, tipo)
+                VALUES (?, ?, ?, ?, ?, ?)"
+            );
 
             $stmt->bind_param(
                 "ssssss",
@@ -65,24 +88,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
 
             if ($stmt->execute()) {
-
-                $mensagem = "Cadastro realizado com sucesso!";
-
-                $_POST = [];
-
+                $mensagem = "Cadastro realizado com sucesso.";
             } else {
-
-                $erro = "Erro ao cadastrar usuário.";
-
+                $erro = "Não foi possível realizar o cadastro.";
             }
-
         }
-
     }
-
 }
-
 ?>
+
 
 <!DOCTYPE html>
 
@@ -230,6 +244,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                 <div class="row">
+
+                 <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= e(gerarTokenCsrf()) ?>"
+    >
 
 
                     <div class="col-md-6 mb-3">
