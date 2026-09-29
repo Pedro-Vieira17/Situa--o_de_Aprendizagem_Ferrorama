@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             style="max-width: 400px; width: 100%;"
         >
 
-            <div class="titulo mb-4">
+            <div class="titulo mb-4" style="color: white;">
 
                 <h1>Editar Usuário</h1>
 
@@ -194,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     value="<?= e(gerarTokenCsrf()) ?>"
                 >
 
-                <label for="nome" class="form-label">
+                <label for="nome" class="form-label" style="color: white;">
                     Nome completo
                 </label>
 
@@ -208,7 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     required
                 >
 
-                <label for="cpf" class="form-label">
+                <label for="cpf" class="form-label" style="color: white;">
                     CPF
                 </label>
 
@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     required
                 >
 
-                <label for="telefone" class="form-label">
+                <label for="telefone" class="form-label" style="color: white;">
                     Telefone
                 </label>
 
@@ -238,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     required
                 >
 
-                <label for="email" class="form-label">
+                <label for="email" class="form-label" style="color: white;">
                     E-mail
                 </label>
 
