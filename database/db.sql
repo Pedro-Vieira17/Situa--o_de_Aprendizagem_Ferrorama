@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS sa_ferrorama;
-
 CREATE DATABASE sa_ferrorama
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -20,12 +18,8 @@ CREATE TABLE TRENS (
     id INT AUTO_INCREMENT PRIMARY KEY,
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
+    horario TIME NOT NULL,
     status VARCHAR(200) NOT NULL
-    ALTER TABLE TRENS ADD COLUMN horario TIME NOT NULL;
-
-    UPDATE TRENS SET horario = '08:00:00' WHERE id = 1;
-UPDATE TRENS SET horario = '10:30:00' WHERE id = 2;
-UPDATE TRENS SET horario = '14:00:00' WHERE id = 3;
 );
 
 CREATE TABLE SENSORES (
@@ -33,12 +27,16 @@ CREATE TABLE SENSORES (
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
     trens_id INT NOT NULL,
-
-    CONSTRAINT fk_sensores_trens
-    FOREIGN KEY (trens_id)
-    REFERENCES TRENS(id)
+    FOREIGN KEY (trens_id) REFERENCES TRENS(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
+);
+
+CREATE TABLE ROTAS (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    localizacao VARCHAR(200) NOT NULL,
+    horario TIME NOT NULL,
+    status VARCHAR(30) NOT NULL
 );
 
 INSERT INTO USUARIO (
@@ -60,21 +58,25 @@ INSERT INTO USUARIO (
 INSERT INTO TRENS (
     localizacao,
     tipo_de_dado,
+    horario,
     status
 ) VALUES
 (
     'Joinville - SC',
     'Localização',
+    '08:00:00',
     'Ativo'
 ),
 (
     'São Francisco do Sul - SC',
     'Velocidade',
+    '10:30:00',
     'Ativo'
 ),
 (
     'Jaraguá do Sul - SC',
     'Temperatura',
+    '14:00:00',
     'Manutenção'
 );
 
@@ -97,4 +99,25 @@ INSERT INTO SENSORES (
     'Jaraguá do Sul - SC',
     'Temperatura',
     3
+);
+
+INSERT INTO ROTAS (
+    localizacao,
+    horario,
+    status
+) VALUES
+(
+    'Joinville - SC',
+    '08:00:00',
+    'Ativa'
+),
+(
+    'São Francisco do Sul - SC',
+    '10:30:00',
+    'Ativa'
+),
+(
+    'Jaraguá do Sul - SC',
+    '14:00:00',
+    'Manutenção'
 );
