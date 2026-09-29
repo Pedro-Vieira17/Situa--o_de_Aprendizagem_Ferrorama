@@ -112,6 +112,7 @@ $usuarios = $stmt->get_result();
         <th>CPF</th>
         <th>TELEFONE</th>
         <th>E-MAIL</th>
+           <th>TIPO DE ACESSO</th>
         <th>AÇÕES</th>
     </tr>
 </thead>
@@ -146,6 +147,29 @@ $usuarios = $stmt->get_result();
         <a href="editar_usuario.php?id=<?= (int) $usuario["id"] ?>">
             Editar
         </a>
+          <form
+    action="excluir_usuario.php"
+    method="POST"
+    onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
+>
+
+    <input
+        type="hidden"
+        name="id"
+        value="<?= (int) $usuario["id"] ?>"
+    >
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= e(gerarTokenCsrf()) ?>"
+    >
+
+    <button type="submit">
+        Excluir
+    </button>
+
+</form>
     </td>
 
 </tr>
