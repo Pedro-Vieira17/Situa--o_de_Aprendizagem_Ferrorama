@@ -244,6 +244,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="row">
 
+                 <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= e(gerarTokenCsrf()) ?>"
+    >
+
 
                     <div class="col-md-6 mb-3">
 

@@ -1,76 +1,83 @@
 <?php
 
-session_start();
-
 require_once "infra/conexao.php";
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+ini_set('session.use_strict_mode', '1');
+
+session_start();
 
 $erro = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $email = $_POST["email"] ?? "";
+    $email = trim($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
-    $tipo = $_POST["tipo"] ?? "";
 
-    if ($email == "" || $senha == "" || $tipo == "") {
+    if ($email === "" || $senha === "") {
 
         $erro = "Preencha todos os campos.";
 
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $erro = "E-mail ou senha incorretos.";
+
     } else {
 
-        $sql = "SELECT * FROM USUARIO WHERE email = ?";
+        $stmt = $conexao->prepare(
+            "SELECT id, nome, email, senha, tipo
+             FROM USUARIO
+             WHERE email = ?
+             LIMIT 1"
+        );
 
-        $stmt = $conexao->prepare($sql);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
+        if (!$stmt) {
+            $erro = "Não foi possível realizar o login.";
+        } else {
 
-        $resultado = $stmt->get_result();
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
 
-        if ($resultado->num_rows == 1) {
-
+            $resultado = $stmt->get_result();
             $usuario = $resultado->fetch_assoc();
 
-            if (password_verify($senha, $usuario["senha"])) {
+            if (
+                $usuario &&
+                password_verify($senha, $usuario["senha"])
+            ) {
 
-                if ($usuario["tipo"] != $tipo) {
+                // Troca o ID da sessão depois da autenticação.
+                session_regenerate_id(true);
 
-                    $erro = "O tipo de acesso selecionado não corresponde ao usuário.";
+                $_SESSION["usuario_id"] = (int) $usuario["id"];
+                $_SESSION["usuario_nome"] = $usuario["nome"];
+                $_SESSION["usuario_tipo"] = $usuario["tipo"];
 
+                if ($usuario["tipo"] === "administrador") {
+                    header("Location: public/tela_inicial.php");
                 } else {
-
-                    $_SESSION["usuario_id"] = $usuario["id"];
-                    $_SESSION["usuario_nome"] = $usuario["nome"];
-                    $_SESSION["usuario_tipo"] = $usuario["tipo"];
-
-                    if ($usuario["tipo"] == "administrador") {
-
-                        header("Location: public/tela_inicial.php");
-                        exit;
-
-                    } else {
-
-                        header("Location: public/tela_inicial_usuario.php");
-                        exit;
-
-                    }
-
+                    header("Location: public/tela_inicial_usuario.php");
                 }
+
+                exit;
 
             } else {
 
+                // Não informa se foi o e-mail ou a senha.
                 $erro = "E-mail ou senha incorretos.";
-
             }
 
-        } else {
-
-            $erro = "E-mail ou senha incorretos.";
-
+            $stmt->close();
         }
-
     }
 }
-
 ?>
 
 <!doctype html>
