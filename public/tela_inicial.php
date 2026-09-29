@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $sensores = $conexao->query("SELECT COUNT(*) AS total FROM SENSORES")->fetch_assoc()["total"];
 

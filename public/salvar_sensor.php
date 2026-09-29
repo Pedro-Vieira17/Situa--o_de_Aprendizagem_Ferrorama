@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $localizacao = $_POST["localizacao"] ?? "";
 $tipoDado = $_POST["tipoDado"] ?? "";

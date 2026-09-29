@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $id = intval($_POST["id"] ?? 0);
 

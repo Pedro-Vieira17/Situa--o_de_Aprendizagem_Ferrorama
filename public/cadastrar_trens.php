@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 // Mensagens vindas de salvar_trem.php
 $erro = $_GET['erro'] ?? null;

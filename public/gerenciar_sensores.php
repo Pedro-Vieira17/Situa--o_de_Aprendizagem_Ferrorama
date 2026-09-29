@@ -1,7 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
+
+exigirAdministrador();
 
 $pesquisa = isset($_GET["pesquisa"]) ? trim($_GET["pesquisa"]) : "";
 $filtroTipo = isset($_GET["tipo"]) ? trim($_GET["tipo"]) : "";

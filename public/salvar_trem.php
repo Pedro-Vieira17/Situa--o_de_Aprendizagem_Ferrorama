@@ -1,7 +1,11 @@
 ```php
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 
 // Recebe os dados do formulário

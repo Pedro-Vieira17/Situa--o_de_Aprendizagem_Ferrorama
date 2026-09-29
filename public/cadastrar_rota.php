@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $erro = $_GET["erro"] ?? null;
 $sucesso = $_GET["sucesso"] ?? null;

@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
 

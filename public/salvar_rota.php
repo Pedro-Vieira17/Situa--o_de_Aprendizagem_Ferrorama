@@ -1,6 +1,9 @@
 <?php
-
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $localizacao = trim($_POST["localizacao"] ?? "");
 $horario = trim($_POST["horario"] ?? "");

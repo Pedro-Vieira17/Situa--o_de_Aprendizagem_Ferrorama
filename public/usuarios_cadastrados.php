@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
 

@@ -1,6 +1,10 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 // Busca os trens cadastrados
 $sql = "SELECT id, localizacao FROM TRENS ORDER BY id";
