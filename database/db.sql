@@ -21,6 +21,11 @@ CREATE TABLE TRENS (
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
     status VARCHAR(200) NOT NULL
+    ALTER TABLE TRENS ADD COLUMN horario TIME NOT NULL;
+
+    UPDATE TRENS SET horario = '08:00:00' WHERE id = 1;
+UPDATE TRENS SET horario = '10:30:00' WHERE id = 2;
+UPDATE TRENS SET horario = '14:00:00' WHERE id = 3;
 );
 
 CREATE TABLE SENSORES (
@@ -93,5 +98,3 @@ INSERT INTO SENSORES (
     'Temperatura',
     3
 );
-
-ALTER TABLE TRENS ADD COLUMN horario TIME NOT NULL;

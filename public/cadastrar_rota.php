@@ -1,11 +1,9 @@
-```php
 <?php
 
 require_once "../infra/conexao.php";
 
-// Mensagens vindas de salvar_trem.php
-$erro = $_GET['erro'] ?? null;
-$sucesso = $_GET['sucesso'] ?? null;
+$erro = $_GET["erro"] ?? null;
+$sucesso = $_GET["sucesso"] ?? null;
 
 ?>
 
@@ -18,7 +16,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastrar Trens</title>
+    <title>Cadastrar Rota</title>
 
     <link
         rel="stylesheet"
@@ -32,19 +30,9 @@ $sucesso = $_GET['sucesso'] ?? null;
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link
-        rel="icon"
-        href="../assets/icons/TREM_AZUL.svg"
-        type="image/x-icon">
-
 </head>
 
 <body>
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
-</script>
-
 
 <header class="cabecalho">
 
@@ -58,15 +46,6 @@ $sucesso = $_GET['sucesso'] ?? null;
 
     </h2>
 
-    <a href="login.html">
-
-        <img
-            src="../assets/icons/exit.svg"
-            class="item"
-            alt="">
-
-    </a>
-
 </header>
 
 
@@ -74,80 +53,38 @@ $sucesso = $_GET['sucesso'] ?? null;
 
     <aside class="menu-lateral">
 
-        <a
-            href="tela_inicial.php"
-            class="item">
+        <a href="tela_inicial.php" class="item">
 
-            <img
-                src="../assets/icons/dashboard_branco.svg"
-                alt="">
+            <img src="../assets/icons/dashboard_branco.svg">
 
             Dashboard
 
         </a>
 
 
-        <a
-            href="gerenciar_trens.php"
-            class="item ativo">
+        <a href="gerenciar_trens.php" class="item">
 
-            <img
-                src="../assets/icons/trem_branco.svg"
-                alt="">
+            <img src="../assets/icons/trem_branco.svg">
 
             Trens
 
         </a>
 
 
-        <a
-            href="gerenciar_sensores.php"
-            class="item">
+        <a href="gerenciar_sensores.php" class="item">
 
-            <img
-                src="../assets/icons/sensor_branco.svg"
-                alt="">
+            <img src="../assets/icons/sensor_branco.svg">
 
             Sensores
 
         </a>
 
 
-        <a
-            href="rotas.php"
-            class="item">
+        <a href="rotas.php" class="item ativo">
 
-            <img
-                src="../assets/icons/relatorio_branco.svg"
-                alt="">
+            <img src="../assets/icons/relatorio_branco.svg">
 
             Rotas
-
-        </a>
-
-
-        <a
-            href="tela_de_cadastro.php"
-            class="item">
-
-            <img
-                src="../assets/icons/cadastrar_branco.svg"
-                alt="">
-
-            Cadastrar Usuários
-
-        </a>
-
-
-        <a
-            href="usuarios_cadastrados.php"
-            class="item">
-
-            <img
-                src="../assets/icons/usuarios_branco.svg"
-                alt="">
-
-            Usuários Cadastrados
 
         </a>
 
@@ -162,7 +99,7 @@ $sucesso = $_GET['sucesso'] ?? null;
                 class="titulo-sensor"
                 style="color: white;">
 
-                Cadastrar Novo Trem
+                Cadastrar Nova Rota
 
             </h1>
 
@@ -182,7 +119,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                 <div class="alert alert-success">
 
-                    Trem cadastrado com sucesso!
+                    Rota cadastrada com sucesso!
 
                 </div>
 
@@ -192,10 +129,8 @@ $sucesso = $_GET['sucesso'] ?? null;
             <form
                 class="form-sensor"
                 method="POST"
-                action="salvar_trem.php">
+                action="salvar_rota.php">
 
-
-                <!-- LOCALIZAÇÃO + TIPO DE DADO -->
 
                 <div class="linha-formulario">
 
@@ -213,58 +148,11 @@ $sucesso = $_GET['sucesso'] ?? null;
                             type="text"
                             id="localizacao"
                             name="localizacao"
-                            required
-                            placeholder="Ex: Estação central - Eixo B">
-
-                    </div>
-
-
-                    <div class="grupo-input">
-
-                        <label
-                            for="tipoDado"
-                            style="color: white;">
-
-                            Tipo de Dado
-
-                        </label>
-
-                        <select
-                            id="tipoDado"
-                            name="tipoDado"
+                            placeholder="Ex: Joinville - SC"
                             required>
 
-                            <option
-                                value=""
-                                disabled
-                                selected>
-
-                                Selecione o tipo de dado
-
-                            </option>
-
-                            <option value="Velocidade">
-                                Velocidade
-                            </option>
-
-                            <option value="Temperatura">
-                                Temperatura
-                            </option>
-
-                            <option value="Pressão">
-                                Pressão
-                            </option>
-
-                        </select>
-
                     </div>
 
-                </div>
-
-
-                <!-- HORÁRIO + STATUS -->
-
-                <div class="linha-formulario">
 
                     <div class="grupo-input">
 
@@ -284,6 +172,10 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                     </div>
 
+                </div>
+
+
+                <div class="linha-formulario">
 
                     <div class="grupo-input">
 
@@ -309,12 +201,12 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                             </option>
 
-                            <option value="Ativo">
-                                Ativo
+                            <option value="Ativa">
+                                Ativa
                             </option>
 
-                            <option value="Inativo">
-                                Inativo
+                            <option value="Inativa">
+                                Inativa
                             </option>
 
                             <option value="Manutenção">
@@ -328,14 +220,12 @@ $sucesso = $_GET['sucesso'] ?? null;
                 </div>
 
 
-                <!-- BOTÕES -->
-
                 <div class="botoes-formulario">
 
                     <button
                         type="button"
                         class="botao_cancelar"
-                        onclick="window.location.href='tela_inicial.php'">
+                        onclick="window.location.href='rotas.php'">
 
                         Cancelar
 
@@ -363,4 +253,3 @@ $sucesso = $_GET['sucesso'] ?? null;
 </body>
 
 </html>
-```
