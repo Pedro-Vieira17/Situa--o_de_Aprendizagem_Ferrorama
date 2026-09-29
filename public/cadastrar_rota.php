@@ -55,25 +55,20 @@ $sucesso = $_GET["sucesso"] ?? null;
 
         <a href="tela_inicial.php" class="item">
 
-            <img src="../assets/icons/dashboard_branco.svg">
+            <img
+                src="../assets/icons/dashboard_branco.svg"
+                alt="">
 
             Dashboard
 
         </a>
 
 
-        <a href="gerenciar_trens.php" class="item">
-
-            <img src="../assets/icons/trem_branco.svg">
-
-            Trens
-
-        </a>
-
-
         <a href="gerenciar_sensores.php" class="item">
 
-            <img src="../assets/icons/sensor_branco.svg">
+            <img
+                src="../assets/icons/sensor_branco.svg"
+                alt="">
 
             Sensores
 
@@ -82,9 +77,31 @@ $sucesso = $_GET["sucesso"] ?? null;
 
         <a href="rotas.php" class="item ativo">
 
-            <img src="../assets/icons/relatorio_branco.svg">
+            <img src="../assets/icons/relatorio_preto.svg" alt="">
 
             Rotas
+
+        </a>
+
+
+        <a href="cadastro_admin.php" class="item">
+
+            <img
+                src="../assets/icons/cadastrar_branco.svg"
+                alt="">
+
+            Cadastrar ADMs e Usuários
+
+        </a>
+
+
+        <a href="usuarios_cadastrados.php" class="item">
+
+            <img
+                src="../assets/icons/usuarios_branco.svg"
+                alt="">
+
+            Usuários Cadastrados
 
         </a>
 

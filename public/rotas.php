@@ -83,17 +83,6 @@ $rotas = $conexao->query($sql);
         </a>
 
 
-        <a href="gerenciar_trens.php" class="item">
-
-            <img
-                src="../assets/icons/trem_branco.svg"
-                alt="">
-
-            Trens
-
-        </a>
-
-
         <a href="gerenciar_sensores.php" class="item">
 
             <img
@@ -107,22 +96,20 @@ $rotas = $conexao->query($sql);
 
         <a href="rotas.php" class="item ativo">
 
-            <img
-                src="../assets/icons/relatorio_branco.svg"
-                alt="">
+            <img src="../assets/icons/relatorio_preto.svg" alt="">
 
             Rotas
 
         </a>
 
 
-        <a href="tela_de_cadastro.php" class="item">
+        <a href="cadastro_admin.php" class="item">
 
             <img
                 src="../assets/icons/cadastrar_branco.svg"
                 alt="">
 
-            Cadastrar Usuários
+            Cadastrar ADMs e Usuários
 
         </a>
 
