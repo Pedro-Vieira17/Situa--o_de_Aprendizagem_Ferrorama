@@ -1,6 +1,7 @@
 <?php
 
 require_once "../infra/seguranca.php";
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
 
@@ -10,14 +11,16 @@ $id = $_GET["id"];
 
 $sql = "DELETE FROM USUARIO WHERE id = ?";
 
-$stmt = $conexao->prepare($sql);
+$stmt = $conexao->prepare(
+    "DELETE FROM USUARIO WHERE id = ?"
+);
 
 $stmt->bind_param("i", $id);
 
-$stmt->execute();
+if (!$stmt->execute()) {
+    http_response_code(500);
+    exit("Não foi possível excluir o usuário.");
+}
 
 header("Location: usuarios_cadastrados.php");
-
 exit;
-
-?>
