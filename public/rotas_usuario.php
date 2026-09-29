@@ -2,7 +2,10 @@
 
 session_start();
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+exigirLogin();
 
 if (!isset($_SESSION["usuario_id"])) {
     header("Location: ../index.php");

@@ -1,8 +1,19 @@
 <?php
 
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-$usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
+exigirAdministrador();
+
+$stmt = $conexao->prepare(
+    "SELECT id, nome, CPF, telefone, email, tipo
+     FROM USUARIO
+     ORDER BY id DESC"
+);
+
+$stmt->execute();
+
+$usuarios = $stmt->get_result();
 
 ?>
 
@@ -107,27 +118,39 @@ $usuarios = mysqli_query($conexao, "SELECT * FROM USUARIO");
 
         <tbody>
 
-    <?php while ($usuario = mysqli_fetch_assoc($usuarios)) { ?>
+   <?php while ($usuario = $usuarios->fetch_assoc()): ?>
 
-        <tr>
-            <td><?= $usuario["nome"] ?></td>
-            <td><?= $usuario["CPF"] ?></td>
-            <td><?= $usuario["telefone"] ?></td>
-            <td><?= $usuario["email"] ?></td>
+<tr>
 
-            <td>
-                <a href="editar_usuario.php?id=<?= $usuario["id"] ?>">
-                    <img src="../assets/icons/cadastrar_branco.svg" >
-                </a>
+    <td>
+        <?= e($usuario["nome"]) ?>
+    </td>
 
-                <a href="excluir_usuario.php?id=<?= $usuario["id"] ?>"
-                   onclick="return confirm('Tem certeza que deseja excluir este usuário?')">
-                    <img src="../assets/icons/DELETE.svg" >
-                </a>
-            </td>
-        </tr>
+    <td>
+        <?= e($usuario["CPF"]) ?>
+    </td>
 
-    <?php } ?>
+    <td>
+        <?= e($usuario["telefone"]) ?>
+    </td>
+
+    <td>
+        <?= e($usuario["email"]) ?>
+    </td>
+
+    <td>
+        <?= e($usuario["tipo"]) ?>
+    </td>
+
+    <td>
+        <a href="editar_usuario.php?id=<?= (int) $usuario["id"] ?>">
+            Editar
+        </a>
+    </td>
+
+</tr>
+
+<?php endwhile; ?>
 
 </tbody>
 

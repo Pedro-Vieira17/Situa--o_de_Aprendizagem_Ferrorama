@@ -1,5 +1,9 @@
 <?php
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
+
+
+exigirAdministrador();
 
 $id          = $_POST['id'] ?? null;
 $localizacao = trim($_POST['localizacao'] ?? '');

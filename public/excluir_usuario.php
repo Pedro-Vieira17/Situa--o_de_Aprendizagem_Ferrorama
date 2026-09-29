@@ -1,27 +1,15 @@
 <?php
 
 require_once "../infra/seguranca.php";
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
+
 exigirAdministrador();
-validarTokenCsrf();
 
-$id = filter_input(
-    INPUT_POST,
-    "id",
-    FILTER_VALIDATE_INT
-);
+$id = $_GET["id"];
 
-if ($id === false || $id === null || $id <= 0) {
-    header("Location: usuarios_cadastrados.php");
-    exit;
-}
-
-// Impede que o administrador exclua a própria conta.
-if ($id === (int) $_SESSION["usuario_id"]) {
-    header("Location: usuarios_cadastrados.php");
-    exit;
-}
+$sql = "DELETE FROM USUARIO WHERE id = ?";
 
 $stmt = $conexao->prepare(
     "DELETE FROM USUARIO WHERE id = ?"
