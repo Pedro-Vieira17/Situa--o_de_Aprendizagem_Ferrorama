@@ -1,25 +1,51 @@
 <?php
 
-require_once "../infra/conexao.php";require_once "../infra/seguranca.php";
+require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-
 exigirAdministrador();
-if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+validarTokenCsrf();
+
+$id = filter_input(
+    INPUT_POST,
+    "id",
+    FILTER_VALIDATE_INT
+);
+
+if ($id === false || $id === null || $id <= 0) {
     header("Location: tela_inicial.php");
     exit;
 }
 
-$id = (int) $_GET["id"];
+// Verifica se existem sensores vinculados.
+$stmt = $conexao->prepare(
+    "SELECT COUNT(*) AS total
+     FROM SENSORES
+     WHERE trens_id = ?"
+);
 
-try {
-    $stmt = $conexao->prepare("DELETE FROM TRENS WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->close();
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
-    header("Location: tela_inicial.php");
+$totalSensores = $stmt
+    ->get_result()
+    ->fetch_assoc()["total"];
+
+if ((int) $totalSensores > 0) {
+    header(
+        "Location: tela_inicial.php?erro=" .
+        urlencode("Não é possível excluir um trem que possui sensores vinculados.")
+    );
     exit;
-} catch (Exception $e) {
-    echo "Erro ao excluir: " . htmlspecialchars($e->getMessage());
 }
+
+$stmt = $conexao->prepare(
+    "DELETE FROM TRENS
+     WHERE id = ?"
+);
+
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+header("Location: tela_inicial.php");
+exit;

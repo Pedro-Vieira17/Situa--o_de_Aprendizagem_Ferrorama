@@ -3,17 +3,8 @@
 require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-<<<<<<< HEAD
 exigirAdministrador();
 validarTokenCsrf();
-=======
-
-exigirAdministrador();
-
-$localizacao = $_POST["localizacao"] ?? "";
-$tipoDado = $_POST["tipoDado"] ?? "";
-$tremVinculado = $_POST["tremVinculado"] ?? "";
->>>>>>> e8966d9a53a508af4313f1822933ff084d8d5327
 
 $localizacao = trim($_POST["localizacao"] ?? "");
 $tipoDado = trim($_POST["tipoDado"] ?? "");
