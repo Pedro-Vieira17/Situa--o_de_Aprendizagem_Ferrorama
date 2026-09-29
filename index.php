@@ -113,13 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             </div>
 
-            <?php if ($erro != ""): ?>
-
-                <div class="alert alert-danger">
-                    <?= $erro ?>
-                </div>
-
-            <?php endif; ?>
+            <?php if ($erro !== ""): ?>
+    <div class="alert alert-danger">
+        <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+    </div>
+<?php endif; ?>
 
             <form method="POST">
 
