@@ -49,9 +49,9 @@ if ($trens > 0) {
         Bem vindo, Administrador
     </h2>
 
-    <a href="../index.php">
-        <img src="../assets/icons/exit.svg" class="item" alt="">
-    </a>
+   <a href="logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+</a>
 
 </header>
 
