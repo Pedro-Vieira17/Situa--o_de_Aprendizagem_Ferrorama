@@ -1,4 +1,3 @@
-```php
 <?php
 
 require_once "../infra/conexao.php";
@@ -32,9 +31,9 @@ if (
 ) {
 
     header(
-        "Location: editar_sensor.php?id=" .
+        "Location: editar_sensores.php?id=" .
         $id .
-        "&erro=Preencha todos os campos."
+        "&erro=" . urlencode("Preencha todos os campos.")
     );
 
     exit;
@@ -65,7 +64,7 @@ $stmt->bind_param(
 if ($stmt->execute()) {
 
     header(
-        "Location: gerenciar_sensores.php?sucesso=Sensor atualizado com sucesso!"
+        "Location: gerenciar_sensores.php?sucesso=" . urlencode("Sensor atualizado com sucesso!")
     );
 
     exit;
@@ -73,11 +72,10 @@ if ($stmt->execute()) {
 } else {
 
     header(
-        "Location: editar_sensor.php?id=" .
+        "Location: editar_sensores.php?id=" .
         $id .
-        "&erro=Erro ao atualizar o sensor."
+        "&erro=" . urlencode("Erro ao atualizar o sensor.")
     );
 
     exit;
 }
-```
