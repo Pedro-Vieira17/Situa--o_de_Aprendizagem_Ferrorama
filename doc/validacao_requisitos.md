@@ -1,194 +1,158 @@
-# Validação dos Requisitos Não Funcionais
+DDOCUMENTAÇÃO DAS VALIDAÇÕES
+
+1. Introdução
+Ferrorama — Sistema de Monitoramento e Gerenciamento Ferroviário
+
+Curso: Técnico em Desenvolvimento de Sistemas
+
+Instituição: SENAI
+
+Turma: DS24/M5
+
+Integrantes:
+Pedro Vieira
+Davi Zilz
+Enzo Vegini
+Francisco Goulart
+
+Este documento apresenta as validações realizadas no projeto Ferrorama, desenvolvido para o curso Técnico em Desenvolvimento de Sistemas do SENAI.
+Foram analisados os requisitos funcionais, regras de negócio, requisitos não funcionais, banco de dados e principais funcionalidades do sistema.
+
+2. Objetivo
+Verificar se o sistema está funcionando de acordo com os requisitos definidos e identificar problemas que precisam ser corrigidos antes da entrega.
+A validação foi feita por meio da análise do código e dos testes que deverão ser realizados no ambiente local.
+
+3. Requisitos Funcionais
+RF01 — Login
+O sistema possui login com e-mail e senha, utilizando sessão e verificação de senha.
+Resultado: Parcialmente atendido. Precisa de teste prático.
+
+RF02 — Cadastro de usuários
+Existe cadastro de usuários com validação de dados e verificação de CPF e e-mail duplicados.
+Resultado: Parcialmente atendido, pois o cadastro está limitado ao administrador.
+
+RF03 — Dashboard
+O dashboard apresenta informações sobre sensores, trens e alertas.
+Resultado: Parcialmente atendido.
+
+RF04 e RF05 — Sensores
+O sistema permite cadastrar, editar, excluir, pesquisar e visualizar sensores.
+Resultado: Parcialmente atendido. Foram encontrados problemas relacionados ao CSRF.
+
+RF06 — Monitoramento em tempo real
+Não foi encontrada atualização automática dos dados.
+Resultado: Não atendido atualmente.
+
+RF07 e RF08 — Relatórios
+Não foi encontrada uma área de relatórios com filtros por período, falha e trem.
+Resultado: Não atendidos.
+
+RF09 — Confirmação de exclusão
+Existe confirmação antes da exclusão de sensores e trens.
+Resultado: Atendido parcialmente devido a problemas nas requisições de exclusão.
+
+RF10 — Logout
+O sistema possui encerramento da sessão.
+Resultado: Atendido.
+
+RF11 — PHP
+O sistema foi desenvolvido utilizando PHP.
+Resultado: Atendido.
+
+RF14 e RF15 — Sensores e banco de dados
+Os sensores possuem identificação e o banco possui as tabelas necessárias para usuários, trens, sensores e rotas.
+Resultado: Atendido estruturalmente.
+
+RF16 a RF21 — Cadastros, alterações e exclusões
+Existem funções para cadastrar, editar e excluir usuários, trens, sensores e rotas, além da associação entre sensores e trens.
+Resultado: Parcialmente atendido. Algumas funções ainda precisam de correções e testes.
+
+4. Regras de Negócio
+As principais regras foram verificadas da seguinte forma:
+Apenas usuários autenticados podem acessar áreas protegidas.
+Sensores precisam estar vinculados a um trem.
+Sensores e trens possuem confirmação antes da exclusão.
+Sensores só podem ser associados a trens existentes.
+Trens com sensores associados não devem ser excluídos.
+Resultado: A maioria das regras possui implementação, mas existem problemas com os status dos sensores e algumas operações de exclusão.
+
+5. Requisitos Não Funcionais
+Segurança
+O sistema utiliza:
+password_hash();
+password_verify();
+consultas preparadas;
+controle de sessão;
+proteção CSRF em algumas operações.
+Resultado: Parcialmente atendido.
+Interface
+O projeto utiliza Bootstrap e CSS compartilhado entre as páginas.
+Resultado: Parcialmente atendido. Ainda precisa de testes de usabilidade.
+Desempenho e disponibilidade
+Não é possível confirmar esses requisitos apenas analisando o código.
+Resultado: Pendente de teste.
+Atualização em tempo real
+Não foi encontrada implementação de atualização automática.
+Resultado: Não atendido atualmente.
+Padrão de código
+A maior parte dos arquivos segue um padrão de nomes, mas foi encontrado logout.PHP, que deveria seguir o padrão logout.php.
+Resultado: Parcialmente atendido.
+Metodologia
+O projeto utiliza Kanban através do GitHub Projects.
+Resultado: Atendido.
+
+6. Principais Problemas Encontrados
+Durante a análise foram encontrados os seguintes problemas:
+Cadastro de sensores pode apresentar problema com o token CSRF.
+salvar_trem.php possui marcadores de Markdown dentro do arquivo PHP.
+A exclusão de trens utiliza GET no dashboard, enquanto o processamento espera POST e CSRF.
+A exclusão de sensores não possui proteção CSRF.
+A exclusão de rotas também não possui proteção CSRF.
+O cadastro apresentado no login exige administrador.
+O status dos sensores não segue de forma consistente a regra Ativo/Alerta.
+Não existe atualização realmente em tempo real.
+Não foi encontrado o módulo de relatórios previsto nos requisitos.
+O arquivo logout.PHP não segue o padrão de nomenclatura definido.
+
+7. Testes que Devem Ser Realizados
+Antes da entrega, a equipe deve testar:
+login correto e incorreto;
+acesso sem autenticação;
+cadastro de usuário;
+cadastro, edição e exclusão de trens;
+cadastro, edição e exclusão de sensores;
+associação de sensores aos trens;
+cadastro, edição e exclusão de rotas;
+filtros de sensores;
+visualização do dashboard;
+logout;
+permissões de administrador;
+dados inválidos;
+segurança das operações.
+Os resultados dos testes devem ser registrados junto com prints ou outras evidências.
+
+8. Evidências
+As principais evidências que devem ser registradas são:
+tela de login;
+dashboard;
+cadastro e edição de trem;
+cadastro e edição de sensor;
+confirmação de exclusão;
+usuários cadastrados;
+rotas;
+logout;
+banco de dados;
+mensagens de erro ou sucesso.
+
+9. Conclusão
+O Ferrorama já possui uma boa parte da estrutura necessária, incluindo login, banco de dados, dashboard e gerenciamento de usuários, trens, sensores e rotas.
+Porém, ainda existem alguns pontos que precisam ser corrigidos antes da entrega, principalmente:
+segurança CSRF;
+exclusões;
+monitoramento em tempo real;
+relatórios;
+status dos sensores;
+cadastro de usuários;
+testes práticos.
+Após essas correções e a realização dos testes, a documentação deverá ser atualizada com os resultados e as evidências.
 
-Este documento apresenta as validações dos Requisitos Não Funcionais (RNF) definidos para o sistema Ferroramas.
-
-## RNF01 – Atualização dos dados
-
-**Requisito:**
-O sistema deve apresentar atualização de dados em tempo real.
-
-**Regra ou comportamento esperado:**
-As informações dos sensores e trens devem ser atualizadas corretamente, evitando a apresentação de informações desatualizadas.
-
-**Estratégia de validação:**
-Alterar ou atualizar informações de sensores e trens e verificar se o dashboard apresenta os dados atualizados.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Print do dashboard antes e depois da atualização.
-
----
-
-## RNF02 – Desempenho
-
-**Requisito:**
-O sistema deve garantir desempenho adequado na exibição das informações.
-
-**Regra ou comportamento esperado:**
-As páginas devem carregar as informações corretamente, sem apresentar demora excessiva ou erros.
-
-**Estratégia de validação:**
-Acessar o dashboard, gerenciamento de sensores e gerenciamento de trens, verificando o carregamento das páginas.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Prints das telas funcionando corretamente.
-
----
-
-## RNF03 – Segurança e autenticação
-
-**Requisito:**
-O sistema deve possuir autenticação segura por e-mail e senha.
-
-**Regra ou comportamento esperado:**
-Somente usuários autenticados devem conseguir acessar as áreas restritas do sistema.
-
-**Estratégia de validação:**
-Tentar acessar uma página restrita sem realizar login e realizar testes de login utilizando dados corretos e incorretos.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Print da tela de login e da tentativa de acesso sem autenticação.
-
----
-
-## RNF04 – Usabilidade
-
-**Requisito:**
-O sistema deve ter interface intuitiva e de fácil utilização.
-
-**Regra ou comportamento esperado:**
-Os usuários devem conseguir localizar e utilizar as principais funções do sistema de forma simples.
-
-**Estratégia de validação:**
-Acessar as telas de login, dashboard, sensores e trens e verificar a organização dos menus, botões e informações.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Prints das principais telas do sistema.
-
----
-
-## RNF05 – Disponibilidade
-
-**Requisito:**
-O sistema deve garantir alta disponibilidade.
-
-**Regra ou comportamento esperado:**
-O sistema deve permanecer acessível durante sua utilização, sem interrupções causadas pelo próprio sistema.
-
-**Estratégia de validação:**
-Executar o sistema utilizando o XAMPP e acessar suas principais páginas, verificando se ocorrem erros ou indisponibilidade.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Prints das páginas funcionando no navegador.
-
----
-
-## RNF06 – Consistência da interface
-
-**Requisito:**
-O sistema deve possuir uma interface revisada e consistente em todas as telas, mantendo cores, layout e usabilidade.
-
-**Regra ou comportamento esperado:**
-As telas devem manter um padrão visual semelhante, utilizando os mesmos estilos, cores, menus e organização.
-
-**Estratégia de validação:**
-Comparar as diferentes telas do sistema e verificar se os elementos visuais seguem o mesmo padrão.
-
-**Resultado obtido:**
-A preencher após a realização do teste.
-
-**Evidência:**
-Prints comparativos das telas.
-
----
-
-## RNF07 – Testes do sistema
-
-**Requisito:**
-O sistema deve ser testado antes da entrega, garantindo o funcionamento correto de todas as funcionalidades.
-
-**Regra ou comportamento esperado:**
-As funcionalidades implementadas devem ser testadas antes da entrega do projeto.
-
-**Estratégia de validação:**
-Executar testes de cadastro, edição, exclusão, login, sensores, trens e demais funcionalidades disponíveis no sistema.
-
-**Resultado obtido:**
-A preencher após a realização dos testes.
-
-**Evidência:**
-Tabela de casos de teste e prints dos resultados.
-
----
-
-## RNF08 – Padronização
-
-**Requisito:**
-O sistema deve seguir um padrão de nomenclatura para arquivos e funções.
-
-**Regra ou comportamento esperado:**
-Os arquivos e funções devem possuir nomes organizados e seguir um padrão definido pela equipe.
-
-**Estratégia de validação:**
-Revisar os arquivos PHP e as funções utilizadas no projeto, verificando se os nomes seguem um padrão.
-
-**Resultado obtido:**
-A preencher após a realização da revisão.
-
-**Evidência:**
-Print ou lista da estrutura de arquivos do projeto.
-
----
-
-## RNF09 – Metodologia de desenvolvimento
-
-**Requisito:**
-A equipe deve definir, documentar e registrar a metodologia de desenvolvimento adotada, incluindo papéis, artefatos e fluxo de trabalho.
-
-**Regra ou comportamento esperado:**
-A metodologia utilizada pela equipe deve estar documentada e o fluxo de trabalho deve ser registrado.
-
-**Estratégia de validação:**
-Verificar o README e a documentação do projeto, além do quadro utilizado pela equipe para acompanhar as atividades.
-
-**Resultado obtido:**
-A preencher após a realização da validação.
-
-**Evidência:**
-Print do README e/ou quadro Kanban.
-
----
-
-# Resultado Geral das Validações
-
-| Requisito | Resultado   | Situação                  |
-| --------- | ----------- | ------------------------- |
-| RNF01     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF02     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF03     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF04     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF05     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF06     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF07     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF08     | A preencher | ☐ Atendido ☐ Não atendido |
-| RNF09     | A preencher | ☐ Atendido ☐ Não atendido |
-
-## Conclusão
-
-Foram definidos procedimentos de validação para os Requisitos Não Funcionais do sistema Ferroramas. As validações abrangem atualização dos dados, desempenho, segurança, usabilidade, disponibilidade, consistência da interface, testes, padronização e metodologia de desenvolvimento.
-
-Os resultados deverão ser preenchidos pela equipe após a execução dos testes, juntamente com as evidências correspondentes.
