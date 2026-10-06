@@ -1,13 +1,14 @@
 <?php
 
-session_start();
-
 require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
 exigirLogin();
 
-if (!isset($_SESSION["usuario_id"]) || $_SESSION["usuario_tipo"] != "usuario") {
+if (
+    !isset($_SESSION["usuario_id"]) ||
+    $_SESSION["usuario_tipo"] !== "usuario"
+) {
     header("Location: ../index.php");
     exit;
 }
