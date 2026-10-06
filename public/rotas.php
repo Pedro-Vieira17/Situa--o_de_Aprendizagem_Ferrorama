@@ -6,7 +6,7 @@ require_once "../infra/conexao.php";
 
 exigirAdministrador();
 
-$sql = "SELECT id, localizacao, horario, status
+$sql = "SELECT id, origem, destino, horario, status
         FROM ROTAS
         ORDER BY horario ASC";
 
@@ -174,20 +174,16 @@ $rotas = $conexao->query($sql);
 
                     <thead>
 
-                        <tr>
+  <tr>
 
-                            <th>ID</th>
+    <th>ID</th>
+    <th>Origem</th>
+    <th>Destino</th>
+    <th>Horário</th>
+    <th>Status</th>
+    <th>Ações</th>
 
-                            <th>Localização</th>
-
-                            <th>Horário</th>
-
-                            <th>Status</th>
-
-                            <th>Ações</th>
-
-                        </tr>
-
+</tr>
                     </thead>
 
 
@@ -204,13 +200,21 @@ $rotas = $conexao->query($sql);
                                     </td>
 
 
-                                    <td>
+       <td>
 
-                                        <i class="bi bi-geo-alt-fill"></i>
+    <i class="bi bi-geo-alt-fill"></i>
 
-                                        <?= htmlspecialchars($rota["localizacao"]) ?>
+    <?= htmlspecialchars($rota["origem"]) ?>
 
-                                    </td>
+</td>
+
+<td>
+
+    <i class="bi bi-geo-alt-fill"></i>
+
+    <?= htmlspecialchars($rota["destino"]) ?>
+
+</td>
 
 
                                     <td>
@@ -286,7 +290,7 @@ $rotas = $conexao->query($sql);
                             <tr>
 
                                 <td
-                                    colspan="5"
+                                    colspan="6"
                                     class="text-center">
 
                                     Nenhuma rota cadastrada.
