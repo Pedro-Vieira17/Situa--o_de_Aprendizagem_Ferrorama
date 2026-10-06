@@ -67,7 +67,7 @@ $rotas = $conexao->query($sql);
 <div class="layout">
 
 
-    <!-- MENU -->
+    
 
     <aside class="menu-lateral">
 
@@ -125,8 +125,6 @@ $rotas = $conexao->query($sql);
 
     </aside>
 
-
-    <!-- CONTEÚDO -->
 
     <main class="conteudo">
 
