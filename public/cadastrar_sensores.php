@@ -66,7 +66,7 @@ $sucesso = $_GET['sucesso'] ?? null;
         </h2>
 
 
-        <a href="login.html">
+        <a href="logout.php">
 
             <img src="../assets/icons/exit.svg"
                 class="item"
@@ -108,8 +108,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
         <a href="rotas.php" class="item">
 
-            <img
-                <img src="../assets/icons/relatorio_branco.svg" alt="">
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
 
             Rotas
 
@@ -188,6 +187,11 @@ $sucesso = $_GET['sucesso'] ?? null;
                     method="POST"
                     action="salvar_sensor.php">
 
+                    <!-- TOKEN CSRF -->
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="<?= e(gerarTokenCsrf()) ?>">
 
                     <!-- PRIMEIRA LINHA -->
 
