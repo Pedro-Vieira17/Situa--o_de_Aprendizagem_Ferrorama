@@ -3,12 +3,13 @@
 require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-
 exigirAdministrador();
 
 $id = intval($_POST["id"] ?? 0);
 
-$localizacao = trim($_POST["localizacao"] ?? "");
+$origem = trim($_POST["origem"] ?? "");
+
+$destino = trim($_POST["destino"] ?? "");
 
 $horario = trim($_POST["horario"] ?? "");
 
@@ -17,7 +18,8 @@ $status = trim($_POST["status"] ?? "");
 
 if (
     $id <= 0 ||
-    $localizacao === "" ||
+    $origem === "" ||
+    $destino === "" ||
     $horario === "" ||
     $status === ""
 ) {
@@ -32,7 +34,8 @@ if (
 
 $stmt = $conexao->prepare(
     "UPDATE ROTAS
-     SET localizacao = ?,
+     SET origem = ?,
+         destino = ?,
          horario = ?,
          status = ?
      WHERE id = ?"
@@ -40,8 +43,9 @@ $stmt = $conexao->prepare(
 
 
 $stmt->bind_param(
-    "sssi",
-    $localizacao,
+    "ssssi",
+    $origem,
+    $destino,
     $horario,
     $status,
     $id

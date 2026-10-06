@@ -34,7 +34,8 @@ CREATE TABLE SENSORES (
 
 CREATE TABLE ROTAS (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(200) NOT NULL,
+    origem VARCHAR(200) NOT NULL,
+    destino VARCHAR(200) NOT NULL,
     horario TIME NOT NULL,
     status VARCHAR(30) NOT NULL
 );
@@ -102,22 +103,26 @@ INSERT INTO SENSORES (
 );
 
 INSERT INTO ROTAS (
-    localizacao,
+    origem,
+    destino,
     horario,
     status
 ) VALUES
 (
     'Joinville - SC',
+    'São Francisco do Sul - SC',
     '08:00:00',
     'Ativa'
 ),
 (
     'São Francisco do Sul - SC',
+    'Jaraguá do Sul - SC',
     '10:30:00',
     'Ativa'
 ),
 (
     'Jaraguá do Sul - SC',
+    'Blumenau - SC',
     '14:00:00',
     'Manutenção'
 );
