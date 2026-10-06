@@ -27,9 +27,12 @@ CREATE TABLE SENSORES (
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
     trens_id INT NOT NULL,
-    FOREIGN KEY (trens_id) REFERENCES TRENS(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+
+    CONSTRAINT fk_sensores_trens
+        FOREIGN KEY (trens_id)
+        REFERENCES TRENS(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE ROTAS (
