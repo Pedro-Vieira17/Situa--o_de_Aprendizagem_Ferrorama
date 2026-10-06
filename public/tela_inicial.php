@@ -248,21 +248,26 @@ if ($trens > 0) {
 
                                 <td>
 
-                                    <button
-                                        class="botao_dashboard"
-                                        onclick="window.location.href='editar_trens.php?id=<?= $trem["id"] ?>'">
+                                   <a
+                                     href="editar_trens.php?id=<?= (int)$trem['id'] ?>"
+                                     class="btn btn-sm btn-warning">          
+                                   <i class="bi bi-pencil"></i>
 
-                                        <img src="../assets/icons/relatorio_branco.svg" alt="Editar">
+    Editar
 
-                                    </button>
+                                    </a>
 
-                                    <button
-                                        class="botao_dashboard"
-                                        onclick="excluirTrem(<?= $trem["id"] ?>)">
 
-                                        <img src="../assets/icons/DELETE.svg" alt="Excluir">
+                                    <a
+                                    href="excluir_trem.php?id=<?= (int)$trem['id'] ?>"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Deseja realmente excluir este trem?');">
 
-                                    </button>
+                                    <i class="bi bi-trash"></i>
+
+                                    Excluir
+
+                                    </a>
 
                                 </td>
 
