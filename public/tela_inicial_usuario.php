@@ -76,35 +76,24 @@ if ($trens > 0) {
 
 <div class="layout">
 
-    <aside class="menu-lateral">
+   <aside class="menu-lateral">
 
-        <a href="tela_inicial_usuario.php" class="item ativo">
+    <a href="tela_inicial_usuario.php" class="item ativo">
+        <img src="../assets/icons/dashboard_preto.svg" alt="">
+        Dashboard
+    </a>
 
-            <img src="../assets/icons/dashboard_preto.svg" alt="">
+    <a href="gerenciar_sensores_usuario.php" class="item">
+        <img src="../assets/icons/sensor_branco.svg" alt="">
+        Sensores
+    </a>
 
-            Dashboard
+    <a href="rotas_usuario.php" class="item">
+        <img src="../assets/icons/relatorio_branco.svg" alt="">
+        Rotas
+    </a>
 
-        </a>
-
-
-        <a href="gerenciar_sensores_usuario.php" class="item">
-
-            <img src="../assets/icons/sensor_branco.svg" alt="">
-
-            Sensores
-
-        </a>
-
-
-        <a href="rotas_usuario.php" class="item">
-
-            <img src="../assets/icons/relatorio_branco.svg" alt="">
-
-            Rotas
-
-        </a>
-
-    </aside>
+</aside>
 
 
     <main class="conteudo">

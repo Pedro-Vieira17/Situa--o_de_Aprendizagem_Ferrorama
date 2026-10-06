@@ -158,13 +158,9 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
         </h2>
 
-        <a href="logout.php">
-
-            <img src="../assets/icons/exit.svg"
-                class="item"
-                alt="Sair">
-
-        </a>
+       <a href="../logout.php">
+    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+</a>
 
     </header>
 
@@ -172,36 +168,24 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
     <div class="layout">
 
 
-        <aside class="menu-lateral">
+       <aside class="menu-lateral">
 
-            <a href="tela_inicial_usuario.php" class="item">
+    <a href="tela_inicial_usuario.php" class="item">
+        <img src="../assets/icons/dashboard_branco.svg" alt="">
+        Dashboard
+    </a>
 
-                <img src="../assets/icons/dashboard_branco.svg" alt="">
+    <a href="gerenciar_sensores_usuario.php" class="item">
+        <img src="../assets/icons/sensor_branco.svg" alt="">
+        Sensores
+    </a>
 
-                Dashboard
+    <a href="rotas_usuario.php" class="item ativo">
+        <img src="../assets/icons/relatorio_preto.svg" alt="">
+        Rotas
+    </a>
 
-            </a>
-
-
-            <a href="gerenciar_sensores_usuario.php" class="item ativo">
-
-                <img src="../assets/icons/sensor_preto.svg" alt="">
-
-                Sensores
-
-            </a>
-
-
-            <a href="rotas_usuario.php" class="item">
-
-               <img src="../assets/icons/relatorio_branco.svg" alt="">
-
-                Rotas
-
-            </a>
-
-        </aside>
-
+</aside>
 
         <main class="conteudo">
 
