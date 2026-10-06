@@ -3,7 +3,6 @@
 require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-
 exigirAdministrador();
 
 if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
@@ -15,9 +14,8 @@ if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
 
 $id = intval($_GET["id"]);
 
-
 $stmt = $conexao->prepare(
-    "SELECT id, localizacao, horario, status
+    "SELECT id, origem, destino, horario, status
      FROM ROTAS
      WHERE id = ?"
 );
@@ -31,7 +29,6 @@ $resultado = $stmt->get_result();
 $rota = $resultado->fetch_assoc();
 
 $stmt->close();
-
 
 if (!$rota) {
 
@@ -49,7 +46,9 @@ if (!$rota) {
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Editar Rota</title>
 
@@ -67,14 +66,25 @@ if (!$rota) {
 
 <header class="cabecalho">
 
-      <h2>
-            <img src="../assets/icons/TREM_AZUL.svg" alt="">
-            Bem vindo, Administrador
-        </h2>
+    <h2>
 
-         <a href="logout.php">
-    <img src="../assets/icons/exit.svg" class="item" alt="Sair">
-</a>
+        <img
+            src="../assets/icons/TREM_AZUL.svg"
+            alt="">
+
+        Bem vindo, Administrador
+
+    </h2>
+
+    <a href="logout.php">
+
+        <img
+            src="../assets/icons/exit.svg"
+            class="item"
+            alt="Sair">
+
+    </a>
+
 </header>
 
 
@@ -82,7 +92,9 @@ if (!$rota) {
 
     <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item">
+        <a
+            href="tela_inicial.php"
+            class="item">
 
             <img
                 src="../assets/icons/dashboard_branco.svg"
@@ -93,7 +105,9 @@ if (!$rota) {
         </a>
 
 
-        <a href="gerenciar_sensores.php" class="item">
+        <a
+            href="gerenciar_sensores.php"
+            class="item">
 
             <img
                 src="../assets/icons/sensor_branco.svg"
@@ -104,16 +118,22 @@ if (!$rota) {
         </a>
 
 
-        <a href="rotas.php" class="item ativo">
+        <a
+            href="rotas.php"
+            class="item ativo">
 
-            <img src="../assets/icons/relatorio_preto.svg" alt="">
+            <img
+                src="../assets/icons/relatorio_preto.svg"
+                alt="">
 
             Rotas
 
         </a>
 
 
-        <a href="cadastro_admin.php" class="item">
+        <a
+            href="cadastro_admin.php"
+            class="item">
 
             <img
                 src="../assets/icons/cadastrar_branco.svg"
@@ -124,7 +144,9 @@ if (!$rota) {
         </a>
 
 
-        <a href="usuarios_cadastrados.php" class="item">
+        <a
+            href="usuarios_cadastrados.php"
+            class="item">
 
             <img
                 src="../assets/icons/usuarios_branco.svg"
@@ -135,6 +157,7 @@ if (!$rota) {
         </a>
 
     </aside>
+
 
     <main class="conteudo">
 
@@ -167,21 +190,47 @@ if (!$rota) {
 
                         <label
                             style="color: white;"
-                            for="localizacao">
+                            for="origem">
 
-                            Localização
+                            Origem
 
                         </label>
 
                         <input
                             type="text"
-                            id="localizacao"
-                            name="localizacao"
-                            value="<?= htmlspecialchars($rota["localizacao"]) ?>"
+                            id="origem"
+                            name="origem"
+                            value="<?= htmlspecialchars($rota["origem"]) ?>"
+                            placeholder="Ex: Joinville - SC"
                             required>
 
                     </div>
 
+
+                    <div class="grupo-input">
+
+                        <label
+                            style="color: white;"
+                            for="destino">
+
+                            Destino
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="destino"
+                            name="destino"
+                            value="<?= htmlspecialchars($rota["destino"]) ?>"
+                            placeholder="Ex: Jaraguá do Sul - SC"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="linha-formulario">
 
                     <div class="grupo-input">
 
@@ -202,49 +251,49 @@ if (!$rota) {
 
                     </div>
 
-                </div>
 
+                    <div class="grupo-input">
 
-                <div class="grupo-input">
+                        <label
+                            style="color: white;"
+                            for="status">
 
-                    <label
-                        style="color: white;"
-                        for="status">
+                            Status
 
-                        Status
+                        </label>
 
-                    </label>
+                        <select
+                            id="status"
+                            name="status"
+                            required>
 
-                    <select
-                        id="status"
-                        name="status"
-                        required>
+                            <option
+                                value="Ativa"
+                                <?= $rota["status"] == "Ativa" ? "selected" : "" ?>>
 
-                        <option
-                            value="Ativa"
-                            <?= $rota["status"] == "Ativa" ? "selected" : "" ?>>
+                                Ativa
 
-                            Ativa
+                            </option>
 
-                        </option>
+                            <option
+                                value="Inativa"
+                                <?= $rota["status"] == "Inativa" ? "selected" : "" ?>>
 
-                        <option
-                            value="Inativa"
-                            <?= $rota["status"] == "Inativa" ? "selected" : "" ?>>
+                                Inativa
 
-                            Inativa
+                            </option>
 
-                        </option>
+                            <option
+                                value="Manutenção"
+                                <?= $rota["status"] == "Manutenção" ? "selected" : "" ?>>
 
-                        <option
-                            value="Manutenção"
-                            <?= $rota["status"] == "Manutenção" ? "selected" : "" ?>>
+                                Manutenção
 
-                            Manutenção
+                            </option>
 
-                        </option>
+                        </select>
 
-                    </select>
+                    </div>
 
                 </div>
 

@@ -1,17 +1,18 @@
 <?php
+
 require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
-
 exigirAdministrador();
 
-$localizacao = trim($_POST["localizacao"] ?? "");
+$origem = trim($_POST["origem"] ?? "");
+$destino = trim($_POST["destino"] ?? "");
 $horario = trim($_POST["horario"] ?? "");
 $status = trim($_POST["status"] ?? "");
 
-
 if (
-    $localizacao === "" ||
+    $origem === "" ||
+    $destino === "" ||
     $horario === "" ||
     $status === ""
 ) {
@@ -24,12 +25,10 @@ if (
     exit;
 }
 
-
 $stmt = $conexao->prepare(
-    "INSERT INTO ROTAS (localizacao, horario, status)
-     VALUES (?, ?, ?)"
+    "INSERT INTO ROTAS (origem, destino, horario, status)
+     VALUES (?, ?, ?, ?)"
 );
-
 
 if (!$stmt) {
 
@@ -41,22 +40,19 @@ if (!$stmt) {
     exit;
 }
 
-
 $stmt->bind_param(
-    "sss",
-    $localizacao,
+    "ssss",
+    $origem,
+    $destino,
     $horario,
     $status
 );
-
 
 if ($stmt->execute()) {
 
     $stmt->close();
 
-    header(
-        "Location: rotas.php"
-    );
+    header("Location: rotas.php");
 
     exit;
 

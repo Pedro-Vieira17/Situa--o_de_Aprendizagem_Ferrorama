@@ -154,25 +154,43 @@ $sucesso = $_GET["sucesso"] ?? null;
 
                 <div class="linha-formulario">
 
-                    <div class="grupo-input">
+                 <div class="grupo-input">
 
-                        <label
-                            for="localizacao"
-                            style="color: white;">
+    <label
+        for="origem"
+        style="color: white;">
 
-                            Localização
+        Origem
 
-                        </label>
+    </label>
 
-                        <input
-                            type="text"
-                            id="localizacao"
-                            name="localizacao"
-                            placeholder="Ex: Joinville - SC"
-                            required>
+    <input
+        type="text"
+        id="origem"
+        name="origem"
+        placeholder="Ex: Joinville - SC"
+        required>
 
-                    </div>
+</div>
 
+<div class="grupo-input">
+
+    <label
+        for="destino"
+        style="color: white;">
+
+        Destino
+
+    </label>
+
+    <input
+        type="text"
+        id="destino"
+        name="destino"
+        placeholder="Ex: Jaraguá do Sul - SC"
+        required>
+
+</div>
 
                     <div class="grupo-input">
 
