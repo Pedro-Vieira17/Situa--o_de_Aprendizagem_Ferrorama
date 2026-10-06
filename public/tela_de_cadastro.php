@@ -1,67 +1,146 @@
 <?php
 
-require_once "../infra/seguranca.php";
 require_once "../infra/conexao.php";
 
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
 
-exigirAdministrador();
+ini_set('session.use_strict_mode', '1');
 
-$mensagem = null;
-$sucesso = false;
+session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$erro = "";
+$sucesso = "";
 
-    $nome = $_POST["nome"];
-    $cpf = $_POST["cpf"];
-    $telefone = $_POST["telefone"];
-    $email = $_POST["email"];
-    $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $sql = "INSERT INTO USUARIO (nome, CPF, telefone, email, senha)
-            VALUES (?, ?, ?, ?, ?)";
+    $nome = trim($_POST["nome"] ?? "");
+    $cpf = preg_replace('/\D/', '', $_POST["cpf"] ?? "");
+    $telefone = preg_replace('/\D/', '', $_POST["telefone"] ?? "");
+    $email = trim($_POST["email"] ?? "");
+    $senha = $_POST["senha"] ?? "";
+    $confirmarSenha = $_POST["confirmar_senha"] ?? "";
 
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+    if (
+        $nome === "" ||
+        $cpf === "" ||
+        $telefone === "" ||
+        $email === "" ||
+        $senha === "" ||
+        $confirmarSenha === ""
+    ) {
 
-    try {
-        $stmt->execute();
-        $sucesso = true;
-        $mensagem = "Cadastro realizado com sucesso!";
-    } catch (mysqli_sql_exception $e) {
-        // Código 1062 = violação de UNIQUE (CPF ou e-mail já cadastrado)
-        if ($conexao->errno === 1062) {
-            if (str_contains($e->getMessage(), 'CPF')) {
-                $mensagem = "Já existe um usuário cadastrado com esse CPF.";
-            } elseif (str_contains($e->getMessage(), 'email')) {
-                $mensagem = "Já existe um usuário cadastrado com esse e-mail.";
-            } else {
-                $mensagem = "Esse usuário já está cadastrado.";
-            }
+        $erro = "Preencha todos os campos.";
+
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $erro = "Digite um e-mail válido.";
+
+    } elseif (strlen($cpf) !== 11) {
+
+        $erro = "CPF inválido.";
+
+    } elseif ($senha !== $confirmarSenha) {
+
+        $erro = "As senhas não coincidem.";
+
+    } elseif (strlen($senha) < 6) {
+
+        $erro = "A senha deve ter pelo menos 6 caracteres.";
+
+    } else {
+
+        $stmt = $conexao->prepare(
+            "SELECT id FROM USUARIO WHERE email = ? OR CPF = ? LIMIT 1"
+        );
+
+        if (!$stmt) {
+
+            $erro = "Não foi possível realizar o cadastro.";
+
         } else {
-            $mensagem = "Erro ao cadastrar. Tente novamente.";
+
+            $stmt->bind_param("ss", $email, $cpf);
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+
+            if ($resultado->num_rows > 0) {
+
+                $erro = "E-mail ou CPF já cadastrado.";
+
+            } else {
+
+                $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+                $stmtInsert = $conexao->prepare(
+                    "INSERT INTO USUARIO 
+                    (CPF, telefone, nome, email, senha, tipo)
+                    VALUES (?, ?, ?, ?, ?, 'usuario')"
+                );
+
+                if (!$stmtInsert) {
+
+                    $erro = "Não foi possível realizar o cadastro.";
+
+                } else {
+
+                    $stmtInsert->bind_param(
+                        "sssss",
+                        $cpf,
+                        $telefone,
+                        $nome,
+                        $email,
+                        $senhaHash
+                    );
+
+                    if ($stmtInsert->execute()) {
+
+                        $sucesso = "Cadastro realizado com sucesso! Você já pode fazer login.";
+
+                    } else {
+
+                        $erro = "Erro ao cadastrar usuário.";
+                    }
+
+                    $stmtInsert->close();
+                }
+            }
+
+            $stmt->close();
         }
     }
 }
 
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 
 <head>
 
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta</title>
 
-    <title>Tela de Cadastro</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <link
+        rel="stylesheet"
+        href="../assets/style/style.css">
 
-    <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
+    <link
+        rel="icon"
+        href="../assets/icons/TREM_AZUL.svg"
+        type="image/x-icon">
 
 </head>
 
@@ -69,103 +148,162 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container vh-100 d-flex align-items-center">
 
-        <div class="p-3" style="max-width: 400px; width: 100%;">
+        <div
+            class="p-3"
+            style="max-width: 400px; width: 100%;">
 
             <div class="titulo">
 
-                <h1>Cadastrar-se como Usuário</h1>
+                <h1 class="text-nowrap">
+                    🚄Sistema Ferroviário
+                </h1>
+
+                <p>
+                    Criar nova conta
+                </p>
 
             </div>
 
-            <?php if ($mensagem): ?>
-                <div class="alert <?= $sucesso ? 'alert-success' : 'alert-danger' ?>">
-                    <?= htmlspecialchars($mensagem) ?>
+            <?php if ($erro !== ""): ?>
+
+                <div class="alert alert-danger">
+
+                    <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+
                 </div>
+
+            <?php endif; ?>
+
+            <?php if ($sucesso !== ""): ?>
+
+                <div class="alert alert-success">
+
+                    <?= htmlspecialchars($sucesso, ENT_QUOTES, 'UTF-8') ?>
+
+                </div>
+
             <?php endif; ?>
 
             <form method="POST">
 
-                <div class="mb-2">
+                <div class="formulario">
 
-                    <label>Nome Completo:</label>
+                    <div class="mb-3">
 
-                    <input
-                        type="text"
-                        name="nome"
-                        class="form-control"
-                        required>
+                        <label class="form-label">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nome"
+                            class="form-control"
+                            placeholder="Digite seu nome"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            CPF
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cpf"
+                            class="form-control"
+                            placeholder="Digite seu CPF"
+                            maxlength="11"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Telefone
+                        </label>
+
+                        <input
+                            type="text"
+                            name="telefone"
+                            class="form-control"
+                            placeholder="Digite seu telefone"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="Digite seu e-mail"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            name="senha"
+                            class="form-control"
+                            placeholder="Digite sua senha"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirmar senha
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirmar_senha"
+                            class="form-control"
+                            placeholder="Digite a senha novamente"
+                            required>
+
+                    </div>
 
                 </div>
 
-                <div class="mb-2">
+                <div class="botao">
 
-                    <label>CPF:</label>
+                    <div class="d-grid gap-2">
 
-                    <input
-                        type="text"
-                        name="cpf"
-                        class="form-control"
-                        required>
+                        <button
+                            class="btn btn-primary"
+                            type="submit">
 
-                </div>
+                            Cadastrar
 
-                <div class="mb-2">
+                        </button>
 
-                    <label>Telefone:</label>
-
-                    <input
-                        type="text"
-                        name="telefone"
-                        class="form-control"
-                        required>
+                    </div>
 
                 </div>
 
-                <div class="mb-2">
-
-                    <label>E-mail:</label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        required>
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label>Senha:</label>
-
-                    <input
-                        type="password"
-                        name="senha"
-                        class="form-control"
-                        required>
-
-                </div>
-
-                <div class="d-grid">
-
-                    <button
-                        class="btn btn-primary"
-                        type="submit">
-
-                        Cadastrar!
-
-                    </button>
-
-                </div>
-
-                <div class="text-center mt-3">
+                <p class="mt-3">
 
                     <a href="../index.php">
-
-                        Voltar para o login
-
+                        Já tenho uma conta
                     </a>
 
-                </div>
+                </p>
 
             </form>
 

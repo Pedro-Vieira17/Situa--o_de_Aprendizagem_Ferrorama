@@ -1,18 +1,19 @@
 <?php
 
-// Configura o cookie da sessão antes de iniciar a sessão.
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
-    'httponly' => true,
-    'samesite' => 'Lax'
-]);
+if (session_status() === PHP_SESSION_NONE) {
 
-// Rejeita IDs de sessão que não foram criados pelo PHP.
-ini_set('session.use_strict_mode', '1');
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
 
-session_start();
+    ini_set('session.use_strict_mode', '1');
+
+    session_start();
+}
 
 
 function exigirLogin(): void

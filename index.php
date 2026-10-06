@@ -1,18 +1,7 @@
 <?php
 
+require_once "infra/seguranca.php";
 require_once "infra/conexao.php";
-
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
-    'httponly' => true,
-    'samesite' => 'Lax'
-]);
-
-ini_set('session.use_strict_mode', '1');
-
-session_start();
 
 $erro = "";
 
@@ -20,19 +9,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $email = trim($_POST["email"] ?? "");
     $senha = $_POST["senha"] ?? "";
-    $tipoSelecionado = $_POST["tipo"] ?? "";
 
-    if ($email === "" || $senha === "" || $tipoSelecionado === "") {
+    if ($email === "" || $senha === "") {
 
         $erro = "Preencha todos os campos.";
 
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
         $erro = "E-mail ou senha incorretos.";
-
-    } elseif (!in_array($tipoSelecionado, ["usuario", "administrador"], true)) {
-
-        $erro = "Tipo de acesso inválido.";
 
     } else {
 
@@ -44,7 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         );
 
         if (!$stmt) {
+
             $erro = "Não foi possível realizar o login.";
+
         } else {
 
             $stmt->bind_param("s", $email);
@@ -55,7 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if (
                 $usuario &&
-                $tipoSelecionado === $usuario["tipo"] &&
                 password_verify($senha, $usuario["senha"])
             ) {
 
@@ -66,14 +51,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["usuario_tipo"] = $usuario["tipo"];
 
                 if ($usuario["tipo"] === "administrador") {
+
                     header("Location: public/tela_inicial.php");
-                } else {
-                    header("Location: public/tela_inicial_usuario.php");
+                    exit;
+
                 }
 
-                exit;
+                if ($usuario["tipo"] === "usuario") {
+
+                    header("Location: public/tela_inicial_usuario.php");
+                    exit;
+
+                }
+
+                $erro = "Tipo de usuário inválido.";
 
             } else {
+
                 $erro = "E-mail ou senha incorretos.";
             }
 
@@ -81,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
+
 ?>
 
 <!doctype html>
@@ -89,16 +84,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
 
     <title>Tela de Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/style/style.css">
+    <link
+        rel="stylesheet"
+        href="assets/style/style.css">
 
-    <link rel="icon" href="assets/icons/TREM_AZUL.svg" type="image/x-icon">
+    <link
+        rel="icon"
+        href="assets/icons/TREM_AZUL.svg"
+        type="image/x-icon">
 
 </head>
 
@@ -106,49 +110,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="container vh-100 d-flex align-items-center">
 
-        <div class="p-3" style="max-width: 400px; width: 100%;;">
+        <div
+            class="p-3"
+            style="max-width: 400px; width: 100%;">
 
             <div class="titulo">
 
-                <h1 class="text-nowrap">🚄Sistema Ferroviário</h1>
+                <h1 class="text-nowrap">
+                    🚄Sistema Ferroviário
+                </h1>
 
-                <p>Monitoramento em tempo real</p>
+                <p>
+                    Monitoramento em tempo real
+                </p>
 
             </div>
 
             <?php if ($erro !== ""): ?>
+
                 <div class="alert alert-danger">
-                    <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+
+                    <?= htmlspecialchars(
+                        $erro,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>
+
                 </div>
+
             <?php endif; ?>
 
             <form method="POST">
 
                 <div class="formulario">
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Tipo de acesso
-                        </label>
-
-                        <select name="tipo" class="form-select" required>
-
-                            <option value="">
-                                Selecione o tipo de acesso
-                            </option>
-
-                            <option value="usuario">
-                                Usuário
-                            </option>
-
-                            <option value="administrador">
-                                Administrador
-                            </option>
-
-                        </select>
-
-                    </div>
 
                     <div class="mb-3">
 
@@ -199,7 +193,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </div>
 
                 <p>
-                    <a href="public/tela_de_cadastro.php">Criar conta</a>
+                    <a href="public/tela_de_cadastro.php">
+                        Criar conta
+                    </a>
                 </p>
 
             </form>
