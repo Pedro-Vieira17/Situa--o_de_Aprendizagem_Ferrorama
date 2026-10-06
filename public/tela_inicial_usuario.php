@@ -1,312 +1,217 @@
 <?php
 
+require_once "infra/conexao.php";
+
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+ini_set('session.use_strict_mode', '1');
+
 session_start();
 
-require_once "../infra/seguranca.php";
-require_once "../infra/conexao.php";
+$erro = "";
 
-exigirLogin();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-if (!isset($_SESSION["usuario_id"]) || $_SESSION["usuario_tipo"] != "usuario") {
-    header("Location: ../index.php");
-    exit;
+    $email = trim($_POST["email"] ?? "");
+    $senha = $_POST["senha"] ?? "";
+    $tipoSelecionado = $_POST["tipo"] ?? "";
+
+    if ($email === "" || $senha === "" || $tipoSelecionado === "") {
+
+        $erro = "Preencha todos os campos.";
+
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $erro = "E-mail ou senha incorretos.";
+
+    } elseif (!in_array($tipoSelecionado, ["usuario", "administrador"], true)) {
+
+        $erro = "Tipo de acesso inválido.";
+
+    } else {
+
+        $stmt = $conexao->prepare(
+            "SELECT id, nome, email, senha, tipo
+             FROM USUARIO
+             WHERE email = ?
+             LIMIT 1"
+        );
+
+        if (!$stmt) {
+            $erro = "Não foi possível realizar o login.";
+        } else {
+
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+
+            $resultado = $stmt->get_result();
+            $usuario = $resultado->fetch_assoc();
+
+            if (
+                $usuario &&
+                $tipoSelecionado === $usuario["tipo"] &&
+                password_verify($senha, $usuario["senha"])
+            ) {
+
+                session_regenerate_id(true);
+
+                $_SESSION["usuario_id"] = (int) $usuario["id"];
+                $_SESSION["usuario_nome"] = $usuario["nome"];
+                $_SESSION["usuario_tipo"] = $usuario["tipo"];
+
+                if ($usuario["tipo"] === "administrador") {
+                    header("Location: public/tela_inicial.php");
+                } else {
+                    header("Location: public/tela_inicial_usuario.php");
+                }
+
+                exit;
+
+            } else {
+                $erro = "E-mail ou senha incorretos.";
+            }
+
+            $stmt->close();
+        }
+    }
 }
-
-$sensores = $conexao->query("SELECT COUNT(*) AS total FROM SENSORES")->fetch_assoc()["total"];
-
-$trens = $conexao->query("SELECT COUNT(*) AS total FROM TRENS")->fetch_assoc()["total"];
-
-$alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Manutenção'")->fetch_assoc()["total"];
-
-$sensores_ativos = $sensores;
-
-if ($trens > 0) {
-
-    $trens_cadastrados = $conexao->query("SELECT * FROM TRENS ORDER BY id DESC");
-
-}
-
 ?>
 
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="pt-br">
 
 <head>
 
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard</title>
-
-    <link rel="stylesheet" href="../assets/style/style.css">
+    <title>Tela de Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/style/style.css">
 
-    <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
+    <link rel="icon" href="assets/icons/TREM_AZEL.svg" type="image/x-icon">
 
 </head>
 
 <body>
 
-<header class="cabecalho">
+    <div class="container vh-100 d-flex align-items-center">
 
-    <h2>
+        <div class="p-3" style="max-width: 400px; width: 100%;">
 
-        <img src="../assets/icons/TREM_AZUL.svg" alt="">
+            <div class="titulo">
 
-        Bem vindo, <?= htmlspecialchars($_SESSION["usuario_nome"]) ?>
+                <h1 class="text-nowrap">🚄Sistema Ferroviário</h1>
 
-    </h2>
-
-    <a href="../index.php">
-
-        <img src="../assets/icons/exit.svg" class="item" alt="Sair">
-
-    </a>
-
-</header>
-
-
-<div class="layout">
-
-    <aside class="menu-lateral">
-
-        <a href="tela_inicial_usuario.php" class="item ativo">
-
-            <img src="../assets/icons/dashboard_preto.svg" alt="">
-
-            Dashboard
-
-        </a>
-
-
-        <a href="gerenciar_sensores_usuario.php" class="item">
-
-            <img src="../assets/icons/sensor_branco.svg" alt="">
-
-            Sensores
-
-        </a>
-
-
-        <a href="rotas_usuario.php" class="item">
-
-            <img src="../assets/icons/relatorio_branco.svg" alt="">
-
-            Rotas
-
-        </a>
-
-    </aside>
-
-
-    <main class="conteudo">
-
-        <div class="informacoes_dashboard">
-
-            <div class="informacoes">
-
-                <h4>
-
-                    <img src="../assets/icons/ENGRENAGEM.svg" alt="">
-
-                    Sensores Cadastrados
-
-                </h4>
-
-                <h3>
-
-                    <?= $sensores ?>
-
-                </h3>
+                <p>Monitoramento em tempo real</p>
 
             </div>
 
+            <?php if ($erro !== ""): ?>
+    <div class="alert alert-danger">
+        <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+    </div>
+<?php endif; ?>
 
-            <div class="informacoes">
+            <form method="POST">
 
-                <h4>
+                <div class="formulario">
 
-                    <img src="../assets/icons/TREM_AZUL.svg" alt="">
+                    <div class="mb-3">
 
-                    Trens Cadastrados
+                        <label class="form-label">
+                            Tipo de acesso
+                        </label>
 
-                </h4>
+                        <select name="tipo" class="form-select" required>
 
-                <h3>
+                            <option value="">
+                                Selecione o tipo de acesso
+                            </option>
 
-                    <?= $trens ?>
+                            <option value="usuario">
+                                Usuário
+                            </option>
 
-                </h3>
+                            <option value="administrador">
+                                Administrador
+                            </option>
 
-            </div>
+                        </select>
 
+                    </div>
 
-            <div class="informacoes">
+                    <div class="mb-3">
 
-                <h4>
+                        <label class="form-label">
+                            E-mail
+                        </label>
 
-                    <img src="../assets/icons/ALERTA.svg" alt="">
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="operador@ferrovia.com.br"
+                            required>
 
-                    Alertas
+                    </div>
 
-                </h4>
+                    <div class="mb-3">
 
-                <h3>
+                        <label class="form-label">
+                            Senha
+                        </label>
 
-                    <?= $alertas ?>
+                        <input
+                            type="password"
+                            name="senha"
+                            class="form-control"
+                            placeholder="Digite sua senha"
+                            required>
 
-                </h3>
+                    </div>
 
-            </div>
+                </div>
 
+                <div class="botao">
 
-            <div class="informacoes">
+                    <div class="d-grid gap-2">
 
-                <h4>
+                        <button
+                            class="btn btn-primary"
+                            type="submit">
 
-                    <img src="../assets/icons/OK_VERDE.svg" alt="">
+                            Entrar
 
-                    Sensores Funcionando
+                        </button>
 
-                </h4>
+                    </div>
 
-                <h3>
+                </div>
 
-                    <?= $sensores_ativos ?>
+                <p>
+                    <a href="public/tela_de_cadastro.php">Criar conta</a>
+                </p>
 
-                </h3>
-
-            </div>
+            </form>
 
         </div>
 
+        <img
+            src="assets/img/trem-png novo.webp"
+            alt="Trem"
+            style="margin-left:auto">
 
-        <div class="planilha_dashboard">
-
-            <div class="cabecalho_planilha">
-
-                <h3 style="color: white;">Trens Cadastrados</h3>
-
-            </div>
-
-
-            <table class="table table-borderless">
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-
-                        <th>LOCALIZAÇÃO</th>
-
-                        <th>TIPO DE DADO</th>
-
-                        <th>STATUS</th>
-
-                
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    <?php if ($trens > 0): ?>
-
-                        <?php while ($trem = $trens_cadastrados->fetch_assoc()): ?>
-
-                            <tr>
-
-                                <th>
-
-                                    #<?= str_pad($trem["id"], 3, "0", STR_PAD_LEFT) ?>
-
-                                </th>
-
-
-                                <td>
-
-                                    <?= htmlspecialchars($trem["localizacao"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?= htmlspecialchars($trem["tipo_de_dado"]) ?>
-
-                                </td>
-
-
-                                <td>
-
-                                    <?php if ($trem["status"] == "Manutenção"): ?>
-
-                                        <span class="status-alerta">
-
-                                            <?= htmlspecialchars($trem["status"]) ?>
-
-                                        </span>
-
-                                    <?php elseif ($trem["status"] == "Inativo"): ?>
-
-                                        <span class="status-inativo">
-
-                                            <?= htmlspecialchars($trem["status"]) ?>
-
-                                        </span>
-
-                                    <?php else: ?>
-
-                                        <span class="status-ativo">
-
-                                            <?= htmlspecialchars($trem["status"]) ?>
-
-                                        </span>
-
-                                    <?php endif; ?>
-
-                                </td>
-
-
-                                
-
-                            </tr>
-
-                        <?php endwhile; ?>
-
-                    <?php else: ?>
-
-                        <tr>
-
-                            <td colspan="5" class="text-center">
-
-                                Nenhum trem cadastrado.
-
-                            </td>
-
-                        </tr>
-
-                    <?php endif; ?>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </main>
-
-</div>
+    </div>
 
 </body>
 

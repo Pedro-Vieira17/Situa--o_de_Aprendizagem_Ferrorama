@@ -12,104 +12,19 @@ if (!isset($_SESSION["usuario_id"]) || $_SESSION["usuario_tipo"] != "usuario") {
     exit;
 }
 
-$pesquisa = isset($_GET["pesquisa"]) ? trim($_GET["pesquisa"]) : "";
-$filtroTipo = isset($_GET["tipo"]) ? trim($_GET["tipo"]) : "";
-$filtroTrem = isset($_GET["trem"]) ? trim($_GET["trem"]) : "";
-$filtroStatus = isset($_GET["status"]) ? trim($_GET["status"]) : "";
+$sensores = $conexao->query("SELECT COUNT(*) AS total FROM SENSORES")->fetch_assoc()["total"];
 
-$sql = "SELECT
-            SENSORES.id,
-            SENSORES.localizacao,
-            SENSORES.tipo_de_dado,
-            SENSORES.trens_id,
-            TRENS.status
-        FROM SENSORES
-        INNER JOIN TRENS
-            ON SENSORES.trens_id = TRENS.id
-        WHERE 1 = 1";
+$trens = $conexao->query("SELECT COUNT(*) AS total FROM TRENS")->fetch_assoc()["total"];
 
-$tipos = "";
-$valores = [];
+$alertas = $conexao->query("SELECT COUNT(*) AS total FROM TRENS WHERE status = 'Manutenção'")->fetch_assoc()["total"];
 
-if ($pesquisa != "") {
+$sensores_ativos = $sensores;
 
-    $sql .= " AND (SENSORES.tipo_de_dado LIKE ? OR SENSORES.localizacao LIKE ?)";
+if ($trens > 0) {
 
-    $busca = "%" . $pesquisa . "%";
+    $trens_cadastrados = $conexao->query("SELECT * FROM TRENS ORDER BY id DESC");
 
-    $tipos .= "ss";
-
-    $valores[] = $busca;
-    $valores[] = $busca;
 }
-
-if ($filtroTipo != "") {
-
-    $sql .= " AND SENSORES.tipo_de_dado = ?";
-
-    $tipos .= "s";
-
-    $valores[] = $filtroTipo;
-}
-
-if ($filtroTrem != "") {
-
-    $sql .= " AND SENSORES.trens_id = ?";
-
-    $tipos .= "i";
-
-    $valores[] = $filtroTrem;
-}
-
-if ($filtroStatus != "") {
-
-    $sql .= " AND TRENS.status = ?";
-
-    $tipos .= "s";
-
-    $valores[] = $filtroStatus;
-}
-
-$sql .= " ORDER BY SENSORES.id DESC";
-
-$stmt = $conexao->prepare($sql);
-
-if ($tipos != "") {
-    $stmt->bind_param($tipos, ...$valores);
-}
-
-$stmt->execute();
-
-$resultado = $stmt->get_result();
-
-$listaTipos = $conexao->query(
-    "SELECT DISTINCT tipo_de_dado FROM SENSORES ORDER BY tipo_de_dado"
-);
-
-$listaTrens = $conexao->query(
-    "SELECT id FROM TRENS ORDER BY id"
-);
-
-$listaStatus = $conexao->query(
-    "SELECT DISTINCT status FROM TRENS ORDER BY status"
-);
-
-$statusCount = $conexao->query("
-    SELECT TRENS.status AS status, COUNT(*) AS total
-    FROM SENSORES
-    INNER JOIN TRENS ON SENSORES.trens_id = TRENS.id
-    GROUP BY TRENS.status
-");
-
-$statusData = [];
-
-while ($linha = $statusCount->fetch_assoc()) {
-    $statusData[$linha["status"]] = (int) $linha["total"];
-}
-
-$sensoresAtivos = $statusData["Ativo"] ?? 0;
-$sensoresManutencao = $statusData["Manutenção"] ?? 0;
-$sensoresInativos = $statusData["Inativo"] ?? 0;
 
 ?>
 
@@ -123,7 +38,7 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sensores</title>
+    <title>Dashboard</title>
 
     <link rel="stylesheet" href="../assets/style/style.css">
 
@@ -133,454 +48,265 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="icon"
-        href="../assets/icons/TREM_AZUL.svg"
-        type="image/x-icon">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
 
 </head>
 
 <body>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
-    </script>
+<header class="cabecalho">
+
+    <h2>
+
+        <img src="../assets/icons/TREM_AZUL.svg" alt="">
+
+        Bem vindo, <?= htmlspecialchars($_SESSION["usuario_nome"]) ?>
+
+    </h2>
+
+    <a href="logout.php">
+
+        <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+
+    </a>
+
+</header>
 
 
-    <header class="cabecalho">
+<div class="layout">
 
-        <h2>
+    <aside class="menu-lateral">
 
-            <img src="../assets/icons/TREM_AZUL.svg" alt="">
+        <a href="tela_inicial_usuario.php" class="item ativo">
 
-            Bem vindo, <?= htmlspecialchars($_SESSION["usuario_nome"]) ?>
+            <img src="../assets/icons/dashboard_preto.svg" alt="">
 
-        </h2>
-
-        <a href="../index.php">
-
-            <img src="../assets/icons/exit.svg"
-                class="item"
-                alt="Sair">
+            Dashboard
 
         </a>
 
-    </header>
+
+        <a href="gerenciar_sensores_usuario.php" class="item">
+
+            <img src="../assets/icons/sensor_branco.svg" alt="">
+
+            Sensores
+
+        </a>
 
 
-    <div class="layout">
+        <a href="rotas_usuario.php" class="item">
+
+            <img src="../assets/icons/relatorio_branco.svg" alt="">
+
+            Rotas
+
+        </a>
+
+    </aside>
 
 
-        <aside class="menu-lateral">
+    <main class="conteudo">
 
-            <a href="tela_inicial_usuario.php" class="item">
+        <div class="informacoes_dashboard">
 
-                <img src="../assets/icons/dashboard_branco.svg" alt="">
+            <div class="informacoes">
 
-                Dashboard
+                <h4>
 
-            </a>
+                    <img src="../assets/icons/ENGRENAGEM.svg" alt="">
 
+                    Sensores Cadastrados
 
-            <a href="gerenciar_sensores_usuario.php" class="item ativo">
+                </h4>
 
-                <img src="../assets/icons/sensor_preto.svg" alt="">
+                <h3>
 
-                Sensores
-
-            </a>
-
-
-            <a href="rotas_usuario.php" class="item">
-
-               <img src="../assets/icons/relatorio_branco.svg" alt="">
-
-                Rotas
-
-            </a>
-
-        </aside>
-
-
-        <main class="conteudo">
-
-
-            <div class="titulo_sensores">
-
-                <h2 class="titulo_do_sensores">
-
-                    Sensores
-
-                </h2>
-
-
-                <form action="gerenciar_sensores_usuario.php"
-                    method="GET"
-                    class="pesquisa_sensor">
-
-                    <input
-                        type="search"
-                        name="pesquisa"
-                        class="campo-com-icone"
-                        placeholder="Pesquisar sensor..."
-                        value="<?= htmlspecialchars($pesquisa) ?>">
-
-                    <input
-                        type="hidden"
-                        name="tipo"
-                        value="<?= htmlspecialchars($filtroTipo) ?>">
-
-                    <input
-                        type="hidden"
-                        name="trem"
-                        value="<?= htmlspecialchars($filtroTrem) ?>">
-
-                    <input
-                        type="hidden"
-                        name="status"
-                        value="<?= htmlspecialchars($filtroStatus) ?>">
-
-                </form>
-
-            </div>
-
-
-            <div class="planilha_dashboard grafico_sensores"
-                style="max-width: 340px; margin: 0 0 24px 0; padding: 20px; text-align: center;">
-
-                <h3 style="margin-bottom: 12px; color: #d9d9d9 !important;">
-
-                    Funcionamento dos Sensores
+                    <?= $sensores ?>
 
                 </h3>
 
-                <canvas
-                    id="graficoSensores"
-                    width="280"
-                    height="280">
-                </canvas>
+            </div>
 
-                <p class="mt-2"
-                    style="margin-top: 12px; color: #b3b3b3 !important;">
 
-                    <?= $sensoresAtivos ?> ativo(s) ·
-                    <?= $sensoresManutencao ?> em manutenção ·
-                    <?= $sensoresInativos ?> inativo(s)
+            <div class="informacoes">
 
-                </p>
+                <h4>
+
+                    <img src="../assets/icons/TREM_AZUL.svg" alt="">
+
+                    Trens Cadastrados
+
+                </h4>
+
+                <h3>
+
+                    <?= $trens ?>
+
+                </h3>
 
             </div>
 
 
-            <form action="gerenciar_sensores_usuario.php"
-                method="GET"
-                class="filtros_sensor d-flex flex-wrap gap-2 align-items-end mb-3">
+            <div class="informacoes">
 
-                <input
-                    type="hidden"
-                    name="pesquisa"
-                    value="<?= htmlspecialchars($pesquisa) ?>">
+                <h4>
 
+                    <img src="../assets/icons/ALERTA.svg" alt="">
 
-                <div>
+                    Alertas
 
-                    <label for="tipo" class="form-label" style="color: white;">
-                        Tipo de Dado
-                    </label>
+                </h4>
 
-                    <select
-                        name="tipo"
-                        id="tipo"
-                        class="form-select">
+                <h3>
 
-                        <option value="">
-                            Todos
-                        </option>
+                    <?= $alertas ?>
 
-                        <?php while ($t = $listaTipos->fetch_assoc()) { ?>
+                </h3>
 
-                            <option
-                                value="<?= htmlspecialchars($t["tipo_de_dado"]) ?>"
-                                <?= $filtroTipo === $t["tipo_de_dado"] ? "selected" : "" ?>>
+            </div>
 
-                                <?= htmlspecialchars($t["tipo_de_dado"]) ?>
 
-                            </option>
+            <div class="informacoes">
 
-                        <?php } ?>
+                <h4>
 
-                    </select>
+                    <img src="../assets/icons/OK_VERDE.svg" alt="">
 
-                </div>
+                    Sensores Funcionando
 
+                </h4>
 
-                <div>
+                <h3>
 
-                    <label for="trem" class="form-label" style="color: white;">
-                        Trem
-                    </label>
+                    <?= $sensores_ativos ?>
 
-                    <select
-                        name="trem"
-                        id="trem"
-                        class="form-select">
+                </h3>
 
-                        <option value="">
-                            Todos
-                        </option>
+            </div>
 
-                        <?php while ($tr = $listaTrens->fetch_assoc()) { ?>
+        </div>
 
-                            <option
-                                value="<?= (int)$tr["id"] ?>"
-                                <?= $filtroTrem === (string)$tr["id"] ? "selected" : "" ?>>
 
-                                Trem <?= str_pad($tr["id"], 2, "0", STR_PAD_LEFT) ?>
+        <div class="planilha_dashboard">
 
-                            </option>
+            <div class="cabecalho_planilha">
 
-                        <?php } ?>
+                <h3 style="color: white;">Trens Cadastrados</h3>
 
-                    </select>
+            </div>
 
-                </div>
 
+            <table class="table table-borderless">
 
-                <div>
+                <thead>
 
-                    <label for="status" class="form-label" style="color: white;">
-                        Status
-                    </label>
+                    <tr>
 
-                    <select
-                        name="status"
-                        id="status"
-                        class="form-select">
+                        <th>ID</th>
 
-                        <option value="">
-                            Todos
-                        </option>
+                        <th>LOCALIZAÇÃO</th>
 
-                        <?php while ($s = $listaStatus->fetch_assoc()) { ?>
+                        <th>TIPO DE DADO</th>
 
-                            <option
-                                value="<?= htmlspecialchars($s["status"]) ?>"
-                                <?= $filtroStatus === $s["status"] ? "selected" : "" ?>>
+                        <th>STATUS</th>
 
-                                <?= htmlspecialchars($s["status"]) ?>
+                    
 
-                            </option>
+                    </tr>
 
-                        <?php } ?>
+                </thead>
 
-                    </select>
 
-                </div>
+                <tbody>
 
+                    <?php if ($trens > 0): ?>
 
-                <button
-                    type="submit"
-                    class="botao_cancelar">
-
-                    Filtrar
-
-                </button>
-
-
-                <a
-                    href="gerenciar_sensores_usuario.php"
-                    class="btn btn-secondary">
-
-                    Limpar
-
-                </a>
-
-            </form>
-
-
-            <div class="planilha_dashboard">
-
-                <table class="table table-borderless">
-
-                    <thead>
-
-                        <tr>
-
-                            <th scope="col">
-                                ID
-                            </th>
-
-                            <th scope="col">
-                                NOME
-                            </th>
-
-                            <th scope="col">
-                                LOCALIZAÇÃO
-                            </th>
-
-                            <th scope="col">
-                                TREM
-                            </th>
-
-                            <th scope="col">
-                                STATUS
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        <?php if ($resultado->num_rows > 0) { ?>
-
-                            <?php while ($sensor = $resultado->fetch_assoc()) { ?>
-
-                                <tr>
-
-                                    <th scope="row">
-
-                                        #<?= str_pad($sensor["id"], 3, "0", STR_PAD_LEFT) ?>
-
-                                    </th>
-
-
-                                    <td>
-
-                                        <?= htmlspecialchars($sensor["tipo_de_dado"]) ?>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <?= htmlspecialchars($sensor["localizacao"]) ?>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        Trem <?= str_pad($sensor["trens_id"], 2, "0", STR_PAD_LEFT) ?>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <strong>
-
-                                            <?= htmlspecialchars($sensor["status"]) ?>
-
-                                        </strong>
-
-                                    </td>
-
-                                </tr>
-
-                            <?php } ?>
-
-                        <?php } else { ?>
+                        <?php while ($trem = $trens_cadastrados->fetch_assoc()): ?>
 
                             <tr>
 
-                                <td colspan="5">
+                                <th>
 
-                                    Nenhum sensor encontrado.
+                                    #<?= str_pad($trem["id"], 3, "0", STR_PAD_LEFT) ?>
+
+                                </th>
+
+
+                                <td>
+
+                                    <?= htmlspecialchars($trem["localizacao"]) ?>
 
                                 </td>
 
+
+                                <td>
+
+                                    <?= htmlspecialchars($trem["tipo_de_dado"]) ?>
+
+                                </td>
+
+
+                                <td>
+
+                                    <?php if ($trem["status"] == "Manutenção"): ?>
+
+                                        <span class="status-alerta">
+
+                                            <?= htmlspecialchars($trem["status"]) ?>
+
+                                        </span>
+
+                                    <?php elseif ($trem["status"] == "Inativo"): ?>
+
+                                        <span class="status-inativo">
+
+                                            <?= htmlspecialchars($trem["status"]) ?>
+
+                                        </span>
+
+                                    <?php else: ?>
+
+                                        <span class="status-ativo">
+
+                                            <?= htmlspecialchars($trem["status"]) ?>
+
+                                        </span>
+
+                                    <?php endif; ?>
+
+                                </td>
+
+
+                                
+
                             </tr>
 
-                        <?php } ?>
+                        <?php endwhile; ?>
 
-                    </tbody>
+                    <?php else: ?>
 
-                </table>
+                        <tr>
 
-            </div>
+                            <td colspan="5" class="text-center">
 
+                                Nenhum trem cadastrado.
 
-            <p class="text-muted mt-2">
+                            </td>
 
-                <?= $resultado->num_rows ?> sensor(es) encontrado(s).
+                        </tr>
 
-            </p>
+                    <?php endif; ?>
 
+                </tbody>
 
-        </main>
+            </table>
 
-    </div>
+        </div>
 
+    </main>
 
-    <script>
-
-        const sensoresAtivos = <?= $sensoresAtivos ?>;
-
-        const sensoresManutencao = <?= $sensoresManutencao ?>;
-
-        const sensoresInativos = <?= $sensoresInativos ?>;
-
-        const ctx = document.getElementById("graficoSensores");
-
-        new Chart(ctx, {
-
-            type: "doughnut",
-
-            data: {
-
-                labels: [
-                    "Ativo",
-                    "Manutenção",
-                    "Inativo"
-                ],
-
-                datasets: [{
-
-                    data: [
-                        sensoresAtivos,
-                        sensoresManutencao,
-                        sensoresInativos
-                    ],
-
-                    backgroundColor: [
-                        "#2ecc71",
-                        "#e74c3c",
-                        "#95a5a6"
-                    ],
-
-                    borderWidth: 0
-
-                }]
-
-            },
-
-            options: {
-
-                responsive: false,
-
-                plugins: {
-
-                    legend: {
-
-                        position: "bottom",
-
-                        labels: {
-
-                            color: "#ffffff"
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-        });
-
-    </script>
+</div>
 
 </body>
 

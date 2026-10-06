@@ -1,214 +1,252 @@
 <?php
 
-require_once "infra/conexao.php";
-
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
-    'httponly' => true,
-    'samesite' => 'Lax'
-]);
-
-ini_set('session.use_strict_mode', '1');
-
 session_start();
 
-$erro = "";
+require_once "../infra/seguranca.php";
+require_once "../infra/conexao.php";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+exigirLogin();
 
-    $email = trim($_POST["email"] ?? "");
-    $senha = $_POST["senha"] ?? "";
-
-    if ($email === "" || $senha === "") {
-
-        $erro = "Preencha todos os campos.";
-
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
-        $erro = "E-mail ou senha incorretos.";
-
-    } else {
-
-        $stmt = $conexao->prepare(
-            "SELECT id, nome, email, senha, tipo
-             FROM USUARIO
-             WHERE email = ?
-             LIMIT 1"
-        );
-
-        if (!$stmt) {
-            $erro = "Não foi possível realizar o login.";
-        } else {
-
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-
-            $resultado = $stmt->get_result();
-            $usuario = $resultado->fetch_assoc();
-
-            if (
-                $usuario &&
-                password_verify($senha, $usuario["senha"])
-            ) {
-
-                // Troca o ID da sessão depois da autenticação.
-                session_regenerate_id(true);
-
-                $_SESSION["usuario_id"] = (int) $usuario["id"];
-                $_SESSION["usuario_nome"] = $usuario["nome"];
-                $_SESSION["usuario_tipo"] = $usuario["tipo"];
-
-                if ($usuario["tipo"] === "administrador") {
-                    header("Location: public/tela_inicial.php");
-                } else {
-                    header("Location: public/tela_inicial_usuario.php");
-                }
-
-                exit;
-
-            } else {
-
-                // Não informa se foi o e-mail ou a senha.
-                $erro = "E-mail ou senha incorretos.";
-            }
-
-            $stmt->close();
-        }
-    }
+if (!isset($_SESSION["usuario_id"])) {
+    header("Location: ../index.php");
+    exit;
 }
+
+if ($_SESSION["usuario_tipo"] !== "usuario") {
+    header("Location: ../index.php");
+    exit;
+}
+
+$sql = "SELECT id, localizacao, horario, status
+        FROM ROTAS
+        ORDER BY horario ASC";
+
+$rotas = $conexao->query($sql);
+
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
 
-    <title>Tela de Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    <title>Rotas</title>
+
+    <link
+        rel="stylesheet"
+        href="../assets/style/style.css">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/style/style.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="icon" href="assets/icons/TREM_AZUL.svg" type="image/x-icon">
+    <link
+        rel="icon"
+        href="../assets/icons/TREM_AZUL.svg">
 
 </head>
 
 <body>
 
-    <div class="container vh-100 d-flex align-items-center">
+<header class="cabecalho">
 
-        <div class="p-3" style="max-width: 400px; width: 100%;">
+    <h2>
 
-            <div class="titulo">
+        <img src="../assets/icons/TREM_AZUL.svg" alt="">
 
-                <h1 class="text-nowrap">🚄Sistema Ferroviário</h1>
+        Bem vindo, <?= htmlspecialchars($_SESSION["usuario_nome"]) ?>
 
-                <p>Monitoramento em tempo real</p>
+    </h2>
+
+    <a href="logout.php">
+
+        <img src="../assets/icons/exit.svg" class="item" alt="Sair">
+
+    </a>
+
+</header>
+
+
+<div class="layout">
+
+
+    <aside class="menu-lateral">
+
+        <a href="tela_inicial_usuario.php" class="item">
+
+            <img src="../assets/icons/dashboard_branco.svg" alt="">
+
+            Dashboard
+
+        </a>
+
+
+        <a href="gerenciar_sensores_usuario.php" class="item">
+
+            <img src="../assets/icons/sensor_branco.svg" alt="">
+
+            Sensores
+
+        </a>
+
+
+        <a href="rotas_usuario.php" class="item ativo">
+
+            <img src="../assets/icons/relatorio_preto.svg" alt="">
+
+            Rotas
+
+        </a>
+
+    </aside>
+
+
+    <main class="conteudo">
+
+        <div class="container-sensor">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h1
+                        class="titulo-sensor"
+                        style="color: white;">
+
+                        <i class="bi bi-signpost-2"></i>
+
+                        Rotas
+
+                    </h1>
+
+
+                </div>
+
 
             </div>
 
-            <?php if ($erro !== ""): ?>
-    <div class="alert alert-danger">
-        <?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
-    </div>
-<?php endif; ?>
 
-            <form method="POST">
+            <div class="table-responsive">
 
-                <div class="formulario">
+                <table class="table table-dark table-hover align-middle">
 
-                    <div class="mb-3">
+                    <thead>
 
-                        <label class="form-label">
-                            Tipo de acesso
-                        </label>
+                        <tr>
 
-                        <select name="tipo" class="form-select" required>
+                            <th>ID</th>
 
-                            <option value="">
-                                Selecione o tipo de acesso
-                            </option>
+                            <th>Localização</th>
 
-                            <option value="usuario">
-                                Usuário
-                            </option>
+                            <th>Horário</th>
 
-                            <option value="administrador">
-                                Administrador
-                            </option>
+                            <th>Status</th>
 
-                        </select>
 
-                    </div>
+                        </tr>
 
-                    <div class="mb-3">
+                    </thead>
 
-                        <label class="form-label">
-                            E-mail
-                        </label>
 
-                        <input
-                            type="email"
-                            name="email"
-                            class="form-control"
-                            placeholder="operador@ferrovia.com.br"
-                            required>
+                    <tbody>
 
-                    </div>
+                        <?php if ($rotas && $rotas->num_rows > 0): ?>
 
-                    <div class="mb-3">
+                            <?php while ($rota = $rotas->fetch_assoc()): ?>
 
-                        <label class="form-label">
-                            Senha
-                        </label>
+                                <tr>
 
-                        <input
-                            type="password"
-                            name="senha"
-                            class="form-control"
-                            placeholder="Digite sua senha"
-                            required>
+                                    <td>
+                                        <?= htmlspecialchars($rota["id"]) ?>
+                                    </td>
 
-                    </div>
 
-                </div>
+                                    <td>
 
-                <div class="botao">
+                                        <i class="bi bi-geo-alt-fill"></i>
 
-                    <div class="d-grid gap-2">
+                                        <?= htmlspecialchars($rota["localizacao"]) ?>
 
-                        <button
-                            class="btn btn-primary"
-                            type="submit">
+                                    </td>
 
-                            Entrar
 
-                        </button>
+                                    <td>
 
-                    </div>
+                                        <i class="bi bi-clock"></i>
 
-                </div>
+                                        <?= date(
+                                            "H:i",
+                                            strtotime($rota["horario"])
+                                        ) ?>
 
-                <p>
-                    <a href="public/tela_de_cadastro.php">Criar conta</a>
-                </p>
+                                    </td>
 
-            </form>
+
+                                    <td>
+
+                                        <?php if ($rota["status"] == "Ativa"): ?>
+
+                                            <span class="badge bg-success">
+                                                Ativa
+                                            </span>
+
+                                        <?php elseif ($rota["status"] == "Manutenção"): ?>
+
+                                            <span class="badge bg-warning text-dark">
+                                                Manutenção
+                                            </span>
+
+                                        <?php else: ?>
+
+                                            <span class="badge bg-secondary">
+                                                <?= htmlspecialchars($rota["status"]) ?>
+                                            </span>
+
+                                        <?php endif; ?>
+
+                                    </td>
+
+
+                                </tr>
+
+                            <?php endwhile; ?>
+
+
+                        <?php else: ?>
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="text-center">
+
+                                    Nenhuma rota cadastrada.
+
+                                </td>
+
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
-        <img
-            src="assets/img/trem-png novo.webp"
-            alt="Trem"
-            style="margin-left:auto">
+    </main>
 
-    </div>
+</div>
 
 </body>
 
