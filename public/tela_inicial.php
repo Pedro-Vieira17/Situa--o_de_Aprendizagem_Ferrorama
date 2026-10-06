@@ -60,113 +60,72 @@ if ($trens > 0) {
     <aside class="menu-lateral">
 
         <a href="tela_inicial.php" class="item ativo">
-
-            <img
-                src="../assets/icons/dashboard_preto.svg"
-                alt="">
-
+            <img src="../assets/icons/dashboard_preto.svg" alt="">
             Dashboard
-
         </a>
-
 
         <a href="gerenciar_sensores.php" class="item">
-
-            <img
-                src="../assets/icons/sensor_branco.svg"
-                alt="">
-
+            <img src="../assets/icons/sensor_branco.svg" alt="">
             Sensores
-
         </a>
-
 
         <a href="rotas.php" class="item">
-
             <img src="../assets/icons/relatorio_branco.svg" alt="">
-
             Rotas
-
         </a>
-
 
         <a href="cadastro_admin.php" class="item">
-
-            <img
-                src="../assets/icons/cadastrar_branco.svg"
-                alt="">
-
+            <img src="../assets/icons/cadastrar_branco.svg" alt="">
             Cadastrar ADMs e Usuários
-
         </a>
 
-
         <a href="usuarios_cadastrados.php" class="item">
-
-            <img
-                src="../assets/icons/usuarios_branco.svg"
-                alt="">
-
+            <img src="../assets/icons/usuarios_branco.svg" alt="">
             Usuários Cadastrados
-
         </a>
 
     </aside>
 
     <main class="conteudo">
 
+        <?php if (!empty($_GET["erro"])): ?>
+            <div class="alert alert-danger">
+                <?= e($_GET["erro"]) ?>
+            </div>
+        <?php endif; ?>
+
         <div class="informacoes_dashboard">
 
             <div class="informacoes">
-
                 <h4>
                     <img src="../assets/icons/ENGRENAGEM.svg" alt="">
                     Sensores Cadastrados
                 </h4>
-
-                <h3>
-                    <?= $sensores ?>
-                </h3>
-
+                <h3><?= $sensores ?></h3>
             </div>
 
             <div class="informacoes">
-
                 <h4>
                     <img src="../assets/icons/TREM_AZUL.svg" alt="">
                     Trens Cadastrados
                 </h4>
-
-                <h3>
-                    <?= $trens ?>
-                </h3>
-
+                <h3><?= $trens ?></h3>
             </div>
 
             <div class="informacoes">
-
                 <h4>
                     <img src="../assets/icons/ALERTA.svg" alt="">
                     Alertas
                 </h4>
-
-                <h3>
-                    <?= $alertas ?>
-                </h3>
-
+                <h3><?= $alertas ?></h3>
             </div>
 
             <div class="informacoes">
-
                 <h4>
                     <img src="../assets/icons/OK_VERDE.svg" alt="">
                     Sensores Funcionando
                 </h4>
-
-                <h3>
-                    <?= $sensores_ativos ?>
-                </h3>
-
+                <h3><?= $sensores_ativos ?></h3>
             </div>
 
         </div>
@@ -191,7 +150,6 @@ if ($trens > 0) {
             <table class="table table-borderless">
 
                 <thead>
-
                     <tr>
                         <th>ID</th>
                         <th>LOCALIZAÇÃO</th>
@@ -199,7 +157,6 @@ if ($trens > 0) {
                         <th>STATUS</th>
                         <th>AÇÕES</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -214,13 +171,9 @@ if ($trens > 0) {
                                     #<?= str_pad($trem["id"], 3, "0", STR_PAD_LEFT) ?>
                                 </th>
 
-                                <td>
-                                    <?= htmlspecialchars($trem["localizacao"]) ?>
-                                </td>
+                                <td><?= htmlspecialchars($trem["localizacao"]) ?></td>
 
-                                <td>
-                                    <?= htmlspecialchars($trem["tipo_de_dado"]) ?>
-                                </td>
+                                <td><?= htmlspecialchars($trem["tipo_de_dado"]) ?></td>
 
                                 <td>
 
@@ -248,26 +201,34 @@ if ($trens > 0) {
 
                                 <td>
 
-                                   <a
-                                     href="editar_trens.php?id=<?= (int)$trem['id'] ?>"
-                                     class="btn btn-sm btn-warning">          
-                                   <i class="bi bi-pencil"></i>
-
-    Editar
-
-                                    </a>
-
-
                                     <a
-                                    href="excluir_trem.php?id=<?= (int)$trem['id'] ?>"
-                                    class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Deseja realmente excluir este trem?');">
+                                        href="editar_trens.php?id=<?= (int)$trem['id'] ?>"
+                                        class="btn btn-sm btn-warning">
 
-                                    <i class="bi bi-trash"></i>
+                                        <i class="bi bi-pencil"></i>
 
-                                    Excluir
+                                        Editar
 
                                     </a>
+
+                                    <form
+                                        method="POST"
+                                        action="excluir_trem.php"
+                                        style="display:inline;"
+                                        onsubmit="return confirm('Deseja realmente excluir este trem?');">
+
+                                        <input type="hidden" name="id" value="<?= (int)$trem['id'] ?>">
+                                        <input type="hidden" name="csrf_token" value="<?= e(gerarTokenCsrf()) ?>">
+
+                                        <button type="submit" class="btn btn-sm btn-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                            Excluir
+
+                                        </button>
+
+                                    </form>
 
                                 </td>
 
@@ -278,11 +239,9 @@ if ($trens > 0) {
                     <?php else: ?>
 
                         <tr>
-
                             <td colspan="5" class="text-center">
                                 Nenhum trem cadastrado.
                             </td>
-
                         </tr>
 
                     <?php endif; ?>
@@ -296,20 +255,6 @@ if ($trens > 0) {
     </main>
 
 </div>
-
-<script>
-
-function excluirTrem(id) {
-
-    if (confirm("Deseja realmente excluir este trem?")) {
-
-        window.location.href = "excluir_trem.php?id=" + id;
-
-    }
-
-}
-
-</script>
 
 </body>
 
