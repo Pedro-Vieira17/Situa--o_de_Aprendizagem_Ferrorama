@@ -94,6 +94,21 @@ $sensoresAtivos = $statusData["Ativo"] ?? 0;
 $sensoresManutencao = $statusData["Manutenção"] ?? 0;
 $sensoresInativos = $statusData["Inativo"] ?? 0;
 
+$porTrem = $conexao->query("
+    SELECT trens_id, COUNT(*) AS total
+    FROM SENSORES
+    GROUP BY trens_id
+    ORDER BY trens_id
+");
+
+$trensLabels = [];
+$trensTotais = [];
+
+while ($linha = $porTrem->fetch_assoc()) {
+    $trensLabels[] = "Trem " . str_pad($linha["trens_id"], 2, "0", STR_PAD_LEFT);
+    $trensTotais[] = (int) $linha["total"];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -201,7 +216,9 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
             </div>
 
 
-            <div class="planilha_dashboard mb-4" style="max-width: 340px; padding: 20px;">
+            <div class="d-flex flex-wrap gap-3 mb-4 align-items-stretch">
+
+            <div class="planilha_dashboard" style="flex: 0 0 340px; padding: 20px;">
 
                 <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
                     Funcionamento dos Sensores
@@ -235,6 +252,21 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                     </div>
 
                 </div>
+
+            </div>
+
+
+            <div class="planilha_dashboard" style="flex: 1 1 400px; min-width: 0; padding: 20px;">
+
+                <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
+                    Sensores por Trem
+                </h3>
+
+                <div style="position: relative; height: 280px;">
+                    <canvas id="graficoTrens"></canvas>
+                </div>
+
+            </div>
 
             </div>
 
@@ -420,6 +452,39 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                 cutout: "70%",
                 plugins: {
                     legend: { display: false }
+                }
+            }
+        });
+
+
+        new Chart(document.getElementById("graficoTrens"), {
+            type: "bar",
+            data: {
+                labels: <?= json_encode($trensLabels) ?>,
+                datasets: [{
+                    label: "Sensores",
+                    data: <?= json_encode($trensTotais) ?>,
+                    backgroundColor: "#3b82f6",
+                    borderRadius: 6,
+                    maxBarThickness: 60
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: "#d9d9d9" },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: "#d9d9d9", precision: 0 },
+                        grid: { color: "rgba(255,255,255,0.08)" }
+                    }
                 }
             }
         });
