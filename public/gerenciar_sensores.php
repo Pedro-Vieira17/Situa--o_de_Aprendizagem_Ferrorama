@@ -193,28 +193,19 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                     Gerenciar Sensores
                 </h2>
 
-                <form action="gerenciar_sensores.php"
-                    method="GET"
-                    class="pesquisa_sensor">
-
-                    <input
-                        type="search"
-                        name="pesquisa"
-                        class="campo-com-icone"
-                        placeholder="Pesquisar sensor..."
-                        value="<?= htmlspecialchars($pesquisa) ?>">
-
-                    <input type="hidden" name="tipo" value="<?= htmlspecialchars($filtroTipo) ?>">
-                    <input type="hidden" name="trem" value="<?= htmlspecialchars($filtroTrem) ?>">
-                    <input type="hidden" name="status" value="<?= htmlspecialchars($filtroStatus) ?>">
-
-                </form>
-
                 <button
-                    class="botao_cancelar"
-                    onclick="window.location.href='cadastrar_sensores.php'">
+                    type="button"
+                    onclick="window.location.href='cadastrar_sensores.php'"
+                <a
+                    href="cadastrar_sensores.php"
+                    class="btn btn-primary">
 
-                    Cadastrar
+                    <i class="bi bi-plus-circle"></i>
+
+                    Cadastrar Sensor
+
+                </a>
+
 
                 </button>
 
