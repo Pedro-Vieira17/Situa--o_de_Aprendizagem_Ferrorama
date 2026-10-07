@@ -182,5 +182,56 @@ body {
     padding: 20px;
     width: 100%;
     background-color: #0f172a !important;
+
+
+
+    
 }
+
+
+/* =========================
+   TABELA DE ROTAS
+========================= */
+
+.tabela-rotas {
+    width: 100%;
+}
+
+.tabela-rotas table {
+    margin-bottom: 0;
+}
+
+.tabela-rotas thead th {
+    color: white;
+    font-weight: 600;
+    border: none !important;
+    padding: 12px 16px;
+}
+
+.tabela-rotas tbody td,
+.tabela-rotas tbody th {
+    color: white;
+    border: none !important;
+    padding: 14px 16px;
+    vertical-align: middle;
+}
+
+.tabela-rotas tbody tr {
+    border: none !important;
+}
+
+.tabela-rotas tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.tabela-rotas .bi-geo-alt-fill,
+.tabela-rotas .bi-clock {
+    margin-right: 5px;
+    color: #ffffff;
+}
+
+.tabela-rotas .badge {
+    font-size: 12px;
+}
+
 
