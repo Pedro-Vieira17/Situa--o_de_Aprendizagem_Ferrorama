@@ -187,43 +187,54 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
             <?php endif; ?>
 
 
-            <div class="titulo_sensores">
+            <div class="d-flex justify-content-between align-items-center mb-3">
 
-                <h2 class="titulo_do_sensores">
+                <h2 class="titulo_do_sensores m-0">
                     Gerenciar Sensores
                 </h2>
 
-                <button
-                    type="button"
-                    onclick="window.location.href='cadastrar_sensores.php'"
-                <a
-                    href="cadastrar_sensores.php"
-                    class="btn btn-primary">
-
+                <a href="cadastrar_sensores.php" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i>
-
                     Cadastrar Sensor
-
                 </a>
-
-
-                </button>
 
             </div>
 
 
-            <div class="planilha_dashboard grafico_sensores"
-                style="max-width: 340px; margin: 0 0 24px 0; padding: 20px; text-align: center;">
+            <div class="planilha_dashboard mb-4" style="max-width: 480px; padding: 28px;">
 
-                <h3 style="margin-bottom: 12px; color: #d9d9d9 !important;">
+                <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
                     Funcionamento dos Sensores
                 </h3>
 
-                <canvas id="graficoSensores" width="280" height="280"></canvas>
+                <div style="width: 320px; height: 320px; margin: 0 auto;">
+                    <canvas id="graficoSensores"></canvas>
+                </div>
 
-                <p class="mt-2" style="margin-top: 12px; color: #b3b3b3 !important;">
-                    <?= $sensoresAtivos ?> ativo(s) · <?= $sensoresManutencao ?> em manutenção · <?= $sensoresInativos ?> inativo(s)
-                </p>
+                <div class="d-flex justify-content-around text-center mt-3" style="color: #d9d9d9;">
+
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #2ecc71;">
+                            <?= $sensoresAtivos ?>
+                        </div>
+                        <small>Ativo</small>
+                    </div>
+
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #f1c40f;">
+                            <?= $sensoresManutencao ?>
+                        </div>
+                        <small>Manutenção</small>
+                    </div>
+
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #95a5a6;">
+                            <?= $sensoresInativos ?>
+                        </div>
+                        <small>Inativo</small>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -391,31 +402,24 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
     <script>
 
-        const sensoresAtivos = <?= $sensoresAtivos ?>;
-        const sensoresManutencao = <?= $sensoresManutencao ?>;
-        const sensoresInativos = <?= $sensoresInativos ?>;
-
-        const ctx = document.getElementById("graficoSensores");
-
-        new Chart(ctx, {
+        new Chart(document.getElementById("graficoSensores"), {
             type: "doughnut",
             data: {
                 labels: ["Ativo", "Manutenção", "Inativo"],
                 datasets: [{
-                    data: [sensoresAtivos, sensoresManutencao, sensoresInativos],
-                    backgroundColor: ["#2ecc71", "#e74c3c", "#95a5a6"],
-                    borderWidth: 0
+                    data: [<?= $sensoresAtivos ?>, <?= $sensoresManutencao ?>, <?= $sensoresInativos ?>],
+                    backgroundColor: ["#2ecc71", "#f1c40f", "#95a5a6"],
+                    borderWidth: 0,
+                    spacing: 3,
+                    borderRadius: 4
                 }]
             },
             options: {
-                responsive: false,
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "70%",
                 plugins: {
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            color: "#ffffff"
-                        }
-                    }
+                    legend: { display: false }
                 }
             }
         });

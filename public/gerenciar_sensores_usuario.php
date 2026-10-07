@@ -199,34 +199,6 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                 </h2>
 
 
-                <form action="gerenciar_sensores_usuario.php"
-                    method="GET"
-                    class="pesquisa_sensor">
-
-                    <input
-                        type="search"
-                        name="pesquisa"
-                        class="campo-com-icone"
-                        placeholder="Pesquisar sensor..."
-                        value="<?= htmlspecialchars($pesquisa) ?>">
-
-                    <input
-                        type="hidden"
-                        name="tipo"
-                        value="<?= htmlspecialchars($filtroTipo) ?>">
-
-                    <input
-                        type="hidden"
-                        name="trem"
-                        value="<?= htmlspecialchars($filtroTrem) ?>">
-
-                    <input
-                        type="hidden"
-                        name="status"
-                        value="<?= htmlspecialchars($filtroStatus) ?>">
-
-                </form>
-
             </div>
 
 
