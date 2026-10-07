@@ -136,14 +136,15 @@ if ($trens > 0) {
 
               <h3 style="color: white;">Trens Cadastrados</h3>
 
-                <button
-                    class="btn-salvar"
-                    onclick="window.location.href='cadastrar_trens.php'">
+                 <a
+                    href="cadastrar_trens.php"
+                    class="btn btn-primary">
 
-                    <img src="../assets/icons/cadastrar_branco.svg" alt="">
-                    Cadastrar Trem
+                    <i class="bi bi-plus-circle"></i>
 
-                </button>
+                    Cadastrar Trens
+
+                </a>
 
             </div>
 
