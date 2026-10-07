@@ -94,21 +94,6 @@ $sensoresAtivos = $statusData["Ativo"] ?? 0;
 $sensoresManutencao = $statusData["Manutenção"] ?? 0;
 $sensoresInativos = $statusData["Inativo"] ?? 0;
 
-$porTrem = $conexao->query("
-    SELECT trens_id, COUNT(*) AS total
-    FROM SENSORES
-    GROUP BY trens_id
-    ORDER BY trens_id
-");
-
-$trensLabels = [];
-$trensTotais = [];
-
-while ($linha = $porTrem->fetch_assoc()) {
-    $trensLabels[] = "Trem " . str_pad($linha["trens_id"], 2, "0", STR_PAD_LEFT);
-    $trensTotais[] = (int) $linha["total"];
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -216,57 +201,40 @@ while ($linha = $porTrem->fetch_assoc()) {
             </div>
 
 
-            <div class="d-flex flex-wrap gap-3 mb-4 align-items-stretch">
-
-            <div class="planilha_dashboard" style="flex: 0 0 340px; padding: 20px;">
+            <div class="planilha_dashboard mb-4" style="max-width: 480px; padding: 28px;">
 
                 <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
                     Funcionamento dos Sensores
                 </h3>
 
-                <div style="width: 200px; height: 200px; margin: 0 auto;">
+                <div style="width: 320px; height: 320px; margin: 0 auto;">
                     <canvas id="graficoSensores"></canvas>
                 </div>
 
                 <div class="d-flex justify-content-around text-center mt-3" style="color: #d9d9d9;">
 
                     <div>
-                        <div style="font-size: 1.4rem; font-weight: bold; color: #2ecc71;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #2ecc71;">
                             <?= $sensoresAtivos ?>
                         </div>
                         <small>Ativo</small>
                     </div>
 
                     <div>
-                        <div style="font-size: 1.4rem; font-weight: bold; color: #f1c40f;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #f1c40f;">
                             <?= $sensoresManutencao ?>
                         </div>
                         <small>Manutenção</small>
                     </div>
 
                     <div>
-                        <div style="font-size: 1.4rem; font-weight: bold; color: #95a5a6;">
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #95a5a6;">
                             <?= $sensoresInativos ?>
                         </div>
                         <small>Inativo</small>
                     </div>
 
                 </div>
-
-            </div>
-
-
-            <div class="planilha_dashboard" style="flex: 1 1 400px; min-width: 0; padding: 20px;">
-
-                <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
-                    Sensores por Trem
-                </h3>
-
-                <div style="position: relative; height: 280px;">
-                    <canvas id="graficoTrens"></canvas>
-                </div>
-
-            </div>
 
             </div>
 
@@ -452,39 +420,6 @@ while ($linha = $porTrem->fetch_assoc()) {
                 cutout: "70%",
                 plugins: {
                     legend: { display: false }
-                }
-            }
-        });
-
-
-        new Chart(document.getElementById("graficoTrens"), {
-            type: "bar",
-            data: {
-                labels: <?= json_encode($trensLabels) ?>,
-                datasets: [{
-                    label: "Sensores",
-                    data: <?= json_encode($trensTotais) ?>,
-                    backgroundColor: "#3b82f6",
-                    borderRadius: 6,
-                    maxBarThickness: 60
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    x: {
-                        ticks: { color: "#d9d9d9" },
-                        grid: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: { color: "#d9d9d9", precision: 0 },
-                        grid: { color: "rgba(255,255,255,0.08)" }
-                    }
                 }
             }
         });
