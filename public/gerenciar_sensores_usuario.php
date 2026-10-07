@@ -424,15 +424,29 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                                     </td>
 
 
-                                    <td>
+                                   <td>
 
-                                        <strong>
+                                 <?php if ($sensor["status"] == "Ativo" || $sensor["status"] == "Ativa"): ?>
 
-                                            <?= htmlspecialchars($sensor["status"]) ?>
+                                 <span class="badge bg-success">
+                                         <?= htmlspecialchars($sensor["status"]) ?>
+                                                 </span>
 
-                                        </strong>
+             <?php elseif ($sensor["status"] == "Manutenção"): ?>
 
-                                    </td>
+        <span class="badge bg-warning text-dark">
+            Manutenção
+        </span>
+
+    <?php else: ?>
+
+        <span class="badge bg-secondary">
+            <?= htmlspecialchars($sensor["status"]) ?>
+        </span>
+
+    <?php endif; ?>
+
+</td>
 
                                 </tr>
 
