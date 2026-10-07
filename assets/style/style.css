@@ -184,3 +184,95 @@ body {
     background-color: #0f172a !important;
 }
 
+.container-sensor {
+    width: 100%;
+}
+
+.titulo-sensor {
+    color: white;
+    margin-bottom: 30px;
+}
+
+.form-sensor {
+    width: 100%;
+    max-width: 850px;
+    background: #0f172a;
+    padding: 35px;
+    border-radius: 16px;
+}
+
+.form-sensor .linha-formulario {
+    display: flex;
+    gap: 20px;
+}
+
+.grupo-input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.grupo-input label {
+    display: block;
+    color: white;
+    margin-bottom: 7px;
+}
+
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 7px;
+    padding: 0 12px;
+    background: white;
+}
+
+.botoes-formulario {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.botao_cancelar {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #6c757d;
+    color: white;
+    text-decoration: none;
+}
+
+.botao_cancelar:hover {
+    background: #5c636a;
+    color: white;
+}
+
+.btn-salvar {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-salvar:hover {
+    background: #0b5ed7;
+}
+
+@media (max-width: 700px) {
+
+    .form-sensor {
+        padding: 25px;
+    }
+
+    .form-sensor .linha-formulario {
+        display: block;
+    }
+
+}
+
+.cabecalho_planilha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
