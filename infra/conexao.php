@@ -3,10 +3,9 @@
 $conexao = new mysqli(
     "localhost",
     "root",
-    "   ",
+    "",
     "sa_ferrorama",
     3306
-
 );
 
 if ($conexao->connect_error) {
