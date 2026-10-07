@@ -178,27 +178,28 @@ if ($trens > 0) {
 
                                 <td>
 
-                                    <?php if ($trem["status"] == "Manutenção"): ?>
+                                     <?php if ($trem["status"] == "Ativo" || $trem["status"] == "Ativa"): ?>
 
-                                        <span class="status-alerta">
-                                            <?= htmlspecialchars($trem["status"]) ?>
-                                        </span>
+                                    <span class="badge bg-success">
+                                     <?= htmlspecialchars($trem["status"]) ?>
+                                    </span>
 
-                                    <?php elseif ($trem["status"] == "Inativo"): ?>
+                                    <?php elseif ($trem["status"] == "Manutenção"): ?>
 
-                                        <span class="status-inativo">
-                                            <?= htmlspecialchars($trem["status"]) ?>
-                                        </span>
+                                      <span class="badge bg-warning text-dark">
+                                     Manutenção
+                                      </span>
 
-                                    <?php else: ?>
+                                      <?php else: ?>
 
-                                        <span class="status-ativo">
-                                            <?= htmlspecialchars($trem["status"]) ?>
-                                        </span>
+                                     <span class="badge bg-secondary">
+                                      <?= htmlspecialchars($trem["status"]) ?>
+                                      </span>
 
-                                    <?php endif; ?>
+                                     <?php endif; ?>
 
                                 </td>
+
 
                                 <td>
 
