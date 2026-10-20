@@ -65,7 +65,7 @@ if ($trens > 0) {
 
     </h2>
 
-   <a href="logout.php">
+   <a href="../logout.php">
     <img src="../assets/icons/exit.svg" class="item" alt="Sair">
 </a>
 
