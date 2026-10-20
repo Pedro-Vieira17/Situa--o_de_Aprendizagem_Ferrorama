@@ -232,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item">
+        <a href="tela_inicial.php" class="item ativo">
             <img src="../assets/icons/dashboard_preto.svg" alt="">
             Dashboard
         </a>
