@@ -45,13 +45,25 @@ CREATE TABLE SENSORES (
         ON UPDATE CASCADE
 );
 
+
 CREATE TABLE ROTAS (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    origem VARCHAR(200) NOT NULL,
-    destino VARCHAR(200) NOT NULL,
-    horario TIME NOT NULL,
-    status VARCHAR(30) NOT NULL
+    nome VARCHAR(200) NOT NULL,
+    descricao TEXT NOT NULL,
+    distancia_km DECIMAL(10,2) NOT NULL,
+    trem_id INT NOT NULL,
+    duracao_min INT NOT NULL,
+    data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('Ativa', 'Inativa', 'Manutenção')
+        NOT NULL DEFAULT 'Ativa',
+
+    CONSTRAINT fk_rotas_trens
+        FOREIGN KEY (trem_id)
+        REFERENCES TRENS(id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
 );
+
 
 INSERT INTO USUARIO (
     CPF,
