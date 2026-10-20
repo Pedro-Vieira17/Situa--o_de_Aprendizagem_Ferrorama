@@ -1,3 +1,6 @@
+
+DROP DATABASE IF EXISTS sa_ferrorama;
+
 CREATE DATABASE sa_ferrorama
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -19,7 +22,14 @@ CREATE TABLE TRENS (
     localizacao VARCHAR(200) NOT NULL,
     tipo_de_dado VARCHAR(200) NOT NULL,
     horario TIME NOT NULL,
-    status VARCHAR(200) NOT NULL
+    status VARCHAR(200) NOT NULL,
+    usuario_id INT NULL,
+
+    CONSTRAINT fk_trens_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES USUARIO(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE SENSORES (
@@ -63,25 +73,29 @@ INSERT INTO TRENS (
     localizacao,
     tipo_de_dado,
     horario,
-    status
+    status,
+    usuario_id
 ) VALUES
 (
     'Joinville - SC',
     'Localização',
     '08:00:00',
-    'Ativo'
+    'Ativo',
+    1
 ),
 (
     'São Francisco do Sul - SC',
     'Velocidade',
     '10:30:00',
-    'Ativo'
+    'Ativo',
+    1
 ),
 (
     'Jaraguá do Sul - SC',
     'Temperatura',
     '14:00:00',
-    'Manutenção'
+    'Manutenção',
+    1
 );
 
 INSERT INTO SENSORES (

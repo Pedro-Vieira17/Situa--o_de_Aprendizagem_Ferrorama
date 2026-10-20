@@ -8,6 +8,35 @@ exigirAdministrador();
 $erro = "";
 $sucesso = "";
 
+$localizacao = "";
+$tipo_de_dado = "";
+$horario = "";
+$status = "";
+$usuario_id_form = "";
+
+$tiposPermitidos = [
+    "Temperatura",
+    "Velocidade",
+    "Localização",
+    "Pressão"
+];
+
+$statusPermitidos = [
+    "Ativo",
+    "Inativo",
+    "Manutenção"
+];
+
+$consultaUsuarios = $conexao->query("
+    SELECT id, nome, tipo
+    FROM USUARIO
+    ORDER BY nome ASC
+");
+
+$usuarios = $consultaUsuarios
+    ? $consultaUsuarios->fetch_all(MYSQLI_ASSOC)
+    : [];
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     validarTokenCsrf();
@@ -16,36 +45,108 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tipo_de_dado = trim($_POST["tipo_de_dado"] ?? "");
     $horario = trim($_POST["horario"] ?? "");
     $status = trim($_POST["status"] ?? "");
+    $usuario_id_form = $_POST["usuario_id"] ?? "";
 
-    if ($localizacao === "" || $tipo_de_dado === "" || $horario === "" || $status === "") {
-        $erro = "Preencha todos os campos.";
+    $usuario_id = filter_var(
+        $usuario_id_form,
+        FILTER_VALIDATE_INT
+    );
+
+    if (
+        $localizacao === "" ||
+        $tipo_de_dado === "" ||
+        $horario === "" ||
+        $status === "" ||
+        $usuario_id === false ||
+        $usuario_id <= 0
+    ) {
+        $erro = "Preencha todos os campos corretamente.";
+    } elseif (
+        !in_array($tipo_de_dado, $tiposPermitidos, true) ||
+        !in_array($status, $statusPermitidos, true)
+    ) {
+        $erro = "Selecione um tipo de dado e um status válidos.";
+    } elseif (
+        strlen($localizacao) > 800 ||
+        !preg_match('/^(?:[01]\d|2[0-3]):[0-5]\d$/', $horario)
+    ) {
+        $erro = "Verifique a localização e o horário informados.";
     } else {
 
-        $sql = "INSERT INTO TRENS (localizacao, tipo_de_dado, horario, status)
-                VALUES (?, ?, ?, ?)";
+        $stmtUsuario = $conexao->prepare("
+            SELECT id
+            FROM USUARIO
+            WHERE id = ?
+        ");
 
-        $stmt = $conexao->prepare($sql);
+        if (!$stmtUsuario) {
 
-        if ($stmt) {
-
-            $stmt->bind_param(
-                "ssss",
-                $localizacao,
-                $tipo_de_dado,
-                $horario,
-                $status
-            );
-
-            if ($stmt->execute()) {
-                $sucesso = "Trem cadastrado com sucesso!";
-            } else {
-                $erro = "Erro ao cadastrar o trem.";
-            }
-
-            $stmt->close();
+            $erro = "Erro ao verificar o usuário responsável.";
 
         } else {
-            $erro = "Erro ao preparar o cadastro.";
+
+            $stmtUsuario->bind_param("i", $usuario_id);
+            $stmtUsuario->execute();
+
+            $resultadoUsuario = $stmtUsuario->get_result();
+            $usuarioExiste = $resultadoUsuario->num_rows > 0;
+
+            $stmtUsuario->close();
+
+            if (!$usuarioExiste) {
+
+                $erro = "O usuário responsável selecionado não existe.";
+
+            } else {
+
+                $sql = "
+                    INSERT INTO TRENS (
+                        localizacao,
+                        tipo_de_dado,
+                        horario,
+                        status,
+                        usuario_id
+                    )
+                    VALUES (?, ?, ?, ?, ?)
+                ";
+
+                $stmt = $conexao->prepare($sql);
+
+                if (!$stmt) {
+
+                    $erro = "Erro ao preparar o cadastro do trem.";
+
+                } else {
+
+                    $stmt->bind_param(
+                        "ssssi",
+                        $localizacao,
+                        $tipo_de_dado,
+                        $horario,
+                        $status,
+                        $usuario_id
+                    );
+
+                    if ($stmt->execute()) {
+
+                        $sucesso = "Trem cadastrado com sucesso!";
+
+                        $localizacao = "";
+                        $tipo_de_dado = "";
+                        $horario = "";
+                        $status = "";
+                        $usuario_id_form = "";
+
+                    } else {
+
+                        $erro = "Erro ao cadastrar o trem.";
+
+                    }
+
+                    $stmt->close();
+
+                }
+            }
         }
     }
 }
@@ -73,7 +174,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
 
     <style>
-
         .formulario-trem {
             background: #0f172a;
             padding: 30px;
@@ -106,8 +206,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .botoes {
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
         }
-
     </style>
 
 </head>
@@ -131,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <aside class="menu-lateral">
 
-        <a href="tela_inicial.php" class="item ativo">
+        <a href="tela_inicial.php" class="item">
             <img src="../assets/icons/dashboard_preto.svg" alt="">
             Dashboard
         </a>
@@ -160,7 +261,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <main class="conteudo">
 
-    
         <?php if ($erro !== ""): ?>
 
             <div class="alert alert-danger">
@@ -177,11 +277,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <?php endif; ?>
 
+        <?php if (empty($usuarios)): ?>
+
+            <div class="alert alert-warning">
+                Não existem usuários cadastrados para selecionar como responsáveis.
+            </div>
+
+        <?php endif; ?>
+
         <div class="formulario-trem">
 
             <h3>
                 <i class="bi bi-train-front"></i>
-               Cadastrar Trem
+                Cadastrar Trem
             </h3>
 
             <form method="POST">
@@ -194,15 +302,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="campo">
 
-                    <label for="localizacao">
-                        Localização
-                    </label>
+                    <label for="localizacao">Localização</label>
 
                     <input
                         type="text"
                         id="localizacao"
                         name="localizacao"
+                        maxlength="200"
                         placeholder="Ex.: Estação Central"
+                        value="<?= e($localizacao) ?>"
                         required
                     >
 
@@ -210,9 +318,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="campo">
 
-                    <label for="tipo_de_dado">
-                        Tipo de Dado
-                    </label>
+                    <label for="tipo_de_dado">Tipo de Dado</label>
 
                     <select
                         id="tipo_de_dado"
@@ -220,21 +326,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         required
                     >
 
-                        <option value="">
-                            Selecione
-                        </option>
+                        <option value="">Selecione</option>
 
-                        <option value="Temperatura">
-                            Temperatura
-                        </option>
+                        <?php foreach ($tiposPermitidos as $opcao): ?>
 
-                        <option value="Velocidade">
-                            Velocidade
-                        </option>
+                            <option
+                                value="<?= e($opcao) ?>"
+                                <?= $tipo_de_dado === $opcao ? "selected" : "" ?>
+                            >
+                                <?= e($opcao) ?>
+                            </option>
 
-                        <option value="Localização">
-                            Localização
-                        </option>
+                        <?php endforeach; ?>
 
                     </select>
 
@@ -242,14 +345,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="campo">
 
-                    <label for="horario">
-                        Horário
-                    </label>
+                    <label for="horario">Horário</label>
 
                     <input
                         type="time"
                         id="horario"
                         name="horario"
+                        value="<?= e($horario) ?>"
                         required
                     >
 
@@ -257,31 +359,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="campo">
 
-                    <label for="status">
-                        Status
-                    </label>
+                    <label for="status">Status</label>
+
+                    <select id="status" name="status" required>
+
+                        <option value="">Selecione</option>
+
+                        <?php foreach ($statusPermitidos as $opcao): ?>
+
+                            <option
+                                value="<?= e($opcao) ?>"
+                                <?= $status === $opcao ? "selected" : "" ?>
+                            >
+                                <?= e($opcao) ?>
+                            </option>
+
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="usuario_id">Usuário responsável</label>
 
                     <select
-                        id="status"
-                        name="status"
+                        id="usuario_id"
+                        name="usuario_id"
                         required
                     >
 
-                        <option value="">
-                            Selecione
-                        </option>
+                        <option value="">Selecione um responsável</option>
 
-                        <option value="Ativo">
-                            Ativo
-                        </option>
+                        <?php foreach ($usuarios as $usuario): ?>
 
-                        <option value="Inativo">
-                            Inativo
-                        </option>
+                            <option
+                                value="<?= (int) $usuario["id"] ?>"
+                                <?= (string) $usuario_id_form === (string) $usuario["id"] ? "selected" : "" ?>
+                            >
+                                <?= e($usuario["nome"]) ?>
+                                (<?= $usuario["tipo"] === "administrador" ? "Administrador" : "Usuário" ?>)
+                            </option>
 
-                        <option value="Manutenção">
-                            Manutenção
-                        </option>
+                        <?php endforeach; ?>
 
                     </select>
 
@@ -289,16 +410,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="botoes">
 
-                    <a
-                        href="tela_inicial.php"
-                        class="btn btn-secondary"
-                    >
+                    <a href="tela_inicial.php" class="btn btn-secondary">
                         Cancelar
                     </a>
 
                     <button
                         type="submit"
                         class="btn btn-primary"
+                        <?= empty($usuarios) ? "disabled" : "" ?>
                     >
                         <i class="bi bi-check-circle"></i>
                         Salvar
@@ -315,5 +434,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 </body>
-
 </html>
