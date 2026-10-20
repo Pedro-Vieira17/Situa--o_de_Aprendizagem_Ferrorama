@@ -161,7 +161,7 @@ $sucesso = $_GET['sucesso'] ?? null;
 
                     <select id="status" name="status" required>
                         <option value="" disabled>Selecione um status</option>
-                        <?php foreach (['Ativo', 'Inativo', 'Manutenção', 'Alerta'] as $opcao): ?>
+                        <?php foreach (['Ativo', 'Inativo', 'Manutenção'] as $opcao): ?>
                             <option value="<?= $opcao ?>" <?= $trem['status'] === $opcao ? 'selected' : '' ?>>
                                 <?= $opcao ?>
                             </option>

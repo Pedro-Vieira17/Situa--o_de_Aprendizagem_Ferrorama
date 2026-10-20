@@ -136,36 +136,31 @@ $rotas = $conexao->query($sql);
 
                     <p style="color: white;">
 
-                        Visualização das rotas dos trens.
+                        Gerenciamento das rotas dos trens.
 
                     </p>
 
                 </div>
 
+
+               
+
             </div>
 
 
-            <div class="table-responsive">
+       <div class="planilha_dashboard">
 
-                <table class="table table-dark table-hover align-middle">
+    <table class="table table-borderless">
 
-                    <thead>
-
-                        <tr>
-
-                            <th>ID</th>
-
-                            <th>Origem</th>
-
-                            <th>Destino</th>
-
-                            <th>Horário</th>
-
-                            <th>Status</th>
-
-                        </tr>
-
-                    </thead>
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ORIGEM</th>
+                <th scope="col">DESTINO</th>
+                <th scope="col">HORÁRIO</th>
+                <th scope="col">STATUS</th>
+            </tr>
+        </thead>
 
 
                     <tbody>
@@ -177,28 +172,25 @@ $rotas = $conexao->query($sql);
                                 <tr>
 
                                     <td>
-
                                         <?= htmlspecialchars($rota["id"]) ?>
-
                                     </td>
 
 
-                                    <td>
+       <td>
 
-                                        <i class="bi bi-geo-alt-fill"></i>
+    <i class="bi bi-geo-alt-fill"></i>
 
-                                        <?= htmlspecialchars($rota["origem"]) ?>
+    <?= htmlspecialchars($rota["origem"]) ?>
 
-                                    </td>
+</td>
 
+<td>
 
-                                    <td>
+    <i class="bi bi-geo-alt-fill"></i>
 
-                                        <i class="bi bi-geo-alt-fill"></i>
+    <?= htmlspecialchars($rota["destino"]) ?>
 
-                                        <?= htmlspecialchars($rota["destino"]) ?>
-
-                                    </td>
+</td>
 
 
                                     <td>
@@ -215,44 +207,42 @@ $rotas = $conexao->query($sql);
 
                                     <td>
 
-                                        <?php if ($rota["status"] === "Ativa"): ?>
+                                        <?php if ($rota["status"] == "Ativa"): ?>
 
                                             <span class="badge bg-success">
-
                                                 Ativa
-
                                             </span>
 
-                                        <?php elseif ($rota["status"] === "Manutenção"): ?>
+                                        <?php elseif ($rota["status"] == "Manutenção"): ?>
 
                                             <span class="badge bg-warning text-dark">
-
                                                 Manutenção
-
                                             </span>
 
                                         <?php else: ?>
 
                                             <span class="badge bg-secondary">
-
                                                 <?= htmlspecialchars($rota["status"]) ?>
-
                                             </span>
 
                                         <?php endif; ?>
 
                                     </td>
 
+
+                                
+
                                 </tr>
 
                             <?php endwhile; ?>
+
 
                         <?php else: ?>
 
                             <tr>
 
                                 <td
-                                    colspan="5"
+                                    colspan="6"
                                     class="text-center">
 
                                     Nenhuma rota cadastrada.

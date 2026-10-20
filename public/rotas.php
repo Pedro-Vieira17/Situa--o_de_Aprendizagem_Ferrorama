@@ -168,23 +168,20 @@ $rotas = $conexao->query($sql);
             </div>
 
 
-            <div class="table-responsive">
+       <div class="planilha_dashboard">
 
-                <table class="table table-dark table-hover align-middle">
+    <table class="table table-borderless">
 
-                    <thead>
-
-  <tr>
-
-    <th>ID</th>
-    <th>Origem</th>
-    <th>Destino</th>
-    <th>Horário</th>
-    <th>Status</th>
-    <th>Ações</th>
-
-</tr>
-                    </thead>
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ORIGEM</th>
+                <th scope="col">DESTINO</th>
+                <th scope="col">HORÁRIO</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">AÇÕES</th>
+            </tr>
+        </thead>
 
 
                     <tbody>
