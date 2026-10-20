@@ -9,20 +9,26 @@ USE sa_ferrorama;
 
 CREATE TABLE USUARIO (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    CPF VARCHAR(11) NOT NULL UNIQUE,
-    telefone VARCHAR(15) NOT NULL,
-    nome VARCHAR(200) NOT NULL,
-    email VARCHAR(200) NOT NULL UNIQUE,
+    CPF VARCHAR(14) NOT NULL UNIQUE,
+    telefone VARCHAR(20) NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    email VARCHAR(180) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    tipo ENUM('usuario', 'administrador') NOT NULL DEFAULT 'usuario'
-);
+    tipo ENUM('usuario', 'administrador')
+        NOT NULL DEFAULT 'usuario'
+) ENGINE=InnoDB;
 
 CREATE TABLE TRENS (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(200) NOT NULL,
-    tipo_de_dado VARCHAR(200) NOT NULL,
-    horario TIME NOT NULL,
-    status VARCHAR(200) NOT NULL,
+    localizacao VARCHAR(150) NOT NULL,
+    tipo_de_dado VARCHAR(50) NOT NULL,
+    horario TIME NULL,
+    status ENUM(
+        'Ativo',
+        'Inativo',
+        'Manutenção',
+        'Alerta'
+    ) NOT NULL DEFAULT 'Ativo',
     usuario_id INT NULL,
 
     CONSTRAINT fk_trens_usuario
@@ -30,12 +36,12 @@ CREATE TABLE TRENS (
         REFERENCES USUARIO(id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE SENSORES (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(200) NOT NULL,
-    tipo_de_dado VARCHAR(200) NOT NULL,
+    localizacao VARCHAR(150) NOT NULL,
+    tipo_de_dado VARCHAR(50) NOT NULL,
     trens_id INT NOT NULL,
 
     CONSTRAINT fk_sensores_trens
@@ -43,8 +49,7 @@ CREATE TABLE SENSORES (
         REFERENCES TRENS(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-);
-
+) ENGINE=InnoDB;
 
 CREATE TABLE ROTAS (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,15 +59,18 @@ CREATE TABLE ROTAS (
     trem_id INT NOT NULL,
     duracao_min INT NOT NULL,
     data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('Ativa', 'Inativa', 'Manutenção')
-        NOT NULL DEFAULT 'Ativa',
+    status ENUM(
+        'Ativa',
+        'Inativa',
+        'Manutenção'
+    ) NOT NULL DEFAULT 'Ativa',
 
     CONSTRAINT fk_rotas_trens
         FOREIGN KEY (trem_id)
         REFERENCES TRENS(id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
-);
+) ENGINE=InnoDB;
 
 
 INSERT INTO USUARIO (
