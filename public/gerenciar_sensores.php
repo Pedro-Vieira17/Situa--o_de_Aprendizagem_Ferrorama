@@ -17,10 +17,8 @@ $sql = "SELECT
             SENSORES.localizacao,
             SENSORES.tipo_de_dado,
             SENSORES.trens_id,
-            TRENS.status
+            SENSORES.status
         FROM SENSORES
-        INNER JOIN TRENS
-            ON SENSORES.trens_id = TRENS.id
         WHERE 1 = 1";
 
 $tipos = "";
@@ -47,7 +45,7 @@ if ($filtroTrem != "") {
 }
 
 if ($filtroStatus != "") {
-    $sql .= " AND TRENS.status = ?";
+    $sql .= " AND SENSORES.status = ?";
     $tipos .= "s";
     $valores[] = $filtroStatus;
 }
@@ -73,15 +71,14 @@ $listaTrens = $conexao->query(
 );
 
 $listaStatus = $conexao->query(
-    "SELECT DISTINCT status FROM TRENS ORDER BY status"
+    "SELECT DISTINCT status FROM SENSORES ORDER BY status"
 );
 
 
 $statusCount = $conexao->query("
-    SELECT TRENS.status AS status, COUNT(*) AS total
+    SELECT status, COUNT(*) AS total
     FROM SENSORES
-    INNER JOIN TRENS ON SENSORES.trens_id = TRENS.id
-    GROUP BY TRENS.status
+    GROUP BY status
 ");
 
 $statusData = [];
@@ -93,6 +90,7 @@ while ($linha = $statusCount->fetch_assoc()) {
 $sensoresAtivos = $statusData["Ativo"] ?? 0;
 $sensoresManutencao = $statusData["Manutenção"] ?? 0;
 $sensoresInativos = $statusData["Inativo"] ?? 0;
+$sensoresAlerta = $statusData["Alerta"] ?? 0;
 
 ?>
 
@@ -186,6 +184,12 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                 </div>
             <?php endif; ?>
 
+            <?php if (!empty($_GET["sucesso"])): ?>
+                <div class="alert alert-success">
+                    <?= e($_GET["sucesso"]) ?>
+                </div>
+            <?php endif; ?>
+
 
             <div class="d-flex justify-content-between align-items-center mb-3">
 
@@ -232,6 +236,13 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
                             <?= $sensoresInativos ?>
                         </div>
                         <small>Inativo</small>
+                    </div>
+
+                    <div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #e74c3c;">
+                            <?= $sensoresAlerta ?>
+                        </div>
+                        <small>Alerta</small>
                     </div>
 
                 </div>
@@ -335,25 +346,15 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
 
                                     <td>
 
-                                    <?php if ($sensor["status"] == "Ativo" || $sensor["status"] == "Ativa"): ?>
-
-                                      <span class="badge bg-success">
-                                          <?= htmlspecialchars($sensor["status"]) ?>
-                                        </span>
-
-                                              <?php elseif ($sensor["status"] == "Manutenção"): ?>
-
-                                           <span class="badge bg-warning text-dark">
-                                             Manutenção
-                                           </span>
-
-                                          <?php else: ?>
-
-                                           <span class="badge bg-secondary">
-                                               <?= htmlspecialchars($sensor["status"]) ?>
-                                              </span>
-
-                                            <?php endif; ?>
+                                    <?php if ($sensor["status"] === "Ativo"): ?>
+                                        <span class="badge bg-success">Ativo</span>
+                                    <?php elseif ($sensor["status"] === "Manutenção"): ?>
+                                        <span class="badge bg-warning text-dark">Manutenção</span>
+                                    <?php elseif ($sensor["status"] === "Alerta"): ?>
+                                        <span class="badge bg-danger">Alerta</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Inativo</span>
+                                    <?php endif; ?>
 
                                             </td>
 
@@ -425,10 +426,10 @@ $sensoresInativos = $statusData["Inativo"] ?? 0;
         new Chart(document.getElementById("graficoSensores"), {
             type: "doughnut",
             data: {
-                labels: ["Ativo", "Manutenção", "Inativo"],
+                labels: ["Ativo", "Manutenção", "Inativo", "Alerta"],
                 datasets: [{
-                    data: [<?= $sensoresAtivos ?>, <?= $sensoresManutencao ?>, <?= $sensoresInativos ?>],
-                    backgroundColor: ["#2ecc71", "#f1c40f", "#95a5a6"],
+                    data: [<?= $sensoresAtivos ?>, <?= $sensoresManutencao ?>, <?= $sensoresInativos ?>, <?= $sensoresAlerta ?>],
+                    backgroundColor: ["#2ecc71", "#f1c40f", "#95a5a6", "#e74c3c"],
                     borderWidth: 0,
                     spacing: 3,
                     borderRadius: 4
