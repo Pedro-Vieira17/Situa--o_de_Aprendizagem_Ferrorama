@@ -1,4 +1,3 @@
-
 DROP DATABASE IF EXISTS sa_ferrorama;
 
 CREATE DATABASE sa_ferrorama
@@ -72,7 +71,6 @@ CREATE TABLE ROTAS (
         ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-
 INSERT INTO USUARIO (
     CPF,
     telefone,
@@ -140,26 +138,34 @@ INSERT INTO SENSORES (
 );
 
 INSERT INTO ROTAS (
-    origem,
-    destino,
-    horario,
+    nome,
+    descricao,
+    distancia_km,
+    trem_id,
+    duracao_min,
     status
 ) VALUES
 (
-    'Joinville - SC',
-    'São Francisco do Sul - SC',
-    '08:00:00',
+    'Joinville - São Francisco do Sul',
+    'Rota ferroviária de ligação entre Joinville e São Francisco do Sul.',
+    45.00,
+    1,
+    60,
     'Ativa'
 ),
 (
-    'São Francisco do Sul - SC',
-    'Jaraguá do Sul - SC',
-    '10:30:00',
+    'São Francisco do Sul - Jaraguá do Sul',
+    'Rota ferroviária de ligação entre São Francisco do Sul e Jaraguá do Sul.',
+    70.00,
+    2,
+    90,
     'Ativa'
 ),
 (
-    'Jaraguá do Sul - SC',
-    'Blumenau - SC',
-    '14:00:00',
+    'Jaraguá do Sul - Blumenau',
+    'Rota ferroviária de ligação entre Jaraguá do Sul e Blumenau.',
+    65.00,
+    3,
+    85,
     'Manutenção'
 );
