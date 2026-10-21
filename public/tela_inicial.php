@@ -1,4 +1,4 @@
-
+```php
 <?php
 
 require_once "../infra/seguranca.php";
@@ -19,6 +19,22 @@ $alertas = $conexao->query(
 )->fetch_assoc()["total"];
 
 $sensores_ativos = $sensores - $alertas;
+
+$statusCount = $conexao->query("
+    SELECT status, COUNT(*) AS total
+    FROM TRENS
+    GROUP BY status
+");
+
+$statusData = [];
+
+while ($linha = $statusCount->fetch_assoc()) {
+    $statusData[$linha["status"]] = (int) $linha["total"];
+}
+
+$trensAtivos = $statusData["Ativo"] ?? 0;
+$trensManutencao = $statusData["Manutenção"] ?? 0;
+$trensInativos = $statusData["Inativo"] ?? 0;
 
 $sql = "
     SELECT
@@ -57,6 +73,8 @@ $trens_cadastrados = $conexao->query($sql);
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="icon" href="../assets/icons/TREM_AZUL.svg">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
 </head>
 
@@ -213,6 +231,7 @@ $trens_cadastrados = $conexao->query($sql);
                                     </td>
 
                                     <td>
+
                                         <?php if (!empty($trem["responsavel"])): ?>
 
                                             <?= htmlspecialchars($trem["responsavel"]) ?>
@@ -224,6 +243,7 @@ $trens_cadastrados = $conexao->query($sql);
                                             </span>
 
                                         <?php endif; ?>
+
                                     </td>
 
                                     <td>
@@ -310,9 +330,82 @@ $trens_cadastrados = $conexao->query($sql);
 
         </div>
 
+        <div class="planilha_dashboard mt-4 mb-4" style="max-width: 480px; padding: 28px;">
+
+            <h3 class="fs-5 text-center mb-3" style="color: #d9d9d9 !important;">
+                Funcionamento dos Trens
+            </h3>
+
+            <div style="width: 320px; height: 320px; max-width: 100%; margin: 0 auto;">
+                <canvas id="graficoTrens"></canvas>
+            </div>
+
+            <div class="d-flex justify-content-around text-center mt-3 flex-wrap gap-3"
+                style="color: #d9d9d9;">
+
+                <div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #2ecc71;">
+                        <?= $trensAtivos ?>
+                    </div>
+                    <small>Ativo</small>
+                </div>
+
+                <div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #f1c40f;">
+                        <?= $trensManutencao ?>
+                    </div>
+                    <small>Manutenção</small>
+                </div>
+
+                <div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #95a5a6;">
+                        <?= $trensInativos ?>
+                    </div>
+                    <small>Inativo</small>
+                </div>
+
+            </div>
+
+        </div>
+
     </main>
 
 </div>
 
+<script>
+    new Chart(document.getElementById("graficoTrens"), {
+        type: "doughnut",
+        data: {
+            labels: ["Ativo", "Manutenção", "Inativo"],
+            datasets: [{
+                data: [
+                    <?= $trensAtivos ?>,
+                    <?= $trensManutencao ?>,
+                    <?= $trensInativos ?>
+                ],
+                backgroundColor: [
+                    "#2ecc71",
+                    "#f1c40f",
+                    "#95a5a6"
+                ],
+                borderWidth: 0,
+                spacing: 3,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "70%",
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
+```
