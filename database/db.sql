@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS sa_ferrorama;
-
 CREATE DATABASE sa_ferrorama
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
