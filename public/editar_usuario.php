@@ -5,11 +5,7 @@ require_once "../infra/conexao.php";
 
 exigirAdministrador();
 
-$id = filter_input(
-    INPUT_GET,
-    "id",
-    FILTER_VALIDATE_INT
-);
+$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
 if ($id === false || $id === null || $id <= 0) {
     header("Location: usuarios_cadastrados.php");
@@ -17,7 +13,7 @@ if ($id === false || $id === null || $id <= 0) {
 }
 
 $stmt = $conexao->prepare(
-    "SELECT id, nome, CPF, telefone, email
+    "SELECT id, nome, CPF, telefone, email, tipo
      FROM USUARIO
      WHERE id = ?"
 );
@@ -44,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cpf = preg_replace('/\D/', '', $_POST["cpf"] ?? "");
     $telefone = preg_replace('/\D/', '', $_POST["telefone"] ?? "");
     $email = trim($_POST["email"] ?? "");
+    $tipo = $_POST["tipo"] ?? "";
 
     if (
         $nome === "" ||
@@ -51,15 +48,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $telefone === "" ||
         $email === ""
     ) {
-
         $erro = "Preencha todos os campos.";
 
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!in_array($tipo, ["usuario", "administrador"], true)) {
+        $erro = "Tipo de acesso inválido.";
 
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erro = "Informe um e-mail válido.";
 
     } elseif (strlen($cpf) !== 11) {
-
         $erro = "CPF inválido.";
 
     } else {
@@ -72,39 +69,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
              LIMIT 1"
         );
 
-        $stmt->bind_param(
-            "ssi",
-            $email,
-            $cpf,
-            $id
-        );
-
+        $stmt->bind_param("ssi", $email, $cpf, $id);
         $stmt->execute();
 
         $resultado = $stmt->get_result();
 
         if ($resultado->num_rows > 0) {
-
             $erro = "E-mail ou CPF já está cadastrado.";
 
         } else {
 
             $stmt = $conexao->prepare(
                 "UPDATE USUARIO
-                 SET nome = ?, CPF = ?, telefone = ?, email = ?
+                 SET nome = ?, CPF = ?, telefone = ?, email = ?, tipo = ?
                  WHERE id = ?"
             );
 
             $stmt->bind_param(
-                "ssssi",
+                "sssssi",
                 $nome,
                 $cpf,
                 $telefone,
                 $email,
+                $tipo,
                 $id
             );
 
             if ($stmt->execute()) {
+
+                if (
+                    (int) $id === (int) ($_SESSION["usuario_id"] ?? 0) &&
+                    $tipo !== "administrador"
+                ) {
+                    session_unset();
+                    session_destroy();
+
+                    header("Location: ../index.php");
+                    exit;
+                }
 
                 $sucesso = "Usuário atualizado com sucesso.";
 
@@ -112,9 +114,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $usuario["CPF"] = $cpf;
                 $usuario["telefone"] = $telefone;
                 $usuario["email"] = $email;
+                $usuario["tipo"] = $tipo;
 
             } else {
-
                 $erro = "Não foi possível atualizar o usuário.";
             }
         }
@@ -127,9 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Editar Usuário</title>
@@ -146,44 +146,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link
         rel="icon"
         href="../assets/icons/TREM_AZUL.svg"
-        type="image/x-icon"
+        type="image/svg+xml"
     >
-
 </head>
 
 <body>
 
     <div class="container vh-100 d-flex align-items-center justify-content-center">
 
-        <div
-            class="p-4"
-            style="max-width: 400px; width: 100%;"
-        >
+        <div class="p-4" style="max-width: 400px; width: 100%;">
 
             <div class="titulo mb-4" style="color: white;">
-
                 <h1>Editar Usuário</h1>
-
             </div>
 
             <?php if ($erro !== ""): ?>
-
                 <div class="alert alert-danger">
-
                     <?= e($erro) ?>
-
                 </div>
-
             <?php endif; ?>
 
             <?php if ($sucesso !== ""): ?>
-
                 <div class="alert alert-success">
-
                     <?= e($sucesso) ?>
-
                 </div>
-
             <?php endif; ?>
 
             <form method="POST">
@@ -252,13 +238,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     required
                 >
 
+                <label for="tipo" class="form-label" style="color: white;">
+                    Tipo de acesso
+                </label>
+
+                <select
+                    id="tipo"
+                    name="tipo"
+                    class="form-select mb-4"
+                    required
+                >
+                    <option
+                        value="usuario"
+                        <?= $usuario["tipo"] === "usuario" ? "selected" : "" ?>
+                    >
+                        Usuário
+                    </option>
+
+                    <option
+                        value="administrador"
+                        <?= $usuario["tipo"] === "administrador" ? "selected" : "" ?>
+                    >
+                        Administrador
+                    </option>
+                </select>
+
                 <div class="d-flex gap-2">
 
                     <button
                         type="submit"
                         class="btn btn-primary"
                     >
-                        Salvar as alterações
+                        Salvar alterações
                     </button>
 
                     <a
