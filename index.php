@@ -192,11 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 </div>
 
-                <p>
-                    <a href="public/tela_de_cadastro.php">
-                        Criar conta
-                    </a>
-                </p>
+                
 
             </form>
 
